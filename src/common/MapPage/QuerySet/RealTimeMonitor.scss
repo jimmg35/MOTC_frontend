@@ -1,0 +1,11 @@
+.real-time-monitor {
+    display: flex;
+    justify-content: center;
+    .select-cell {
+        margin: 10px;
+    }
+    .mobile-select {
+        width: 200px;
+        height: 35px;
+    }
+}

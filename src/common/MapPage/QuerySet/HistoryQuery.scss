@@ -1,0 +1,25 @@
+.history-query {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    .select-cell {
+        margin: 10px;
+    }
+
+    .select-cell-btn {
+        margin: 10px 24px 10px 24px;
+    }
+
+    .select-row {
+        display: flex;
+        justify-content: center;
+    }
+
+    .mobile-select {
+        width: 223px;
+        height: 35px;
+    }
+
+    .setting-btn {
+    }
+}

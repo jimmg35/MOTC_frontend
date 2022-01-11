@@ -1,0 +1,7 @@
+.MapPage-root{
+  @apply absolute max-h-full max-w-full h-full w-full flex flex-col;
+
+  .MapPage-main-body{
+    @apply flex-1;
+  }
+}
