@@ -1,0 +1,49 @@
+.route-query {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    .select-cell {
+        margin: 10px;
+    }
+
+    .select-cell-btn {
+        margin: 10px 12px 10px 12px;
+    }
+
+    .select-row {
+        display: flex;
+        justify-content: center;
+    }
+
+    .mobile-select {
+        width: 223px;
+    }
+
+    .setting-btn {
+    }
+}
+
+.setting-modal {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    .setting-row {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .setting-cell {
+        margin: 10px;
+    }
+    .setting-cell-mulselect {
+        margin: 10px;
+        input {
+            height: 60px;
+        }
+    }
+    .mobile-id-select {
+        width: 187px;
+    }
+    .demo-multiple-chip {
+        min-width: 187px;
+    }
+}

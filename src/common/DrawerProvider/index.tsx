@@ -1,19 +1,38 @@
 import React, { createContext, useState } from 'react'
 
-export type DrawerContextType = {
-  title: string,
-  settitle: React.Dispatch<React.SetStateAction<string>>,
-  content: React.ReactNode,
-  setcontent: React.Dispatch<React.SetStateAction<React.ReactNode>>
-  hide: boolean,
-  sethide: React.Dispatch<React.SetStateAction<boolean>>
+export type realTimeMonitorDrawerContextType = {
+  realTimeMonitorTitle: string,
+  realTimeMonitorSettitle: React.Dispatch<React.SetStateAction<string>>,
+  realTimeMonitorContent: React.ReactNode,
+  realTimeMonitorSetcontent: React.Dispatch<React.SetStateAction<React.ReactNode>>
+  realTimeMonitorHide: boolean,
+  realTimeMonitorSethide: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+export type historyQueryDrawerContextType = {
+  historyQueryTitle: string,
+  historyQuerySettitle: React.Dispatch<React.SetStateAction<string>>,
+  historyQueryContent: React.ReactNode,
+  historyQuerySetcontent: React.Dispatch<React.SetStateAction<React.ReactNode>>
+  historyQueryHide: boolean,
+  historyQuerySethide: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type routeAnalysisDrawerContextType = {
+  routeAnalysisTitle: string,
+  routeAnalysisSettitle: React.Dispatch<React.SetStateAction<string>>,
+  routeAnalysisContent: React.ReactNode,
+  routeAnalysisSetcontent: React.Dispatch<React.SetStateAction<React.ReactNode>>
+  routeAnalysisHide: boolean,
+  routeAnalysisSethide: React.Dispatch<React.SetStateAction<boolean>>
+}
 // export const drawerContext = createContext<DrawerContextType>({
 //   title: undefined, settitle: undefined, content: undefined, setcontent: undefined, hide: false, sethide: undefined
 // })
 
-export const drawerContext = createContext({} as DrawerContextType)
+export const realTimeMonitorDrawerContext = createContext({} as realTimeMonitorDrawerContextType)
+export const historyQueryDrawerContext = createContext({} as historyQueryDrawerContextType)
+export const routeAnalysisDrawerContext = createContext({} as routeAnalysisDrawerContextType)
 
 export interface IDrawerProviderProps {
   children: React.ReactNode
@@ -21,15 +40,56 @@ export interface IDrawerProviderProps {
 
 const emptyComponent = () => (<div>empty</div>)
 
-const DrawerProvider = ({ children }: IDrawerProviderProps) => {
-  const [title, settitle] = useState<string>('untitled')
-  const [hide, sethide] = useState<boolean>(true)
-  const [content, setcontent] = useState<React.ReactNode>(emptyComponent)
+export const RealTimeMonitorDrawerProvider = ({ children }: IDrawerProviderProps) => {
+  const [realTimeMonitorTitle, realTimeMonitorSettitle] = useState<string>('untitled')
+  const [realTimeMonitorHide, realTimeMonitorSethide] = useState<boolean>(true)
+  const [realTimeMonitorContent, realTimeMonitorSetcontent] = useState<React.ReactNode>(emptyComponent)
   return (
-    <drawerContext.Provider value={{ title, settitle, content, setcontent, hide, sethide } }>
+    <realTimeMonitorDrawerContext.Provider value={{
+      realTimeMonitorTitle,
+      realTimeMonitorSettitle,
+      realTimeMonitorContent,
+      realTimeMonitorSetcontent,
+      realTimeMonitorHide,
+      realTimeMonitorSethide
+    }}>
       {children}
-    </drawerContext.Provider>
+    </realTimeMonitorDrawerContext.Provider>
   )
 }
 
-export default DrawerProvider
+export const HistoryQueryDrawerProvider = ({ children }: IDrawerProviderProps) => {
+  const [historyQueryTitle, historyQuerySettitle] = useState<string>('untitled')
+  const [historyQueryHide, historyQuerySethide] = useState<boolean>(true)
+  const [historyQueryContent, historyQuerySetcontent] = useState<React.ReactNode>(emptyComponent)
+  return (
+    <historyQueryDrawerContext.Provider value={{
+      historyQueryTitle,
+      historyQuerySettitle,
+      historyQueryContent,
+      historyQuerySetcontent,
+      historyQueryHide,
+      historyQuerySethide
+    }}>
+      {children}
+    </historyQueryDrawerContext.Provider>
+  )
+}
+
+export const RouteAnalysisDrawerProvider = ({ children }: IDrawerProviderProps) => {
+  const [routeAnalysisTitle, routeAnalysisSettitle] = useState<string>('untitled')
+  const [routeAnalysisHide, routeAnalysisSethide] = useState<boolean>(true)
+  const [routeAnalysisContent, routeAnalysisSetcontent] = useState<React.ReactNode>(emptyComponent)
+  return (
+    <routeAnalysisDrawerContext.Provider value={{
+      routeAnalysisTitle,
+      routeAnalysisSettitle,
+      routeAnalysisContent,
+      routeAnalysisSetcontent,
+      routeAnalysisHide,
+      routeAnalysisSethide
+    }}>
+      {children}
+    </routeAnalysisDrawerContext.Provider>
+  )
+}

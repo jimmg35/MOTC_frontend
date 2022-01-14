@@ -8,18 +8,41 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import GpsFixedIcon from '@mui/icons-material/GpsFixed'
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
+// import Dialog from '@mui/material/Dialog'
+// import DialogActions from '@mui/material/DialogActions'
+// import DialogContent from '@mui/material/DialogContent'
+// import DialogContentText from '@mui/material/DialogContentText'
+// import DialogTitle from '@mui/material/DialogTitle'
+// import Slide from '@mui/material/Slide'
+// import { TransitionProps } from '@mui/material/transitions'
+
+// const Transition = React.forwardRef(function Transition(
+//   props: TransitionProps & { children: React.ReactElement<any, any> },
+//   ref: React.Ref<unknown>) { return <Slide direction="up" ref={ref} {...props} /> }
+// )
 
 const HistoryQuery = () => {
-  // const [value, setValue] = React.useState<Date | null>(
-  //   new Date('2018-01-01T00:00:00.000Z')
-  // )
+  // const [historyModalOpen, sethistoryModalOpen] = useState<boolean>(false)
   // const [value, setValue] = React.useState<Date | null>(new Date())
+  // useEffect(() => {
+  //   console.log('AAAAAAAAAAAAAAAAAAAAAAAAaa')
+  // }, [])
   const handleMobileSelect = (event: SelectChangeEvent) => {
     console.log(event.target.value as string)
   }
 
   const handleFixedSelect = (event: SelectChangeEvent) => {
     console.log(event.target.value as string)
+  }
+
+  // const handleHistoryModalClose = () => {
+  //   sethistoryModalOpen(false)
+  // }
+
+  const handleHistoryModalOpen = () => {
+    // console.log(historyModalOpen)
+    // sethistoryModalOpen(true)
+    console.log('AAAAAAAAAAAAa')
   }
 
   return (
@@ -56,7 +79,9 @@ const HistoryQuery = () => {
             <Button
               className='setting-btn'
               variant="outlined"
-              startIcon={<SettingsIcon />}>
+              startIcon={<SettingsIcon />}
+              onClick={handleHistoryModalOpen}
+            >
               更多選項
             </Button>
           </div>
@@ -114,6 +139,15 @@ const HistoryQuery = () => {
             </Select>
           </div>
         </div>
+
+        {/* <Dialog
+          open={historyModalOpen}
+          // TransitionComponent={Transition}
+          keepMounted
+          onClose={handleHistoryModalClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+        </Dialog> */}
 
       </LocalizationProvider>
     </div>

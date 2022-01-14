@@ -4,9 +4,17 @@ import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import './RealTimeMonitor.scss'
 
-const RealTimeMonitor = () => {
+export interface IRealTimeMonitorParams {
+  update: number
+  setupdate: Function
+}
+
+const RealTimeMonitor = (props: IRealTimeMonitorParams) => {
+  const { update, setupdate } = props
   const handleMobileSelect = (event: SelectChangeEvent) => {
-    console.log(event.target.value as string)
+    // console.log(event.target.value as string)
+    setupdate(update + 1)
+    console.log(update)
   }
 
   const handleFixedSelect = (event: SelectChangeEvent) => {
