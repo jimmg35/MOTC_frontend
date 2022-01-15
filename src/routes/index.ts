@@ -7,7 +7,15 @@ const Home = Loadable({
   loading: Loading
 })
 
+const Dashboard = Loadable({
+  loader: () => import('../pages/Dashboard'),
+  loading: Loading
+})
+
 const routes: Array<RouteItem> = [
-  { path: '/', exact: true, component: Home }
+  { path: '/', exact: true, component: Home },
+  { path: '/dashboard', exact: true, component: Dashboard },
+  { path: '/loading', exact: true, component: Loading }
 ]
+
 export default routes
