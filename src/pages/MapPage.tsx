@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './MapPage.scss'
 import Header from '../common/MapPage/Header'
 import {
@@ -10,8 +10,9 @@ import HistoryQueryDrawer from '../common/MapPage/HistoryQueryDrawer'
 import RealTimeMonitorDrawer from '../common/MapPage/RealTimeMonitorDrawer'
 import RouteAnalysisDrawer from '../common/MapPage/RouteAnalysisDrawer'
 import { MapProvider } from '../lib/MapProvider'
-import Map from '@arcgis/core/Map'
-import MapView from '@arcgis/core/views/MapView'
+import Map from '../common/MapPage/Map'
+// import Map from '@arcgis/core/Map'
+// import MapView from '@arcgis/core/views/MapView'
 
 const MapPage = () => {
   // useEffect(() => {
@@ -35,7 +36,8 @@ const MapPage = () => {
             <div className="MapPage-root">
               <Header />
               <div className="MapPage-main-body">
-                <div id="viewDiv" className='map-box'></div>
+                {/* <div id="viewDiv" className='map-box'></div> */}
+                <Map></Map>
                 <HistoryQueryDrawer />
                 <RealTimeMonitorDrawer />
                 <RouteAnalysisDrawer />
