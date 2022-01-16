@@ -13,8 +13,14 @@ const Dashboard = Loadable({
   loading: Loading
 })
 
+const LogIn = Loadable({
+  loader: () => import('../pages/Login'),
+  loading: Loading
+})
+
 const routes: Array<RouteItem> = [
   { path: '/', exact: true, component: Home },
+  { path: '/login', exact: true, component: LogIn },
   { path: '/dashboard', exact: true, component: Dashboard },
   { path: '/loading', exact: true, component: Loading }
 ]
