@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Button } from '../../../jsdc-ui/components/Button'
+import { useNavigate } from 'react-router-dom'
 import {
   realTimeMonitorDrawerContext,
   historyQueryDrawerContext,
@@ -8,18 +9,21 @@ import {
 import './Header.scss'
 
 const Header = () => {
+  const navigate = useNavigate()
   const {
     realTimeMonitorHide,
     realTimeMonitorSettitle,
     realTimeMonitorSethide,
     realTimeMonitorSetcontent
   } = useContext(realTimeMonitorDrawerContext)
+
   const {
     historyQueryHide,
     historyQuerySettitle,
     historyQuerySethide,
     historyQuerySetcontent
   } = useContext(historyQueryDrawerContext)
+
   const {
     routeAnalysisHide,
     routeAnalysisSettitle,
@@ -49,6 +53,11 @@ const Header = () => {
     }
   }
 
+  const handleDataCenterClick = () => {
+    navigate('/dashboard')
+    console.log('/dashboard')
+  }
+
   return (
     <div className="MapPage-Header">
       <div className="MapPage-Header-title">環境物聯網</div>
@@ -57,9 +66,12 @@ const Header = () => {
         <Button varient='flat' onClick={() => handleDrawerOpen('歷史查詢')}>歷史查詢</Button>
         <Button varient='flat' onClick={() => handleDrawerOpen('路段統計')}>路段統計</Button>
       </div>
-      {/* <div className="MapPage-Header-endAction">
-        <Button varient='flat'>action1</Button>
-      </div> */}
+      <div className="MapPage-Header-endAction">
+        <Button
+          onClick={() => handleDataCenterClick()}
+          varient='flat'
+        >感測器資料中心</Button>
+      </div>
     </div>
   )
 }

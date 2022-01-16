@@ -57,6 +57,8 @@ const HistoryQueryDrawer = () => {
   const [days, setdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
   const [excludeDates, setexcludeDates] = useState<Array<string>>([])
   const [deviceId, setdeviceId] = useState<string>('')
+  const [mobileSelect, setmobileSelect] = useState<string>('0')
+  const [fixedSelect, setfixedSelect] = useState<string>('0')
 
   const {
     historyQueryTitle = '',
@@ -70,11 +72,11 @@ const HistoryQueryDrawer = () => {
   }
 
   const handleMobileSelect = (event: SelectChangeEvent) => {
-    console.log(event.target.value as string)
+    setmobileSelect(event.target.value as string)
   }
 
   const handleFixedSelect = (event: SelectChangeEvent) => {
-    console.log(event.target.value as string)
+    setfixedSelect(event.target.value as string)
   }
 
   const [open, setOpen] = React.useState(false)
@@ -179,30 +181,32 @@ const HistoryQueryDrawer = () => {
               <InputLabel id="mobile-label">移動點顯示</InputLabel>
               <Select
                 labelId="mobile-label"
+                value={mobileSelect}
                 id="mobile-select"
                 className="mobile-select"
                 onChange={handleMobileSelect}
               >
-                <MenuItem value={0}>PM 2.5 儀器平均</MenuItem>
-                <MenuItem value={1}>PM 2.5 UART</MenuItem>
-                <MenuItem value={2}>PM 2.5 I2C</MenuItem>
-                <MenuItem value={3}>VOC</MenuItem>
+                <MenuItem value={'0'}>PM 2.5 儀器平均</MenuItem>
+                <MenuItem value={'1'}>PM 2.5 UART</MenuItem>
+                <MenuItem value={'2'}>PM 2.5 I2C</MenuItem>
+                <MenuItem value={'3'}>VOC</MenuItem>
               </Select>
             </div>
 
             <div className='select-cell'>
-              <InputLabel id="mobile-label">固定點顯示</InputLabel>
+              <InputLabel id="fixed-label">固定點顯示</InputLabel>
               <Select
-                labelId="mobile-label"
+                labelId="fixed-label"
+                value={fixedSelect}
                 id="mobile-select"
                 className="mobile-select"
                 onChange={handleFixedSelect}
               >
-                <MenuItem value={0}>PM 2.5</MenuItem>
-                <MenuItem value={1}>VOC</MenuItem>
-                <MenuItem value={2}>CO</MenuItem>
-                <MenuItem value={3}>SO2</MenuItem>
-                <MenuItem value={4}>NO2</MenuItem>
+                <MenuItem value={'0'}>PM 2.5</MenuItem>
+                <MenuItem value={'1'}>VOC</MenuItem>
+                <MenuItem value={'2'}>CO</MenuItem>
+                <MenuItem value={'3'}>SO2</MenuItem>
+                <MenuItem value={'4'}>NO2</MenuItem>
               </Select>
             </div>
           </div>
