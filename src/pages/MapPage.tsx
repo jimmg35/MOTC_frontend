@@ -14,18 +14,18 @@ import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 
 const MapPage = () => {
-  // useEffect(() => {
-  //   const map = new Map({
-  //     basemap: 'topo-vector'
-  //   })
-  //   const view = new MapView({
-  //     map: map,
-  //     center: [121.52652617526462, 25.025953944255487], // Longitude, latitude
-  //     zoom: 13, // Zoom level
-  //     container: 'viewDiv' // Div element
-  //   })
-  //   view.zoom = 14
-  // }, [])
+  useEffect(() => {
+    const map = new Map({
+      basemap: 'topo-vector'
+    })
+    const view = new MapView({
+      map: map,
+      center: [121.52652617526462, 25.025953944255487], // Longitude, latitude
+      zoom: 13, // Zoom level
+      container: 'viewDiv' // Div element
+    })
+    view.zoom = 14
+  }, [])
 
   return (
     <MapProvider>
