@@ -8,7 +8,7 @@ import Divider from '@mui/material/Divider'
 import MuiDrawer from '@mui/material/Drawer'
 import { styled } from '@mui/material/styles'
 import ListItem from '@mui/material/ListItem'
-import Container from '@mui/material/Container'
+// import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -249,19 +249,17 @@ const DashboardContent = () => {
       <Box
         component="main"
         sx={{
-          backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-              ? theme.palette.grey[100]
-              : theme.palette.grey[500],
           flexGrow: 1,
           height: '100vh',
-          overflow: 'auto'
+          overflow: 'hidden'
         }}
+        className='aaaa'
       >
         <Toolbar />
-        <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+        {/* <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}> */}
+        {/* <div className='content-page'> */}
 
-          {/* <HashRouter>
+        {/* <HashRouter>
             <Routes>
               {
                 dashboardRoutes.map((route, i) => (
@@ -271,16 +269,16 @@ const DashboardContent = () => {
             </Routes>
           </HashRouter> */}
 
-          <UserProfile open={profileOpen}
-          ></UserProfile>
+        <UserProfile open={profileOpen}
+        ></UserProfile>
 
-          <MainBoard open={mainDashOpen}
-          ></MainBoard>
+        <MainBoard open={mainDashOpen}
+        ></MainBoard>
 
-          <SecondBoard open={secondDashOpen}
-          ></SecondBoard>
-
-        </Container>
+        <SecondBoard open={secondDashOpen}
+        ></SecondBoard>
+        {/* </div> */}
+        {/* </Container> */}
       </Box>
     </Box>
     // </ThemeProvider>
