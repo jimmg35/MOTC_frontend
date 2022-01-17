@@ -19,8 +19,7 @@
         "react",
         "@typescript-eslint"
     ],
-    "rules": {
-    },
+    "rules": {},
     "settings": {
         "version": "detect"
     }
