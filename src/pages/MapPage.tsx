@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import './MapPage.scss'
 import Header from '../common/MapPage/Header'
 import {
@@ -9,44 +9,33 @@ import {
 import HistoryQueryDrawer from '../common/MapPage/HistoryQueryDrawer'
 import RealTimeMonitorDrawer from '../common/MapPage/RealTimeMonitorDrawer'
 import RouteAnalysisDrawer from '../common/MapPage/RouteAnalysisDrawer'
-import { MapProvider } from '../lib/MapProvider'
-import Map from '../common/MapPage/Map'
-// import Map from '@arcgis/core/Map'
-// import MapView from '@arcgis/core/views/MapView'
+import ArcGisContainer from '../common/MapPage/Map'
+import { arcGisContext } from '../lib/MapProvider'
 
 const MapPage = () => {
-  // useEffect(() => {
-  //   const map = new Map({
-  //     basemap: 'topo-vector'
-  //   })
-  //   const view = new MapView({
-  //     map: map,
-  //     center: [121.52652617526462, 25.025953944255487], // Longitude, latitude
-  //     zoom: 13, // Zoom level
-  //     container: 'viewDiv' // Div element
-  //   })
-  //   view.zoom = 14
-  // }, [])
+  const context = useContext(arcGisContext)
+
+  useEffect(() => {
+    console.log(context.map)
+  }, [])
 
   return (
-    <MapProvider>
-      <RealTimeMonitorDrawerProvider>
-        <HistoryQueryDrawerProvider>
-          <RouteAnalysisDrawerProvider>
-            <div className="MapPage-root">
-              <Header />
-              <div className="MapPage-main-body">
-                {/* <div id="viewDiv" className='map-box'></div> */}
-                <Map></Map>
-                <HistoryQueryDrawer />
-                <RealTimeMonitorDrawer />
-                <RouteAnalysisDrawer />
-              </div>
+    <RealTimeMonitorDrawerProvider>
+      <HistoryQueryDrawerProvider>
+        <RouteAnalysisDrawerProvider>
+          <div className="MapPage-root">
+            <Header />
+            <div className="MapPage-main-body">
+              {/* <div id="viewDiv" className='map-box'></div> */}
+              <ArcGisContainer></ArcGisContainer>
+              <HistoryQueryDrawer />
+              <RealTimeMonitorDrawer />
+              <RouteAnalysisDrawer />
             </div>
-          </RouteAnalysisDrawerProvider>
-        </HistoryQueryDrawerProvider>
-      </RealTimeMonitorDrawerProvider>
-    </MapProvider>
+          </div>
+        </RouteAnalysisDrawerProvider>
+      </HistoryQueryDrawerProvider>
+    </RealTimeMonitorDrawerProvider>
   )
 }
 

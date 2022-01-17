@@ -1,3 +1,3 @@
-import Map from './Map'
+import ArcGisContainer from './ArcGisContainer'
 
-export default Map
+export default ArcGisContainer

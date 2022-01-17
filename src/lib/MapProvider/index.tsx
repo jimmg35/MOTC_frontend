@@ -1,23 +1,22 @@
-import React, { createContext, useState } from 'react'
-import Map from '@arcgis/core/Map'
-import { map } from '../src/'
+import { createContext } from 'react'
+import ArcGIS from '../ArcGIS'
 
-export type MapContextType = {
-  map: Map
-}
+// export type ArcGisContextType = {
+//   arcGis: ArcGIS
+// }
 
-export const mapContext = createContext({} as MapContextType)
+export const arcGisContext = createContext(ArcGIS)
 
-export interface IDrawerProviderProps {
-  children: React.ReactNode
-}
+// export interface IDrawerProviderProps {
+//   children: React.ReactNode
+// }
 
-export const MapProvider = ({ children }: IDrawerProviderProps) => {
-  return (
-    <mapContext.Provider value={
-      { map: map }
-    }>
-      {children}
-    </mapContext.Provider>
-  )
-}
+// export const MapProvider = ({ children }: IDrawerProviderProps) => {
+//   return (
+//     <arcGisContext.Provider value={
+//       ArcGIS
+//     }>
+//       {children}
+//     </arcGisContext.Provider>
+//   )
+// }
