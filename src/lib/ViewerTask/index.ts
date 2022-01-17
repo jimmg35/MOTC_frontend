@@ -1,3 +1,5 @@
+/* eslint space-before-function-paren: ["error", "never"] */
+/* eslint-env es6 */
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 
@@ -24,8 +26,8 @@ class ViewerTask {
 
   /**
    * 此方法會自動執行queue中的tasks
-   * @param mapView 
-   * @returns 
+   * @param mapView
+   * @returns
    */
   public setMapView = (mapView: MapView) => {
     if (this.mapView !== undefined) {

@@ -1,3 +1,5 @@
+/* eslint space-before-function-paren: ["error", "never"] */
+/* eslint-env es6 */
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 import ViewerTask from '../ViewerTask'
