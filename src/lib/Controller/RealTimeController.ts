@@ -1,10 +1,17 @@
+/* eslint space-before-function-paren: ["error", "never"] */
+/* eslint-env es6 */
 
-export default class RealTimeController {
-  public sayHello = () => {
-    console.log('Hello~~~')
-  }
-  public sayHello2 = () => {
-    console.log('Hello~~~')
-  }
+import BaseController, { IBaseControllerParam } from './BaseController'
 
+export interface IRealTimeControllerParam {
+  mapSet: IBaseControllerParam
+}
+
+export default class RealTimeController extends BaseController {
+  constructor(options: IRealTimeControllerParam) {
+    super({
+      map: options.mapSet.map,
+      mapView: options.mapSet.mapView
+    })
+  }
 }

@@ -9,10 +9,10 @@ import ViewerTask from '../ViewerTask'
 // import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer"
 
 /* thrid party modules */
-// import { autoInjectable } from 'tsyringe'
+// import { autoInjectable, container } from 'tsyringe'
 
 /* Controllers */
-import { RealTimeController } from '../Controller'
+import { RealTimeController, SymbologyController } from '../Controller'
 
 export interface IMapOptions {
   basemap: string
@@ -24,27 +24,17 @@ export interface IMapViewOptions {
   container: string | HTMLDivElement | undefined
 }
 
-export interface IArcGIS {
-  realTimeController: RealTimeController
-}
-
-class ArcGIS {
+export class ArcGIS {
   map: Map | undefined
   mapView: MapView | undefined
   viewerTask: ViewerTask
-  realTimeController: RealTimeController
-  // template: PopupTemplate
-  // renderer: ClassBreaksRenderer
-  // fixedTemplate: PopupTemplate
-  // fixedRenderer: ClassBreaksRenderer
-  // standardTemplate: PopupTemplate
-  // standardRenderer: ClassBreaksRenderer
+  realTimeController: RealTimeController | undefined
+  symbologyController: SymbologyController | undefined
 
-  constructor(options: IArcGIS) {
+  constructor() {
     this.map = undefined
     this.mapView = undefined
     this.viewerTask = new ViewerTask()
-    this.realTimeController = options.realTimeController
   }
 
   public createMapAndMapView = (mapOptions: IMapOptions, viewOptions: IMapViewOptions) => {
@@ -61,12 +51,23 @@ class ArcGIS {
     this.mapView = mapView
     this.viewerTask.setMap(map)
     this.viewerTask.setMapView(mapView)
+
+    this._registerControllers()
+
     return { map, mapView }
+  }
+
+  private _registerControllers = () => {
+    const mapSet = { map: this.map as Map, mapView: this.mapView as MapView }
+
+    this.realTimeController = new RealTimeController({
+      mapSet: mapSet
+    })
+
+    this.symbologyController = new SymbologyController({
+      mapSet: mapSet
+    })
   }
 }
 
-const arcGis = new ArcGIS({
-  realTimeController: new RealTimeController()
-})
-
-export default arcGis
+export default new ArcGIS()
