@@ -8,7 +8,7 @@ import { TextField, InputLabel, MenuItem, Button, OutlinedInput, Box, Chip } fro
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import SettingsIcon from '@mui/icons-material/Settings'
-import GpsFixedIcon from '@mui/icons-material/GpsFixed'
+// import GpsFixedIcon from '@mui/icons-material/GpsFixed'
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import Dialog from '@mui/material/Dialog'
@@ -17,6 +17,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import DatePicker from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
+import Divider from '@mui/material/Divider'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -105,7 +106,7 @@ const HistoryQueryDrawer = () => {
 
   return (
     <Drawer
-      anchor='bottom'
+      anchor='right'
       title={historyQueryTitle}
       open={!historyQueryHide}
       onClose={handleClose}>
@@ -142,7 +143,7 @@ const HistoryQueryDrawer = () => {
             </div>
           </div>
 
-          <div className='select-row'>
+          <div className='select-row-btn'>
             <div className='select-cell-btn'>
               <Button
                 className='setting-btn'
@@ -154,14 +155,14 @@ const HistoryQueryDrawer = () => {
               </Button>
             </div>
 
-            <div className='select-cell-btn'>
+            {/* <div className='select-cell-btn'>
               <Button
                 className='setting-btn'
                 variant="contained"
                 startIcon={<GpsFixedIcon />}>
                 查詢固定點
               </Button>
-            </div>
+            </div> */}
 
             <div className='select-cell-btn'>
               <Button
@@ -169,12 +170,12 @@ const HistoryQueryDrawer = () => {
                 variant="contained"
                 onClick={handleQueryMobile}
                 startIcon={<TrendingFlatIcon />}>
-                查詢移動點
+                查詢
               </Button>
             </div>
           </div>
 
-          <hr></hr>
+          <Divider className='divider-dark' variant="middle" />
 
           <div className='select-row'>
             <div className='select-cell'>

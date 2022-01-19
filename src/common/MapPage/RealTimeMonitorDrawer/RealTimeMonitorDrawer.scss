@@ -1,6 +1,7 @@
 .real-time-monitor {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     .select-cell {
         margin: 10px;
     }
