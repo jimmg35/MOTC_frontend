@@ -148,7 +148,7 @@ const RealTimeMonitorDrawer = () => {
 
           </div>
 
-          <div className='select-row'>
+          <div className='select-row-btn'>
             <div className='select-cell-btn'>
               <Button
                 className='setting-btn'
