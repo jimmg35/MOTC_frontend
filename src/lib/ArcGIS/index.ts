@@ -1,8 +1,18 @@
 /* eslint space-before-function-paren: ["error", "never"] */
 /* eslint-env es6 */
+
+/* ArcGIS API for javascript */
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 import ViewerTask from '../ViewerTask'
+// import PopupTemplate from "@arcgis/core/PopupTemplate"
+// import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer"
+
+/* thrid party modules */
+// import { autoInjectable } from 'tsyringe'
+
+/* Controllers */
+import { RealTimeController } from '../Controller'
 
 export interface IMapOptions {
   basemap: string
@@ -14,15 +24,27 @@ export interface IMapViewOptions {
   container: string | HTMLDivElement | undefined
 }
 
+export interface IArcGIS {
+  realTimeController: RealTimeController
+}
+
 class ArcGIS {
   map: Map | undefined
   mapView: MapView | undefined
   viewerTask: ViewerTask
+  realTimeController: RealTimeController
+  // template: PopupTemplate
+  // renderer: ClassBreaksRenderer
+  // fixedTemplate: PopupTemplate
+  // fixedRenderer: ClassBreaksRenderer
+  // standardTemplate: PopupTemplate
+  // standardRenderer: ClassBreaksRenderer
 
-  constructor() {
+  constructor(options: IArcGIS) {
     this.map = undefined
     this.mapView = undefined
     this.viewerTask = new ViewerTask()
+    this.realTimeController = options.realTimeController
   }
 
   public createMapAndMapView = (mapOptions: IMapOptions, viewOptions: IMapViewOptions) => {
@@ -43,4 +65,8 @@ class ArcGIS {
   }
 }
 
-export default new ArcGIS()
+const arcGis = new ArcGIS({
+  realTimeController: new RealTimeController()
+})
+
+export default arcGis
