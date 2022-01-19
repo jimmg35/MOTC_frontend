@@ -35,7 +35,7 @@ const RealTimeMonitorDrawer = () => {
 
   return (
     <Drawer
-      anchor='bottom'
+      anchor='right'
       title={realTimeMonitorTitle}
       open={!realTimeMonitorHide}
       onClose={handleClose}>

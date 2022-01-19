@@ -105,7 +105,7 @@ const HistoryQueryDrawer = () => {
 
   return (
     <Drawer
-      anchor='bottom'
+      anchor='right'
       title={historyQueryTitle}
       open={!historyQueryHide}
       onClose={handleClose}>

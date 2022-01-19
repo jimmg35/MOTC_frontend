@@ -94,7 +94,7 @@ const RealTimeMonitorDrawer = () => {
 
   return (
     <Drawer
-      anchor='bottom'
+      anchor='right'
       title={routeAnalysisTitle}
       open={!routeAnalysisHide}
       onClose={handleClose} >
