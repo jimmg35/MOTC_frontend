@@ -1,12 +1,16 @@
 import apiConfig from './config'
 
 export const getRealTimeMobile = async () => {
-  const response = await fetch(`${apiConfig.serverString}/api/MobileSensor/getRealTimeMobile`)
+  const response = await fetch(`${apiConfig.serverString}/api/MobileSensor/getRealTimeMobile`, {
+    method: 'GET'
+  })
   return response.json()
 }
 
 export const getRealTimeStation = async () => {
-  const response = await fetch(`${apiConfig.serverString}/api/Station/getRealTimeStation`)
+  const response = await fetch(`${apiConfig.serverString}/api/Station/getRealTimeStation`, {
+    method: 'GET'
+  })
   return response.json()
 }
 

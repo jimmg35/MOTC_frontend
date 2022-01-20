@@ -14,6 +14,7 @@ const ArcGisContainer = (props: CesiumContainerProps) => {
   const context = useContext(arcGisContext)
 
   useEffect(() => {
+    (window as any).ArcGIS = context
     context.createMapAndMapView({
       basemap: 'topo-vector'
     }, {

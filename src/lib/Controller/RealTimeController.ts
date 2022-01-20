@@ -15,6 +15,7 @@ import BaseController, { IBaseControllerParam } from './BaseController'
 import { mobileTemplateContent, fixedTemplateContent, standardTemplateContent } from './RealTimeController/templateContent'
 import { mobileRendererContent, fixedRendererContent, standardRendererContent } from './RealTimeController/rendererContent'
 import api from '../../api'
+import { resolve } from 'path'
 
 const symbologySet = {
   mot: {
@@ -78,7 +79,8 @@ export default class RealTimeController extends BaseController {
       extent = this.mapView.extent
     }
 
-    await this.fetchLayerData(sensorType, extent)
+    const aa = await this.fetchLayerData(sensorType, extent)
+    console.log(aa)
   }
 
   /**
