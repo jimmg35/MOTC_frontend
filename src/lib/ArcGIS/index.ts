@@ -5,14 +5,9 @@
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 import ViewerTask from '../ViewerTask'
-// import PopupTemplate from "@arcgis/core/PopupTemplate"
-// import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer"
-
-/* thrid party modules */
-// import { autoInjectable, container } from 'tsyringe'
 
 /* Controllers */
-import { RealTimeController, SymbologyController } from '../Controller'
+import { RealTimeController } from '../Controller'
 
 export interface IMapOptions {
   basemap: string
@@ -29,7 +24,6 @@ export class ArcGIS {
   mapView: MapView | undefined
   viewerTask: ViewerTask
   realTimeController: RealTimeController | undefined
-  symbologyController: SymbologyController | undefined
 
   constructor() {
     this.map = undefined
@@ -61,10 +55,6 @@ export class ArcGIS {
     const mapSet = { map: this.map as Map, mapView: this.mapView as MapView }
 
     this.realTimeController = new RealTimeController({
-      mapSet: mapSet
-    })
-
-    this.symbologyController = new SymbologyController({
       mapSet: mapSet
     })
   }
