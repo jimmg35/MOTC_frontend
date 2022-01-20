@@ -11,11 +11,12 @@ const ArcGisContainer = (props: CesiumContainerProps) => {
     id = 'arcgis-container'
   } = props
 
-  const context = useContext(arcGisContext)
+  const arcGis = useContext(arcGisContext)
 
   useEffect(() => {
-    context.createMapAndMapView({
-      basemap: 'topo-vector'
+    (window as any).ArcGIS = arcGis
+    arcGis.createMapAndMapView({
+      basemap: 'dark-gray-vector'
     }, {
       center: [121.52652617526462, 25.025953944255487],
       zoom: 13,
