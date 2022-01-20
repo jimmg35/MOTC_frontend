@@ -46,7 +46,9 @@ export class ArcGIS {
     this.viewerTask.setMap(map)
     this.viewerTask.setMapView(mapView)
 
-    this._registerControllers()
+    this.mapView.when(() => {
+      this._registerControllers()
+    })
 
     return { map, mapView }
   }
@@ -57,6 +59,7 @@ export class ArcGIS {
     this.realTimeController = new RealTimeController({
       mapSet: mapSet
     })
+    this.realTimeController.start()
   }
 }
 
