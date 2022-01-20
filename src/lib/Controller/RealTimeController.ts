@@ -11,12 +11,14 @@ import Geometry from '@arcgis/core/geometry/Geometry'
 import Polygon from '@arcgis/core/geometry/Polygon'
 import geometry, { Point } from "@arcgis/core/geometry"
 import Graphic from '@arcgis/core/Graphic'
+import StatisticDefinition from '@arcgis/core/rest/support/StatisticDefinition'
+import SimpleMarkerSymbol from '@arcgis/core/symbols/SimpleMarkerSymbol'
 
 /* Controllers */
 import BaseController, { IBaseControllerParam } from './BaseController'
 import { mobileTemplateContent, fixedTemplateContent, standardTemplateContent } from './RealTimeController/templateContent'
 import { mobileRendererContent, fixedRendererContent, standardRendererContent } from './RealTimeController/rendererContent'
-import { mobileFeatureFields, fixedFeatureFields, standardFeatureFields } from './RealTimeController/featureField'
+import { mobileFeatureFields, fixedFeatureFields, standardFeatureFields, changeSymbolDefinition } from './RealTimeController/featureField'
 import api from '../../api'
 import { resolve } from 'path'
 
@@ -25,24 +27,28 @@ const typeSet = {
     title: "移動式污染源監測站",
     template: new PopupTemplate(mobileTemplateContent),
     renderer: new ClassBreaksRenderer(mobileRendererContent),
-    field: mobileFeatureFields
+    field: mobileFeatureFields,
+    markStyle: 'circle'
   },
   fixed: {
     title: "固定污染源監測站",
     template: new PopupTemplate(fixedTemplateContent),
     renderer: new ClassBreaksRenderer(fixedRendererContent),
-    field: fixedFeatureFields
+    field: fixedFeatureFields,
+    markStyle: 'triangle'
   },
   standard: {
     title: "國家級空氣品質監測站",
     template: new PopupTemplate(standardTemplateContent),
     renderer: new ClassBreaksRenderer(standardRendererContent),
-    field: standardFeatureFields
+    field: standardFeatureFields,
+    markStyle: 'square'
   }
 }
 
 export interface IRealTimeControllerParam {
   mapSet: IBaseControllerParam
+  updateMode: boolean
 }
 
 export interface ISymbology {
@@ -57,6 +63,8 @@ export default class RealTimeController extends BaseController {
   // fixedFeatureLayer: FeatureLayer | undefined
   // standardFeatureLayer: FeatureLayer | undefined
   featureLayerSet: { [key: string]: FeatureLayer }
+  timerSet: { [key: string]: NodeJS.Timer }
+  updateMode: boolean
 
   constructor(options: IRealTimeControllerParam) {
     super({
@@ -64,6 +72,8 @@ export default class RealTimeController extends BaseController {
       mapView: options.mapSet.mapView
     })
     this.featureLayerSet = {}
+    this.timerSet = {}
+    this.updateMode = options.updateMode
   }
 
   public start = () => {
@@ -95,6 +105,13 @@ export default class RealTimeController extends BaseController {
     const featureLayer: FeatureLayer = this.createFeatureLayer(graphicArray, sensorType)
     this.featureLayerSet[sensorType] = featureLayer
     this.map.add(this.featureLayerSet[sensorType])
+    // 掛載定時更新
+    if (this.updateMode === true) {
+      this.timerSet[sensorType] = setInterval(() => {
+        this.updateData(sensorType)
+        console.log("data updated!")
+      }, 3000)
+    }
   }
 
   /**
@@ -228,7 +245,77 @@ export default class RealTimeController extends BaseController {
     })
   }
 
-  public updateData = async () => {
+  /**
+   * 更新特定種類的感測器資料
+   * @param sensorType 
+   */
+  public updateData = async (sensorType: sensor_type) => {
+    let edits: __esri.FeatureLayerApplyEditsEdits
+    let extent: Extent | undefined = undefined
+    if (sensorType == 'fixed') {
+      extent = this.mapView.extent
+    }
 
+    // 請求資料
+    const geoJson = await this.fetchLayerData(sensorType, extent)
+    // 產出graphic實體
+    const graphicArray: Array<Graphic> = this.createGraphics(geoJson, sensorType)
+    // 更新features
+    graphicArray.forEach((graphic: Graphic) => {
+      edits = {
+        updateFeatures: [graphic]
+      }
+      this.featureLayerSet[sensorType].applyEdits(edits)
+    })
+  }
+
+  public changeSymbol = async (aq_type: string, sensorType: sensor_type) => {
+    let new_renderer: ClassBreaksRenderer
+    if (aq_type.startsWith("Pm2_5")) {
+      new_renderer = new ClassBreaksRenderer();
+      new_renderer.field = aq_type
+      new_renderer.classBreakInfos = typeSet[sensorType].renderer.classBreakInfos
+    }
+    else {
+      new_renderer = await this.stdBreaks(this.featureLayerSet[sensorType], aq_type, sensorType);
+    }
+    this.featureLayerSet[sensorType].renderer = new_renderer
+  }
+
+  public stdBreaks = async (featureLayer: FeatureLayer, aq_type: string, sensorType: sensor_type) => {
+    let query = featureLayer.createQuery()
+    let avg = new StatisticDefinition({
+      onStatisticField: aq_type,
+      outStatisticFieldName: "AVG_" + aq_type,
+      statisticType: "avg"
+    })
+    let std = new StatisticDefinition({
+      onStatisticField: aq_type,
+      outStatisticFieldName: "STD_" + aq_type,
+      statisticType: "stddev"
+    })
+    query.outStatistics = [avg, std]
+
+    var renderer: ClassBreaksRenderer
+    renderer = await featureLayer.queryFeatures(query).then(function (response) {
+      let stats = response.features[0].attributes;
+      console.log(stats);
+      let attr_avg = "AVG_" + aq_type; //平均值欄位名稱
+      let attr_std = "STD_" + aq_type; //標準差欄位名稱
+      let avg = Math.round(stats[attr_avg])
+      let std = Math.round(stats[attr_std])
+      let _renderer = new ClassBreaksRenderer({
+        classBreakInfos: changeSymbolDefinition(avg, std)
+      })
+      return _renderer;
+    }).then(function (results) {
+      return results
+    })
+
+    renderer.field = aq_type
+    renderer.classBreakInfos.forEach((item) => {
+      (item.symbol as SimpleMarkerSymbol).style = typeSet[sensorType].markStyle as "circle" | "square" | "triangle"
+    })
+    return renderer
   }
 }

@@ -57,7 +57,8 @@ export class ArcGIS {
     const mapSet = { map: this.map as Map, mapView: this.mapView as MapView }
 
     this.realTimeController = new RealTimeController({
-      mapSet: mapSet
+      mapSet: mapSet,
+      updateMode: false
     })
     this.realTimeController.start()
   }
