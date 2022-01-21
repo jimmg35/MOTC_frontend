@@ -23,6 +23,7 @@ const ArcGisContainer = (props: CesiumContainerProps) => {
       container: id
     })
     console.log('This is test 1')
+    console.log('This is test 2')
   }, [])
 
   return (
