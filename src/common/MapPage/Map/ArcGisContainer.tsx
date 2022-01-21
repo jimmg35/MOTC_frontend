@@ -22,6 +22,7 @@ const ArcGisContainer = (props: CesiumContainerProps) => {
       zoom: 13,
       container: id
     })
+    console.log('This is test 1')
   }, [])
 
   return (
