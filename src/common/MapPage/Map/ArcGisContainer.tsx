@@ -16,7 +16,7 @@ const ArcGisContainer = (props: CesiumContainerProps) => {
   useEffect(() => {
     (window as any).ArcGIS = arcGis
     arcGis.createMapAndMapView({
-      basemap: 'dark-gray-vector'
+      basemap: 'gray-vector'
     }, {
       center: [121.52652617526462, 25.025953944255487],
       zoom: 13,
