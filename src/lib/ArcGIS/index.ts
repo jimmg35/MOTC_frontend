@@ -1,8 +1,13 @@
 /* eslint space-before-function-paren: ["error", "never"] */
 /* eslint-env es6 */
+
+/* ArcGIS API for javascript */
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 import ViewerTask from '../ViewerTask'
+
+/* Controllers */
+import { RealTimeController } from '../Controller'
 
 export interface IMapOptions {
   basemap: string
@@ -14,10 +19,11 @@ export interface IMapViewOptions {
   container: string | HTMLDivElement | undefined
 }
 
-class ArcGIS {
+export class ArcGIS {
   map: Map | undefined
   mapView: MapView | undefined
   viewerTask: ViewerTask
+  realTimeController: RealTimeController | undefined
 
   constructor() {
     this.map = undefined
@@ -39,7 +45,22 @@ class ArcGIS {
     this.mapView = mapView
     this.viewerTask.setMap(map)
     this.viewerTask.setMapView(mapView)
+
+    this.mapView.when(() => {
+      this._registerControllers()
+    })
+
     return { map, mapView }
+  }
+
+  private _registerControllers = () => {
+    const mapSet = { map: this.map as Map, mapView: this.mapView as MapView }
+
+    this.realTimeController = new RealTimeController({
+      mapSet: mapSet,
+      updateMode: true
+    })
+    this.realTimeController.start()
   }
 }
 
