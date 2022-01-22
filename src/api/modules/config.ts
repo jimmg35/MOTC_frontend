@@ -22,7 +22,7 @@ class ApiConfig {
 }
 
 export default new ApiConfig({
-  protocol: 'https',
-  domain: 'localhost',
-  port: '44398'
+  protocol: 'http',
+  domain: '140.122.82.98',
+  port: '82'
 })

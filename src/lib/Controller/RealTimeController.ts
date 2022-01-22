@@ -21,6 +21,7 @@ import { mobileRendererContent, fixedRendererContent, standardRendererContent } 
 import { mobileFeatureFields, fixedFeatureFields, standardFeatureFields, changeSymbolDefinition } from './RealTimeController/featureField'
 import api from '../../api'
 import { resolve } from 'path'
+import { fixedStyle, standardStyle } from './RealTimeController/rendererContent'
 
 const typeSet = {
   mot: {
