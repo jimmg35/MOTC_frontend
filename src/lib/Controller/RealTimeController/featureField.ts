@@ -215,6 +215,14 @@ export const fixedFeatureFields = [
   }
 ]
 
+const outlineR = 0, outlineG = 0, outlineB = 0
+const outlineWidth = 1
+const size = '10px'
+export const mobileStyle = 'circle'
+export const fixedStyle = 'triangle'
+export const standardStyle = 'square'
+
+
 export const changeSymbolDefinition = (avg: any, std: any) => {
   return [
     {
@@ -222,7 +230,7 @@ export const changeSymbolDefinition = (avg: any, std: any) => {
       maxValue: avg,
       symbol: new SimpleMarkerSymbol({
         color: [74, 248, 73],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -230,7 +238,7 @@ export const changeSymbolDefinition = (avg: any, std: any) => {
       maxValue: Math.round(avg + (1 / 8) * std),
       symbol: new SimpleMarkerSymbol({
         color: [172, 245, 79],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -238,7 +246,7 @@ export const changeSymbolDefinition = (avg: any, std: any) => {
       maxValue: Math.round(avg + (2 / 8) * std),
       symbol: new SimpleMarkerSymbol({
         color: [241, 224, 77],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -246,7 +254,7 @@ export const changeSymbolDefinition = (avg: any, std: any) => {
       maxValue: Math.round(avg + (3 / 8) * std),
       symbol: new SimpleMarkerSymbol({
         color: [245, 131, 46],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -254,7 +262,7 @@ export const changeSymbolDefinition = (avg: any, std: any) => {
       maxValue: Math.round(avg + (4 / 8) * std),
       symbol: new SimpleMarkerSymbol({
         color: [251, 70, 32],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -262,7 +270,7 @@ export const changeSymbolDefinition = (avg: any, std: any) => {
       maxValue: Math.round(avg + (5 / 8) * std),
       symbol: new SimpleMarkerSymbol({
         color: [238, 11, 42],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -270,7 +278,7 @@ export const changeSymbolDefinition = (avg: any, std: any) => {
       maxValue: Math.round(avg + (6 / 8) * std),
       symbol: new SimpleMarkerSymbol({
         color: [201, 19, 60],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -278,7 +286,7 @@ export const changeSymbolDefinition = (avg: any, std: any) => {
       maxValue: Math.round(avg + std),
       symbol: new SimpleMarkerSymbol({
         color: [122, 19, 92],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -286,7 +294,7 @@ export const changeSymbolDefinition = (avg: any, std: any) => {
       maxValue: 9999,
       symbol: new SimpleMarkerSymbol({
         color: [0, 0, 0],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     }
   ]

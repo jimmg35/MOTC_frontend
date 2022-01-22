@@ -58,7 +58,7 @@ export class ArcGIS {
 
     this.realTimeController = new RealTimeController({
       mapSet: mapSet,
-      updateMode: false
+      updateMode: true
     })
     this.realTimeController.start()
   }

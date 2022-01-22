@@ -2,6 +2,13 @@
 
 import SimpleMarkerSymbol from '@arcgis/core/symbols/SimpleMarkerSymbol'
 
+const outlineR = 0, outlineG = 0, outlineB = 0
+const outlineWidth = 1
+const size = '10px'
+export const mobileStyle = 'circle'
+export const fixedStyle = 'triangle'
+export const standardStyle = 'square'
+
 export const mobileRendererContent = {
   field: "Pm2_5_AVG",
   classBreakInfos: [
@@ -10,7 +17,7 @@ export const mobileRendererContent = {
       maxValue: 3.1,
       symbol: new SimpleMarkerSymbol({
         color: [74, 248, 73],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -18,7 +25,7 @@ export const mobileRendererContent = {
       maxValue: 6.2,
       symbol: new SimpleMarkerSymbol({
         color: [106, 242, 83],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -26,7 +33,7 @@ export const mobileRendererContent = {
       maxValue: 9.3,
       symbol: new SimpleMarkerSymbol({
         color: [138, 247, 79],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -34,7 +41,7 @@ export const mobileRendererContent = {
       maxValue: 12.4,
       symbol: new SimpleMarkerSymbol({
         color: [172, 245, 79],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -42,7 +49,7 @@ export const mobileRendererContent = {
       maxValue: 15.5,
       symbol: new SimpleMarkerSymbol({
         color: [211, 249, 80],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -50,7 +57,7 @@ export const mobileRendererContent = {
       maxValue: 19.5,
       symbol: new SimpleMarkerSymbol({
         color: [250, 238, 77],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -58,7 +65,7 @@ export const mobileRendererContent = {
       maxValue: 23.5,
       symbol: new SimpleMarkerSymbol({
         color: [241, 224, 77],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -66,7 +73,7 @@ export const mobileRendererContent = {
       maxValue: 27.5,
       symbol: new SimpleMarkerSymbol({
         color: [251, 204, 68],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -74,7 +81,7 @@ export const mobileRendererContent = {
       maxValue: 31.5,
       symbol: new SimpleMarkerSymbol({
         color: [249, 163, 57],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -82,7 +89,7 @@ export const mobileRendererContent = {
       maxValue: 35.5,
       symbol: new SimpleMarkerSymbol({
         color: [245, 131, 46],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -90,7 +97,7 @@ export const mobileRendererContent = {
       maxValue: 39.3,
       symbol: new SimpleMarkerSymbol({
         color: [244, 125, 48],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -98,7 +105,7 @@ export const mobileRendererContent = {
       maxValue: 43.5,
       symbol: new SimpleMarkerSymbol({
         color: [247, 89, 36],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -106,7 +113,7 @@ export const mobileRendererContent = {
       maxValue: 47.5,
       symbol: new SimpleMarkerSymbol({
         color: [251, 70, 32],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -114,7 +121,7 @@ export const mobileRendererContent = {
       maxValue: 51.5,
       symbol: new SimpleMarkerSymbol({
         color: [244, 48, 31],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -122,7 +129,7 @@ export const mobileRendererContent = {
       maxValue: 54.5,
       symbol: new SimpleMarkerSymbol({
         color: [242, 34, 35],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -130,7 +137,7 @@ export const mobileRendererContent = {
       maxValue: 73.7,
       symbol: new SimpleMarkerSymbol({
         color: [238, 11, 42],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -138,7 +145,7 @@ export const mobileRendererContent = {
       maxValue: 92.9,
       symbol: new SimpleMarkerSymbol({
         color: [213, 17, 54],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -146,7 +153,7 @@ export const mobileRendererContent = {
       maxValue: 112.1,
       symbol: new SimpleMarkerSymbol({
         color: [199, 19, 61],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -154,7 +161,7 @@ export const mobileRendererContent = {
       maxValue: 131.3,
       symbol: new SimpleMarkerSymbol({
         color: [201, 19, 60],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -162,7 +169,7 @@ export const mobileRendererContent = {
       maxValue: 150.5,
       symbol: new SimpleMarkerSymbol({
         color: [167, 24, 81],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -170,7 +177,7 @@ export const mobileRendererContent = {
       maxValue: 170.5,
       symbol: new SimpleMarkerSymbol({
         color: [129, 20, 107],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -178,7 +185,7 @@ export const mobileRendererContent = {
       maxValue: 190.5,
       symbol: new SimpleMarkerSymbol({
         color: [122, 19, 92],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -186,7 +193,7 @@ export const mobileRendererContent = {
       maxValue: 210.5,
       symbol: new SimpleMarkerSymbol({
         color: [117, 36, 97],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -194,7 +201,7 @@ export const mobileRendererContent = {
       maxValue: 230.5,
       symbol: new SimpleMarkerSymbol({
         color: [126, 44, 66],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -202,7 +209,7 @@ export const mobileRendererContent = {
       maxValue: 250.5,
       symbol: new SimpleMarkerSymbol({
         color: [114, 39, 60],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -210,7 +217,7 @@ export const mobileRendererContent = {
       maxValue: 300.5,
       symbol: new SimpleMarkerSymbol({
         color: [93, 49, 28],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -218,7 +225,7 @@ export const mobileRendererContent = {
       maxValue: 350.5,
       symbol: new SimpleMarkerSymbol({
         color: [89, 53, 40],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -226,7 +233,7 @@ export const mobileRendererContent = {
       maxValue: 400.5,
       symbol: new SimpleMarkerSymbol({
         color: [79, 45, 25],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -234,7 +241,7 @@ export const mobileRendererContent = {
       maxValue: 450.5,
       symbol: new SimpleMarkerSymbol({
         color: [65, 42, 23],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -242,7 +249,7 @@ export const mobileRendererContent = {
       maxValue: 500.4,
       symbol: new SimpleMarkerSymbol({
         color: [34, 30, 20],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -250,7 +257,7 @@ export const mobileRendererContent = {
       maxValue: 9999,
       symbol: new SimpleMarkerSymbol({
         color: [0, 0, 0],
-        size: "8px", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     }
   ]
@@ -264,7 +271,7 @@ export const fixedRendererContent = {
       maxValue: 3.1,
       symbol: new SimpleMarkerSymbol({
         color: [74, 248, 73],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -272,7 +279,7 @@ export const fixedRendererContent = {
       maxValue: 6.2,
       symbol: new SimpleMarkerSymbol({
         color: [106, 242, 83],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -280,7 +287,7 @@ export const fixedRendererContent = {
       maxValue: 9.3,
       symbol: new SimpleMarkerSymbol({
         color: [138, 247, 79],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -288,7 +295,7 @@ export const fixedRendererContent = {
       maxValue: 12.4,
       symbol: new SimpleMarkerSymbol({
         color: [172, 245, 79],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -296,7 +303,7 @@ export const fixedRendererContent = {
       maxValue: 15.5,
       symbol: new SimpleMarkerSymbol({
         color: [211, 249, 80],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -304,7 +311,7 @@ export const fixedRendererContent = {
       maxValue: 19.5,
       symbol: new SimpleMarkerSymbol({
         color: [250, 238, 77],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -312,7 +319,7 @@ export const fixedRendererContent = {
       maxValue: 23.5,
       symbol: new SimpleMarkerSymbol({
         color: [241, 224, 77],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -320,7 +327,7 @@ export const fixedRendererContent = {
       maxValue: 27.5,
       symbol: new SimpleMarkerSymbol({
         color: [251, 204, 68],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -328,7 +335,7 @@ export const fixedRendererContent = {
       maxValue: 31.5,
       symbol: new SimpleMarkerSymbol({
         color: [249, 163, 57],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -336,7 +343,7 @@ export const fixedRendererContent = {
       maxValue: 35.5,
       symbol: new SimpleMarkerSymbol({
         color: [245, 131, 46],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -344,7 +351,7 @@ export const fixedRendererContent = {
       maxValue: 39.3,
       symbol: new SimpleMarkerSymbol({
         color: [244, 125, 48],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -352,7 +359,7 @@ export const fixedRendererContent = {
       maxValue: 43.5,
       symbol: new SimpleMarkerSymbol({
         color: [247, 89, 36],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -360,7 +367,7 @@ export const fixedRendererContent = {
       maxValue: 47.5,
       symbol: new SimpleMarkerSymbol({
         color: [251, 70, 32],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -368,7 +375,7 @@ export const fixedRendererContent = {
       maxValue: 51.5,
       symbol: new SimpleMarkerSymbol({
         color: [244, 48, 31],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -376,7 +383,7 @@ export const fixedRendererContent = {
       maxValue: 54.5,
       symbol: new SimpleMarkerSymbol({
         color: [242, 34, 35],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -384,7 +391,7 @@ export const fixedRendererContent = {
       maxValue: 73.7,
       symbol: new SimpleMarkerSymbol({
         color: [238, 11, 42],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -392,7 +399,7 @@ export const fixedRendererContent = {
       maxValue: 92.9,
       symbol: new SimpleMarkerSymbol({
         color: [213, 17, 54],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -400,7 +407,7 @@ export const fixedRendererContent = {
       maxValue: 112.1,
       symbol: new SimpleMarkerSymbol({
         color: [199, 19, 61],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -408,7 +415,7 @@ export const fixedRendererContent = {
       maxValue: 131.3,
       symbol: new SimpleMarkerSymbol({
         color: [201, 19, 60],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -416,7 +423,7 @@ export const fixedRendererContent = {
       maxValue: 150.5,
       symbol: new SimpleMarkerSymbol({
         color: [167, 24, 81],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -424,7 +431,7 @@ export const fixedRendererContent = {
       maxValue: 170.5,
       symbol: new SimpleMarkerSymbol({
         color: [129, 20, 107],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -432,7 +439,7 @@ export const fixedRendererContent = {
       maxValue: 190.5,
       symbol: new SimpleMarkerSymbol({
         color: [122, 19, 92],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -440,7 +447,7 @@ export const fixedRendererContent = {
       maxValue: 210.5,
       symbol: new SimpleMarkerSymbol({
         color: [117, 36, 97],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -448,7 +455,7 @@ export const fixedRendererContent = {
       maxValue: 230.5,
       symbol: new SimpleMarkerSymbol({
         color: [126, 44, 66],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -456,7 +463,7 @@ export const fixedRendererContent = {
       maxValue: 250.5,
       symbol: new SimpleMarkerSymbol({
         color: [114, 39, 60],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -464,7 +471,7 @@ export const fixedRendererContent = {
       maxValue: 300.5,
       symbol: new SimpleMarkerSymbol({
         color: [93, 49, 28],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -472,7 +479,7 @@ export const fixedRendererContent = {
       maxValue: 350.5,
       symbol: new SimpleMarkerSymbol({
         color: [89, 53, 40],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -480,7 +487,7 @@ export const fixedRendererContent = {
       maxValue: 400.5,
       symbol: new SimpleMarkerSymbol({
         color: [79, 45, 25],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -488,7 +495,7 @@ export const fixedRendererContent = {
       maxValue: 450.5,
       symbol: new SimpleMarkerSymbol({
         color: [65, 42, 23],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -496,7 +503,7 @@ export const fixedRendererContent = {
       maxValue: 500.4,
       symbol: new SimpleMarkerSymbol({
         color: [34, 30, 20],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -504,7 +511,7 @@ export const fixedRendererContent = {
       maxValue: 9999,
       symbol: new SimpleMarkerSymbol({
         color: [0, 0, 0],
-        size: "8px", style: "triangle", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: fixedStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     }
   ]
@@ -518,7 +525,7 @@ export const standardRendererContent = {
       maxValue: 3.1,
       symbol: new SimpleMarkerSymbol({
         color: [74, 248, 73],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -526,7 +533,7 @@ export const standardRendererContent = {
       maxValue: 6.2,
       symbol: new SimpleMarkerSymbol({
         color: [106, 242, 83],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -534,7 +541,7 @@ export const standardRendererContent = {
       maxValue: 9.3,
       symbol: new SimpleMarkerSymbol({
         color: [138, 247, 79],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -542,7 +549,7 @@ export const standardRendererContent = {
       maxValue: 12.4,
       symbol: new SimpleMarkerSymbol({
         color: [172, 245, 79],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -550,7 +557,7 @@ export const standardRendererContent = {
       maxValue: 15.5,
       symbol: new SimpleMarkerSymbol({
         color: [211, 249, 80],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -558,7 +565,7 @@ export const standardRendererContent = {
       maxValue: 19.5,
       symbol: new SimpleMarkerSymbol({
         color: [250, 238, 77],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -566,7 +573,7 @@ export const standardRendererContent = {
       maxValue: 23.5,
       symbol: new SimpleMarkerSymbol({
         color: [241, 224, 77],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -574,7 +581,7 @@ export const standardRendererContent = {
       maxValue: 27.5,
       symbol: new SimpleMarkerSymbol({
         color: [251, 204, 68],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -582,7 +589,7 @@ export const standardRendererContent = {
       maxValue: 31.5,
       symbol: new SimpleMarkerSymbol({
         color: [249, 163, 57],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -590,7 +597,7 @@ export const standardRendererContent = {
       maxValue: 35.5,
       symbol: new SimpleMarkerSymbol({
         color: [245, 131, 46],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -598,7 +605,7 @@ export const standardRendererContent = {
       maxValue: 39.3,
       symbol: new SimpleMarkerSymbol({
         color: [244, 125, 48],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -606,7 +613,7 @@ export const standardRendererContent = {
       maxValue: 43.5,
       symbol: new SimpleMarkerSymbol({
         color: [247, 89, 36],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -614,7 +621,7 @@ export const standardRendererContent = {
       maxValue: 47.5,
       symbol: new SimpleMarkerSymbol({
         color: [251, 70, 32],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -622,7 +629,7 @@ export const standardRendererContent = {
       maxValue: 51.5,
       symbol: new SimpleMarkerSymbol({
         color: [244, 48, 31],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -630,7 +637,7 @@ export const standardRendererContent = {
       maxValue: 54.5,
       symbol: new SimpleMarkerSymbol({
         color: [242, 34, 35],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -638,7 +645,7 @@ export const standardRendererContent = {
       maxValue: 73.7,
       symbol: new SimpleMarkerSymbol({
         color: [238, 11, 42],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -646,7 +653,7 @@ export const standardRendererContent = {
       maxValue: 92.9,
       symbol: new SimpleMarkerSymbol({
         color: [213, 17, 54],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -654,7 +661,7 @@ export const standardRendererContent = {
       maxValue: 112.1,
       symbol: new SimpleMarkerSymbol({
         color: [199, 19, 61],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -662,7 +669,7 @@ export const standardRendererContent = {
       maxValue: 131.3,
       symbol: new SimpleMarkerSymbol({
         color: [201, 19, 60],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -670,7 +677,7 @@ export const standardRendererContent = {
       maxValue: 150.5,
       symbol: new SimpleMarkerSymbol({
         color: [167, 24, 81],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -678,7 +685,7 @@ export const standardRendererContent = {
       maxValue: 170.5,
       symbol: new SimpleMarkerSymbol({
         color: [129, 20, 107],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -686,7 +693,7 @@ export const standardRendererContent = {
       maxValue: 190.5,
       symbol: new SimpleMarkerSymbol({
         color: [122, 19, 92],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -694,7 +701,7 @@ export const standardRendererContent = {
       maxValue: 210.5,
       symbol: new SimpleMarkerSymbol({
         color: [117, 36, 97],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -702,7 +709,7 @@ export const standardRendererContent = {
       maxValue: 230.5,
       symbol: new SimpleMarkerSymbol({
         color: [126, 44, 66],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -710,7 +717,7 @@ export const standardRendererContent = {
       maxValue: 250.5,
       symbol: new SimpleMarkerSymbol({
         color: [114, 39, 60],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -718,7 +725,7 @@ export const standardRendererContent = {
       maxValue: 300.5,
       symbol: new SimpleMarkerSymbol({
         color: [93, 49, 28],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -726,7 +733,7 @@ export const standardRendererContent = {
       maxValue: 350.5,
       symbol: new SimpleMarkerSymbol({
         color: [89, 53, 40],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -734,7 +741,7 @@ export const standardRendererContent = {
       maxValue: 400.5,
       symbol: new SimpleMarkerSymbol({
         color: [79, 45, 25],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -742,7 +749,7 @@ export const standardRendererContent = {
       maxValue: 450.5,
       symbol: new SimpleMarkerSymbol({
         color: [65, 42, 23],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -750,7 +757,7 @@ export const standardRendererContent = {
       maxValue: 500.4,
       symbol: new SimpleMarkerSymbol({
         color: [34, 30, 20],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     },
     {
@@ -758,7 +765,7 @@ export const standardRendererContent = {
       maxValue: 9999,
       symbol: new SimpleMarkerSymbol({
         color: [0, 0, 0],
-        size: "8px", style: "square", outline: { color: [255, 255, 255], width: 1 }
+        size: size, style: standardStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
       })
     }
   ]
