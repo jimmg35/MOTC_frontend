@@ -11,7 +11,9 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
-// import { createTheme, ThemeProvider } from '@mui/material/styles'
+import api from '../api'
+import { User } from '../api/DTO/User'
+import { useNavigate } from 'react-router-dom'
 
 const Copyright = (props: any) => {
   return (
@@ -29,14 +31,24 @@ const Copyright = (props: any) => {
 // const theme = createTheme()
 
 const SignInSide = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate()
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password')
-    })
+    if (data.get('password') !== null && data.get('username') !== null) {
+      const response = await api.auth.authenticateUser(
+        new User({
+          username: data.get('username') as string,
+          password: data.get('password') as string
+        })
+      )
+      if (response.status === 200) {
+        // localStorage.setItem('token', response['token'] as string)
+        console.log(await response.json())
+        navigate('../')
+      }
+    }
   }
 
   return (
@@ -75,10 +87,10 @@ const SignInSide = () => {
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="username"
               label="Email Address"
-              name="email"
-              autoComplete="email"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
