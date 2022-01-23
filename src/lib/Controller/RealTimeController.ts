@@ -66,6 +66,7 @@ export default class RealTimeController extends BaseController {
   featureLayerSet: { [key: string]: FeatureLayer }
   timerSet: { [key: string]: NodeJS.Timer }
   updateMode: boolean
+  workingStatus: boolean
 
   constructor(options: IRealTimeControllerParam) {
     super({
@@ -75,12 +76,26 @@ export default class RealTimeController extends BaseController {
     this.featureLayerSet = {}
     this.timerSet = {}
     this.updateMode = options.updateMode
+    this.workingStatus = false
   }
 
   public start = () => {
-    this.getFeatureLayer('mot')
-    this.getFeatureLayer('fixed')
-    this.getFeatureLayer('standard')
+    if (this.workingStatus === false) {
+      this.getFeatureLayer('mot')
+      this.getFeatureLayer('fixed')
+      this.getFeatureLayer('standard')
+    }
+    this.workingStatus = true
+  }
+
+  public stop = () => {
+    if (this.workingStatus === true) {
+      clearInterval(this.timerSet['mot'])
+      clearInterval(this.timerSet['fixed'])
+      clearInterval(this.timerSet['standard'])
+      this._clearMap()
+    }
+    this.workingStatus = false
   }
 
   /**

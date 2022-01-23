@@ -13,7 +13,7 @@ const App: FC = () => {
           {
             routes.map((route, i) => (
               route.protected
-                ? <Route path={route.path} element={<ProtectedRoute />}> <Route path={route.path} element={<route.component routes={route.routes} />} /> </Route>
+                ? <Route key={i} path={route.path} element={<ProtectedRoute />}> <Route path={route.path} element={<route.component routes={route.routes} />} /> </Route>
                 : <Route key={i} path={route.path} element={<route.component routes={route.routes} />} />
               // <RouteWithSubRoutes key={i} {...route}/>
             ))
