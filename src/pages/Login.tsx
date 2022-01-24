@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import { authStatusContext } from '../routes/AuthStatus/AuthStatusProvider'
 import classNames from 'classnames'
 import './Login.scss'
+import * as EmailValidator from 'email-validator'
 // React.useContext()
 
 const Copyright = (props: any) => {
@@ -39,10 +40,20 @@ const SignInSide = () => {
   const [signInOpen, setsignInOpen] = React.useState<boolean>(true)
   const [signUpOpen, setsignUpOpen] = React.useState<boolean>(false)
   const [verifyOpen, setverifyOpen] = React.useState<boolean>(false)
+  const [registerEmail, setregisterEmail] = React.useState<string>('')
+  const [isEmailValid, setisEmailValid] = React.useState<boolean>(false)
+  const [emailHelperText, setemailHelperText] = React.useState<string>('')
 
   React.useEffect(() => {
     localStorage.removeItem('token')
   }, [])
+
+  React.useEffect(() => {
+    if (registerEmail.length === 0) {
+      setemailHelperText('')
+      console.log('aaaaaaaaaaaaa')
+    }
+  }, [registerEmail])
 
   const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -96,6 +107,20 @@ const SignInSide = () => {
     setsignUpOpen(prev => !prev)
   }
 
+  const handleRegisterEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setregisterEmail(event.target.value)
+  }
+
+  const handleValidateEmail = () => {
+    const isEmailValid = EmailValidator.validate(registerEmail)
+    setisEmailValid(isEmailValid)
+    if (isEmailValid || registerEmail.length === 0) {
+      setemailHelperText('')
+    } else {
+      setemailHelperText('email格式不正確')
+    }
+  }
+
   return (
     <Grid container component="main" sx={{ height: '100vh' }} className='login-page'>
       <CssBaseline />
@@ -113,6 +138,7 @@ const SignInSide = () => {
 
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
 
+        {/* 登入頁面 */}
         <Box
           sx={{
             my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center'
@@ -161,6 +187,7 @@ const SignInSide = () => {
           </Box>
         </Box>
 
+        {/* 註冊頁面 */}
         <Box
           sx={{
             my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center'
@@ -181,7 +208,11 @@ const SignInSide = () => {
           <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 1 }}>
 
             <TextField
-              margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus
+              margin="normal" required fullWidth id="email" label="Email Address"
+              name="email" autoComplete="email" autoFocus value={registerEmail}
+              onChange={handleRegisterEmailChange} onBlur={handleValidateEmail}
+              error={!isEmailValid && registerEmail.length !== 0}
+              helperText={emailHelperText}
             />
 
             <TextField
@@ -219,6 +250,7 @@ const SignInSide = () => {
           </Box>
         </Box>
 
+        {/* 驗證信頁面 */}
         <Box
           sx={{
             my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center'
