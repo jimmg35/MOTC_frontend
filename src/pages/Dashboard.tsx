@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
-import Badge from '@mui/material/Badge'
+// import Badge from '@mui/material/Badge'
 import Avatar from '@mui/material/Avatar'
 import Toolbar from '@mui/material/Toolbar'
 import Divider from '@mui/material/Divider'
@@ -16,16 +16,18 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import MenuIcon from '@mui/icons-material/Menu'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import AssignmentIcon from '@mui/icons-material/Assignment'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import AccountTreeIcon from '@mui/icons-material/AccountTree'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import NotificationsIcon from '@mui/icons-material/Notifications'
+// import NotificationsIcon from '@mui/icons-material/Notifications'
 import UserProfile from '../common/Dashboard/subPages/UserProfile'
 import MainBoard from '../common/Dashboard/subPages/MainBoard'
 import SecondBoard from '../common/Dashboard/subPages/SecondBoard'
 import './Dashboard.scss'
-import RemySharp from '../assets/RemySharp.jpg'
+import { useNavigate } from 'react-router-dom'
+import { authStatusContext } from '../routes/AuthStatus/AuthStatusProvider'
 
 // const Copyright = (props: any) => {
 //   return (
@@ -39,11 +41,6 @@ import RemySharp from '../assets/RemySharp.jpg'
 //     </Typography>
 //   )
 // }
-
-const fakeUser = {
-  username: 'Remy Sharp',
-  photo: RemySharp
-}
 
 const drawerWidth: number = 240
 
@@ -95,13 +92,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   })
 )
 
-// const darkTheme = createTheme({
-//   palette: {
-//     mode: 'dark'
-//   }
-// })
-
 const DashboardContent = () => {
+  const navigate = useNavigate()
+  const authStatus = React.useContext(authStatusContext)
   const [open, setOpen] = React.useState(false)
   const [profileOpen, setprofileOpen] = React.useState(false)
   const [mainDashOpen, setmainDashOpen] = React.useState(true)
@@ -126,6 +119,16 @@ const DashboardContent = () => {
     setprofileOpen(false)
     setmainDashOpen(false)
     setsecondDashOpen(true)
+  }
+
+  const handleBack2PrePage = () => {
+    navigate('/')
+  }
+
+  const handleLogOut = () => {
+    authStatus.isAuthenticated = false
+    localStorage.removeItem('token')
+    navigate('/login')
   }
 
   return (
@@ -158,10 +161,13 @@ const DashboardContent = () => {
           >
             感測器資料中心
           </Typography>
-          <IconButton color="inherit">
+          {/* <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
+          </IconButton> */}
+          <IconButton onClick={handleBack2PrePage}>
+            <ArrowBackIcon style={{ fill: 'white' }} />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -188,12 +194,12 @@ const DashboardContent = () => {
             <ListItem button onClick={() => { handleUserProfileClick() }}>
               <ListItemIcon>
                 <Avatar
-                  src={fakeUser.photo}
-                  alt={fakeUser.username}
+                  src={authStatus.userInfo?.username}
+                  alt={authStatus.userInfo?.username}
                   sx={{ width: 26, height: 26 }}
                 />
               </ListItemIcon>
-              <ListItemText primary={`Hi！ ${fakeUser.username}`} />
+              <ListItemText primary={`Hi！ ${authStatus.userInfo?.username}`} />
             </ListItem>
           </div>
         </List>
@@ -223,23 +229,11 @@ const DashboardContent = () => {
         {/* 其他選項 */}
         <List>
           <div>
-            <ListItem button>
+            <ListItem button onClick={handleLogOut}>
               <ListItemIcon>
-                <AssignmentIcon style={{ fill: 'white' }} />
+                <ExitToAppIcon style={{ fill: 'white' }} />
               </ListItemIcon>
-              <ListItemText primary="Current month" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon style={{ fill: 'white' }} />
-              </ListItemIcon>
-              <ListItemText primary="Last quarter" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon style={{ fill: 'white' }} />
-              </ListItemIcon>
-              <ListItemText primary="Year-end sale" />
+              <ListItemText primary="Log out" />
             </ListItem>
           </div>
         </List>

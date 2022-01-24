@@ -57,8 +57,8 @@ const Header = () => {
   }
 
   const handleDataCenterClick = () => {
+    arcGis.realTimeController?.stop()
     navigate('/dashboard')
-    console.log('/dashboard')
   }
 
   return (

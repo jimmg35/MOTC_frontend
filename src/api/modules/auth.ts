@@ -8,7 +8,7 @@ export const authenticateUser = async (user: User) => {
   }
   const response = await fetch(`${authServiceApiConfig.serverString}/api/Auth/authenticate`, {
     method: 'POST',
-    body: `username=${user.username}&password=${user.password}`,
+    body: `email=${user.email}&password=${user.password}`,
     headers: headersList
   })
   return response
