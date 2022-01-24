@@ -126,6 +126,7 @@ const DashboardContent = () => {
   }
 
   const handleLogOut = () => {
+    authStatus.isAuthenticated = false
     localStorage.removeItem('token')
     navigate('/login')
   }
