@@ -7,7 +7,7 @@ export interface IApiConfigParam {
   port: string
 }
 
-class ApiConfig {
+export default class ApiConfig {
   protocol: 'http' | 'https'
   domain: string
   port: string
@@ -21,8 +21,14 @@ class ApiConfig {
   }
 }
 
-export default new ApiConfig({
+export const airServiceApiConfig = new ApiConfig({
   protocol: 'http',
   domain: '140.122.82.98',
   port: '82'
+})
+
+export const authServiceApiConfig = new ApiConfig({
+  protocol: 'http',
+  domain: '140.122.82.98',
+  port: '86'
 })

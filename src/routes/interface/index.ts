@@ -3,4 +3,5 @@ export interface RouteItem {
     component: React.ElementType
     routes?: Array<RouteItem>
     exact?: boolean
+    protected: boolean
 }

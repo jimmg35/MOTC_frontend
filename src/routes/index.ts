@@ -19,14 +19,10 @@ const LogIn = Loadable({
 })
 
 const routes: Array<RouteItem> = [
-  { path: '/', exact: true, component: Home },
-  { path: '/login', exact: true, component: LogIn },
-  { path: '/dashboard', exact: true, component: Dashboard },
-  { path: '/loading', exact: true, component: Loading }
-]
-
-export const dashboardRoutes: Array<RouteItem> = [
-  { path: '/dashboard/loading', exact: true, component: Loading }
+  { path: '/', exact: true, component: Home, protected: true },
+  { path: '/login', exact: true, component: LogIn, protected: false },
+  { path: '/dashboard', exact: true, component: Dashboard, protected: true },
+  { path: '/loading', exact: true, component: Loading, protected: true }
 ]
 
 export default routes
