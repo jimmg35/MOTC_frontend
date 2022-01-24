@@ -1,0 +1,12 @@
+.login-page {
+    .sign-in {
+        &.hide {
+            display: none;
+        }
+    }
+    .sign-up {
+        &.hide {
+            display: none;
+        }
+    }
+}

@@ -10,12 +10,14 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined'
 import Typography from '@mui/material/Typography'
 import api from '../api'
 import { User } from '../api/DTO/User'
 import { useNavigate } from 'react-router-dom'
 import { authStatusContext } from '../routes/AuthStatus/AuthStatusProvider'
-
+import classNames from 'classnames'
+import './Login.scss'
 // React.useContext()
 
 const Copyright = (props: any) => {
@@ -34,12 +36,14 @@ const Copyright = (props: any) => {
 const SignInSide = () => {
   const authStatus = React.useContext(authStatusContext)
   const navigate = useNavigate()
+  const [signInOpen, setsignInOpen] = React.useState<boolean>(true)
+  const [signUpOpen, setsignUpOpen] = React.useState<boolean>(false)
 
   React.useEffect(() => {
     localStorage.removeItem('token')
   }, [])
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     if (data.get('password') !== null && data.get('email') !== null) {
@@ -58,8 +62,19 @@ const SignInSide = () => {
     }
   }
 
+  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    console.log(data)
+  }
+
+  const handleSignUpOpen = () => {
+    setsignInOpen(prev => !prev)
+    setsignUpOpen(prev => !prev)
+  }
+
   return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
+    <Grid container component="main" sx={{ height: '100vh' }} className='login-page'>
       <CssBaseline />
 
       <Grid item xs={false} sm={4} md={7}
@@ -74,69 +89,113 @@ const SignInSide = () => {
       />
 
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+
         <Box
           sx={{
-            my: 8,
-            mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
+            my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center'
           }}
+          className={
+            classNames({ 'sign-in': true }, { hide: !signInOpen })
+          }
         >
+
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
+
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+
+          <Box component="form" noValidate onSubmit={handleSignIn} sx={{ mt: 1 }}>
             <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
+              margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus
             />
             <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password"
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
             <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
             >
               Sign In
             </Button>
+
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  {'Forgot password?'}
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <p onClick={handleSignUpOpen}>
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </p>
               </Grid>
             </Grid>
+
             <Copyright sx={{ mt: 5 }} />
+
           </Box>
         </Box>
+
+        <Box
+          sx={{
+            my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center'
+          }}
+          className={
+            classNames({ 'sign-up': true }, { hide: !signUpOpen })
+          }
+        >
+
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <HowToRegOutlinedIcon />
+          </Avatar>
+
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+
+          <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 1 }}>
+
+            <TextField
+              margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus
+            />
+
+            <TextField
+              margin="normal" required fullWidth id="username" label="Username" name="username" autoComplete="username" autoFocus
+            />
+
+            <TextField
+              margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password"
+            />
+
+            <TextField
+              margin="normal" required fullWidth name="confirm-password" label="Confirm password" type="confirm-password" id="confirm-password" autoComplete="confirm-password"
+            />
+
+            <TextField
+              margin="normal" required fullWidth name="phonenumber" label="Phone number" type="phonenumber" id="phonenumber" autoComplete="phonenumber"
+            />
+
+            <Button
+              type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
+            >
+              Register
+            </Button>
+
+            <Grid container>
+              <Grid item>
+                <a onClick={handleSignUpOpen}>
+                  {'Already have an account? Sign In'}
+                </a>
+              </Grid>
+            </Grid>
+
+            <Copyright sx={{ mt: 5 }} />
+
+          </Box>
+        </Box>
+
       </Grid>
 
     </Grid>
