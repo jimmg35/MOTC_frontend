@@ -34,6 +34,25 @@ const Copyright = (props: any) => {
   )
 }
 
+const isUserNameValid = (username: string) => {
+  /*
+    Usernames can only have:
+    - Lowercase Letters (a-z)
+    - Numbers (0-9)
+    - Dots (.)
+    - Underscores (_)
+  */
+  const res = /^[a-z0-9_]+$/.exec(username)
+  const valid = !!res
+  if (username.length < 6) {
+    return false
+  }
+  if (/^\d/.test(username)) {
+    return false
+  }
+  return valid
+}
+
 const SignInSide = () => {
   const authStatus = React.useContext(authStatusContext)
   const navigate = useNavigate()
@@ -43,6 +62,9 @@ const SignInSide = () => {
   const [registerEmail, setregisterEmail] = React.useState<string>('')
   const [isEmailValid, setisEmailValid] = React.useState<boolean>(false)
   const [emailHelperText, setemailHelperText] = React.useState<string>('')
+  const [registerUsername, setregisterUsername] = React.useState<string>('')
+  const [isUsernameValid, setisUsernameValid] = React.useState<boolean>(false)
+  const [usernameHelperText, setusernameHelperText] = React.useState<string>('')
 
   React.useEffect(() => {
     localStorage.removeItem('token')
@@ -51,7 +73,6 @@ const SignInSide = () => {
   React.useEffect(() => {
     if (registerEmail.length === 0) {
       setemailHelperText('')
-      console.log('aaaaaaaaaaaaa')
     }
   }, [registerEmail])
 
@@ -118,6 +139,20 @@ const SignInSide = () => {
       setemailHelperText('')
     } else {
       setemailHelperText('email格式不正確')
+    }
+  }
+
+  const handleRegisterUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setregisterUsername(event.target.value)
+  }
+
+  const handleValidateUsername = () => {
+    const isUsernameValid = isUserNameValid(registerUsername)
+    setisUsernameValid(isUsernameValid)
+    if (isUsernameValid || registerUsername.length === 0) {
+      setusernameHelperText('')
+    } else {
+      setusernameHelperText('需大於5個字元，不可數字開頭')
     }
   }
 
@@ -216,7 +251,11 @@ const SignInSide = () => {
             />
 
             <TextField
-              margin="normal" required fullWidth id="username" label="Username" name="username" autoComplete="username" autoFocus
+              margin="normal" required fullWidth id="username" label="Username"
+              name="username" autoComplete="username" autoFocus value={registerUsername}
+              onChange={handleRegisterUsernameChange} onBlur={handleValidateUsername}
+              error={!isUsernameValid && registerUsername.length !== 0}
+              helperText={usernameHelperText}
             />
 
             <TextField
