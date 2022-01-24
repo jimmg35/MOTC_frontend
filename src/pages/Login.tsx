@@ -38,6 +38,7 @@ const SignInSide = () => {
   const navigate = useNavigate()
   const [signInOpen, setsignInOpen] = React.useState<boolean>(true)
   const [signUpOpen, setsignUpOpen] = React.useState<boolean>(false)
+  const [verifyOpen, setverifyOpen] = React.useState<boolean>(false)
 
   React.useEffect(() => {
     localStorage.removeItem('token')
@@ -66,6 +67,28 @@ const SignInSide = () => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     console.log(data)
+    // data.get('email') !== null && data.get('email') !== null && data.get('email') !== null && data.get('email') !== null
+    if (data) {
+      // const response = await api.user.registerUser(
+      //   new RegisterUser({
+      //     email: data.get('email') as string,
+      //     username: data.get('username') as string,
+      //     password: data.get('password') as string,
+      //     phoneNumber: data.get('phonenumber') as string
+      //   })
+      // ) response.status === 200
+      if (data) {
+        // const content = await response.json()
+        // console.log(content)
+        setverifyOpen(true)
+        setsignUpOpen(false)
+      }
+    }
+  }
+
+  const handleContinueSignIn = async () => {
+    setverifyOpen(false)
+    setsignInOpen(true)
   }
 
   const handleSignUpOpen = () => {
@@ -170,7 +193,7 @@ const SignInSide = () => {
             />
 
             <TextField
-              margin="normal" required fullWidth name="confirm-password" label="Confirm password" type="confirm-password" id="confirm-password" autoComplete="confirm-password"
+              margin="normal" required fullWidth name="confirm-password" label="Confirm password" type="password" id="confirm-password" autoComplete="current-password"
             />
 
             <TextField
@@ -190,6 +213,36 @@ const SignInSide = () => {
                 </a>
               </Grid>
             </Grid>
+
+            <Copyright sx={{ mt: 5 }} />
+
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center'
+          }}
+          className={
+            classNames({ 'verify-email': true }, { hide: !verifyOpen })
+          }
+        >
+
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <HowToRegOutlinedIcon />
+          </Avatar>
+
+          <Typography component="h1" variant="h5">
+            Verification mail sent!
+          </Typography>
+
+          <Box component="form" noValidate onSubmit={handleContinueSignIn} sx={{ mt: 1 }}>
+
+            <Button
+              type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
+            >
+              Log In!
+            </Button>
 
             <Copyright sx={{ mt: 5 }} />
 

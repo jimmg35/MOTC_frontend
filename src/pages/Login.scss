@@ -9,4 +9,9 @@
             display: none;
         }
     }
+    .verify-email {
+        &.hide {
+            display: none;
+        }
+    }
 }
