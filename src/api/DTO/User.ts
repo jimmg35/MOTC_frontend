@@ -1,16 +1,16 @@
 /* eslint-disable */
 
 export interface IUser {
-  username: string
+  email: string
   password: string
 }
 
 export class User {
-  username: string
+  email: string
   password: string
 
   constructor(options: IUser) {
-    this.username = options.username
+    this.email = options.email
     this.password = options.password
   }
 

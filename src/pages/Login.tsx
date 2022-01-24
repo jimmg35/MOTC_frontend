@@ -38,10 +38,10 @@ const SignInSide = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    if (data.get('password') !== null && data.get('username') !== null) {
+    if (data.get('password') !== null && data.get('email') !== null) {
       const response = await api.auth.authenticateUser(
         new User({
-          username: data.get('username') as string,
+          email: data.get('email') as string,
           password: data.get('password') as string
         })
       )
@@ -90,10 +90,10 @@ const SignInSide = () => {
               margin="normal"
               required
               fullWidth
-              id="username"
+              id="email"
               label="Email Address"
-              name="username"
-              autoComplete="username"
+              name="email"
+              autoComplete="email"
               autoFocus
             />
             <TextField
