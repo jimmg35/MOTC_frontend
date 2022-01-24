@@ -28,7 +28,7 @@ export const airServiceApiConfig = new ApiConfig({
 })
 
 export const authServiceApiConfig = new ApiConfig({
-  protocol: 'https',
-  domain: 'localhost',
-  port: '85'
+  protocol: 'http',
+  domain: '140.122.82.98',
+  port: '86'
 })

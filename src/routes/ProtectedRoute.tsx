@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
+import { authStatusContext } from './AuthStatus/AuthStatusProvider'
 
 const ProtectedRoute = () => {
-  // const isAuthenticated = localStorage.getItem('isAuthenticated')
-  // console.log('this', isAuthenticated)
-  // alert('AAAAAAAAAAAAAaa')
-  const isAuthenticated = false
-
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />
+  const authStatus = useContext(authStatusContext)
+  authStatus.authenticateToken(localStorage.getItem('token') as string)
+  // alert(authStatus.isAuthenticated)
+  // alert(authStatus.isAuthenticated + ' route')
+  return authStatus.isAuthenticated ? <Outlet /> : <Navigate to="/login" />
 }
 
 export default ProtectedRoute

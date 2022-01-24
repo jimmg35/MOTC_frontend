@@ -14,6 +14,9 @@ import Typography from '@mui/material/Typography'
 import api from '../api'
 import { User } from '../api/DTO/User'
 import { useNavigate } from 'react-router-dom'
+import { authStatusContext } from '../routes/AuthStatus/AuthStatusProvider'
+
+// React.useContext()
 
 const Copyright = (props: any) => {
   return (
@@ -28,9 +31,8 @@ const Copyright = (props: any) => {
   )
 }
 
-// const theme = createTheme()
-
 const SignInSide = () => {
+  const authStatus = React.useContext(authStatusContext)
   const navigate = useNavigate()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -44,9 +46,10 @@ const SignInSide = () => {
         })
       )
       if (response.status === 200) {
-        // localStorage.setItem('token', response['token'] as string)
-        console.log(await response.json())
-        navigate('../')
+        const content = await response.json()
+        localStorage.setItem('token', content.token)
+        await authStatus.authenticateToken(content.token)
+        navigate('/', { replace: true })
       }
     }
   }
@@ -131,6 +134,7 @@ const SignInSide = () => {
           </Box>
         </Box>
       </Grid>
+
     </Grid>
   )
 }

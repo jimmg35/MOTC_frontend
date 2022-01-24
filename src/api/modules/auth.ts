@@ -13,3 +13,16 @@ export const authenticateUser = async (user: User) => {
   })
   return response
 }
+
+export const validateToken = async (token: string) => {
+  const headersList = {
+    Accept: '*/*',
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+  const response = await fetch(`${authServiceApiConfig.serverString}/api/Auth/validate`, {
+    method: 'POST',
+    body: `token=${token}`,
+    headers: headersList
+  })
+  return response
+}
