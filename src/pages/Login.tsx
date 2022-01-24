@@ -35,6 +35,10 @@ const SignInSide = () => {
   const authStatus = React.useContext(authStatusContext)
   const navigate = useNavigate()
 
+  React.useEffect(() => {
+    localStorage.removeItem('token')
+  }, [])
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)

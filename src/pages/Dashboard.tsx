@@ -26,8 +26,8 @@ import UserProfile from '../common/Dashboard/subPages/UserProfile'
 import MainBoard from '../common/Dashboard/subPages/MainBoard'
 import SecondBoard from '../common/Dashboard/subPages/SecondBoard'
 import './Dashboard.scss'
-import RemySharp from '../assets/RemySharp.jpg'
 import { useNavigate } from 'react-router-dom'
+import { authStatusContext } from '../routes/AuthStatus/AuthStatusProvider'
 
 // const Copyright = (props: any) => {
 //   return (
@@ -41,11 +41,6 @@ import { useNavigate } from 'react-router-dom'
 //     </Typography>
 //   )
 // }
-
-const fakeUser = {
-  username: 'Remy Sharp',
-  photo: RemySharp
-}
 
 const drawerWidth: number = 240
 
@@ -97,14 +92,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   })
 )
 
-// const darkTheme = createTheme({
-//   palette: {
-//     mode: 'dark'
-//   }
-// })
-
 const DashboardContent = () => {
   const navigate = useNavigate()
+  const authStatus = React.useContext(authStatusContext)
   const [open, setOpen] = React.useState(false)
   const [profileOpen, setprofileOpen] = React.useState(false)
   const [mainDashOpen, setmainDashOpen] = React.useState(true)
@@ -203,12 +193,12 @@ const DashboardContent = () => {
             <ListItem button onClick={() => { handleUserProfileClick() }}>
               <ListItemIcon>
                 <Avatar
-                  src={fakeUser.photo}
-                  alt={fakeUser.username}
+                  src={authStatus.userInfo?.username}
+                  alt={authStatus.userInfo?.username}
                   sx={{ width: 26, height: 26 }}
                 />
               </ListItemIcon>
-              <ListItemText primary={`Hi！ ${fakeUser.username}`} />
+              <ListItemText primary={`Hi！ ${authStatus.userInfo?.username}`} />
             </ListItem>
           </div>
         </List>
