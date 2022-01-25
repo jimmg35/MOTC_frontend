@@ -53,6 +53,29 @@ const isUserNameValid = (username: string) => {
   return valid
 }
 
+const isPassWordValid = (password: string) => {
+  /*
+    Usernames can only have:
+    - Lowercase Letters (a-z)
+    - Numbers (0-9)
+    - Dots (.)
+    - Underscores (_)
+  */
+  const res = /^[a-z0-9_]+$/.exec(password)
+  const valid = !!res
+  if (password.length < 8) {
+    return false
+  }
+  return valid
+}
+
+const isPassWordSame = (password: string, confirmPassword: string) => {
+  if (password === confirmPassword) {
+    return true
+  }
+  return false
+}
+
 const SignInSide = () => {
   const authStatus = React.useContext(authStatusContext)
   const navigate = useNavigate()
@@ -65,6 +88,13 @@ const SignInSide = () => {
   const [registerUsername, setregisterUsername] = React.useState<string>('')
   const [isUsernameValid, setisUsernameValid] = React.useState<boolean>(false)
   const [usernameHelperText, setusernameHelperText] = React.useState<string>('')
+  const [registerPassword, setregisterPassword] = React.useState<string>('')
+  const [isPasswordValid, setisPasswordValid] = React.useState<boolean>(false)
+  const [passowrdHelperText, setpassowrdHelperText] = React.useState<string>('')
+
+  const [confirmPassword, setconfirmPassword] = React.useState<string>('')
+  const [confirmHelperText, setconfirmHelperText] = React.useState<string>('')
+  // const [isPasswordSame, setisPasswordSame] = React.useState<boolean>(false)
 
   React.useEffect(() => {
     localStorage.removeItem('token')
@@ -153,6 +183,32 @@ const SignInSide = () => {
       setusernameHelperText('')
     } else {
       setusernameHelperText('需大於5個字元，不可數字開頭')
+    }
+  }
+
+  const handleRegisterPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setregisterPassword(event.target.value)
+  }
+
+  const handleValidatePassword = () => {
+    const isPasswordValid = isPassWordValid(registerPassword)
+    setisPasswordValid(isPasswordValid)
+    if (isPasswordValid || registerPassword.length === 0) {
+      setpassowrdHelperText('')
+    } else {
+      setpassowrdHelperText('需大於8個字元')
+    }
+  }
+
+  const handleConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setconfirmPassword(event.target.value)
+  }
+
+  const handleCheckPassword = () => {
+    if (isPassWordSame(registerPassword, confirmPassword)) {
+      setconfirmHelperText('')
+    } else {
+      setconfirmHelperText('密碼不一致')
     }
   }
 
@@ -259,11 +315,19 @@ const SignInSide = () => {
             />
 
             <TextField
-              margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password"
+              margin="normal" required fullWidth name="password" label="Password"
+              type="password" id="password" autoComplete="current-password" value={registerPassword}
+              onChange={handleRegisterPasswordChange} onBlur={handleValidatePassword}
+              error={!isPasswordValid && registerPassword.length !== 0}
+              helperText={passowrdHelperText}
             />
 
             <TextField
-              margin="normal" required fullWidth name="confirm-password" label="Confirm password" type="password" id="confirm-password" autoComplete="current-password"
+              margin="normal" required fullWidth name="confirm-password" label="Confirm password"
+              type="password" id="confirm-password" autoComplete="current-password" value={confirmPassword}
+              onChange={handleConfirmPasswordChange} onBlur={handleCheckPassword}
+              error={!isPassWordSame(registerPassword, confirmPassword) && confirmPassword.length !== 0}
+              helperText={confirmHelperText}
             />
 
             <TextField
