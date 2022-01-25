@@ -164,8 +164,14 @@ const SignInSide = () => {
       })
     ) //
     if (response.status === 200) {
-      setverifyOpen(true)
-      setsignUpOpen(false)
+      const response = await api.user.sendVerifyEmail(data.get('username') as string)
+      if (response.status === 200) {
+        setverifyOpen(true)
+        setsignUpOpen(false)
+      } else {
+        setalertContent('驗證信寄送失敗，請聯繫server team')
+        setalertOpen(true)
+      }
     } else {
       setalertContent('註冊失敗，請聯繫server team')
       setalertOpen(true)
@@ -254,7 +260,6 @@ const SignInSide = () => {
 
   const handleCheckEmailExist = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const response = await api.user.isEmailUsed(event.target.value)
-    console.log(event.target.value)
     if (response.status === 200) {
       setisLoginEmailExist(true)
       setloginEmailHelperText('')
