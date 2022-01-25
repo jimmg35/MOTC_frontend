@@ -32,3 +32,9 @@ export const authServiceApiConfig = new ApiConfig({
   domain: 'localhost',
   port: '85'
 })
+
+export const userServiceApiConfig = new ApiConfig({
+  protocol: 'http',
+  domain: 'localhost',
+  port: '85'
+})

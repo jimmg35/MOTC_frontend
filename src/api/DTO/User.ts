@@ -13,5 +13,26 @@ export class User {
     this.email = options.email
     this.password = options.password
   }
+}
+
+export interface IRegisterUser {
+  email: string
+  username: string
+  password: string
+  phoneNumber: string
+}
+
+export class RegisterUser {
+  email: string
+  username: string
+  password: string
+  phoneNumber: string
+
+  constructor(options: IRegisterUser) {
+    this.email = options.email
+    this.username = options.username
+    this.password = options.password
+    this.phoneNumber = options.phoneNumber
+  }
 
 }
