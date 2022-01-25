@@ -4,7 +4,8 @@ import { RegisterUser } from '../DTO/User'
 export const registerUser = async (registerInfo: RegisterUser) => {
   const headersList = {
     Accept: '*/*',
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Access-Control-Allow-Origin': '*'
   }
   const response = await fetch(`${userServiceApiConfig.serverString}/api/User/register`, {
     method: 'POST',
@@ -16,7 +17,8 @@ export const registerUser = async (registerInfo: RegisterUser) => {
 
 export const isUserExist = async (username: string) => {
   const headersList = {
-    Accept: '*/*'
+    Accept: '*/*',
+    'Access-Control-Allow-Origin': '*'
   }
   const response = await fetch(`${userServiceApiConfig.serverString}/api/User/isUserExists?username=${username}`, {
     method: 'GET',
@@ -27,9 +29,22 @@ export const isUserExist = async (username: string) => {
 
 export const isEmailUsed = async (email: string) => {
   const headersList = {
-    Accept: '*/*'
+    Accept: '*/*',
+    'Access-Control-Allow-Origin': '*'
   }
   const response = await fetch(`${userServiceApiConfig.serverString}/api/User/isEmailUsed?email=${email}`, {
+    method: 'GET',
+    headers: headersList
+  })
+  return response
+}
+
+export const sendVerifyEmail = async (username: string) => {
+  const headersList = {
+    Accept: '*/*',
+    'Access-Control-Allow-Origin': '*'
+  }
+  const response = await fetch(`${userServiceApiConfig.serverString}/api/User/sendVerifyEmail?username=${username}`, {
     method: 'GET',
     headers: headersList
   })
