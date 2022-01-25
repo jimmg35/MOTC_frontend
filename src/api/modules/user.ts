@@ -13,3 +13,25 @@ export const registerUser = async (registerInfo: RegisterUser) => {
   })
   return response
 }
+
+export const isUserExist = async (username: string) => {
+  const headersList = {
+    Accept: '*/*'
+  }
+  const response = await fetch(`${userServiceApiConfig.serverString}/api/User/isUserExists?username=${username}`, {
+    method: 'GET',
+    headers: headersList
+  })
+  return response
+}
+
+export const isEmailUsed = async (email: string) => {
+  const headersList = {
+    Accept: '*/*'
+  }
+  const response = await fetch(`${userServiceApiConfig.serverString}/api/User/isEmailUsed?email=${email}`, {
+    method: 'GET',
+    headers: headersList
+  })
+  return response
+}

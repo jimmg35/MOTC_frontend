@@ -19,6 +19,11 @@ import { authStatusContext } from '../routes/AuthStatus/AuthStatusProvider'
 import classNames from 'classnames'
 import './Login.scss'
 import * as EmailValidator from 'email-validator'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 // React.useContext()
 
 const Copyright = (props: any) => {
@@ -82,20 +87,27 @@ const SignInSide = () => {
   const [signInOpen, setsignInOpen] = React.useState<boolean>(true)
   const [signUpOpen, setsignUpOpen] = React.useState<boolean>(false)
   const [verifyOpen, setverifyOpen] = React.useState<boolean>(false)
+
   const [registerEmail, setregisterEmail] = React.useState<string>('')
   const [isEmailValid, setisEmailValid] = React.useState<boolean>(false)
   const [emailHelperText, setemailHelperText] = React.useState<string>('')
+  const [isEmailUsed, setisEmailUsed] = React.useState<boolean>(false)
+
   const [registerUsername, setregisterUsername] = React.useState<string>('')
   const [isUsernameValid, setisUsernameValid] = React.useState<boolean>(false)
   const [usernameHelperText, setusernameHelperText] = React.useState<string>('')
+  const [isUserNameExists, setisUserNameExists] = React.useState<boolean>(false)
+
   const [registerPassword, setregisterPassword] = React.useState<string>('')
   const [isPasswordValid, setisPasswordValid] = React.useState<boolean>(false)
   const [passowrdHelperText, setpassowrdHelperText] = React.useState<string>('')
 
   const [confirmPassword, setconfirmPassword] = React.useState<string>('')
   const [confirmHelperText, setconfirmHelperText] = React.useState<string>('')
-  // const [isPasswordSame, setisPasswordSame] = React.useState<boolean>(false)
 
+  const [phoneNumber, setphoneNumber] = React.useState<string>('')
+
+  const [alertOpen, setalertOpen] = React.useState<boolean>(false)
   React.useEffect(() => {
     localStorage.removeItem('token')
   }, [])
@@ -127,8 +139,13 @@ const SignInSide = () => {
 
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    const isFormValid = isEmailValid && isUsernameValid && isPasswordValid && isPassWordSame(registerPassword, confirmPassword) && phoneNumber.length !== 0
+    if (!isFormValid) {
+      setalertOpen(true)
+      return
+    }
     const data = new FormData(event.currentTarget)
-    console.log(data)
     // data.get('email') !== null && data.get('email') !== null && data.get('email') !== null && data.get('email') !== null
     if (data) {
       // const response = await api.user.registerUser(
@@ -162,12 +179,18 @@ const SignInSide = () => {
     setregisterEmail(event.target.value)
   }
 
-  const handleValidateEmail = () => {
+  const handleValidateEmail = async () => {
     const isEmailValid = EmailValidator.validate(registerEmail)
     setisEmailValid(isEmailValid)
-    if (isEmailValid || registerEmail.length === 0) {
+    const response = await api.user.isEmailUsed(registerEmail)
+    if ((isEmailValid && response.status === 404) || registerEmail.length === 0) {
+      setisEmailUsed(false)
       setemailHelperText('')
+    } else if (response.status === 200) {
+      setisEmailUsed(true)
+      setemailHelperText('email已被使用過')
     } else {
+      setisEmailUsed(true)
       setemailHelperText('email格式不正確')
     }
   }
@@ -176,12 +199,18 @@ const SignInSide = () => {
     setregisterUsername(event.target.value)
   }
 
-  const handleValidateUsername = () => {
+  const handleValidateUsername = async () => {
     const isUsernameValid = isUserNameValid(registerUsername)
     setisUsernameValid(isUsernameValid)
-    if (isUsernameValid || registerUsername.length === 0) {
+    const response = await api.user.isUserExist(registerUsername)
+    if ((isUsernameValid && response.status === 404) || registerUsername.length === 0) {
+      setisUserNameExists(false)
       setusernameHelperText('')
+    } else if (response.status === 200) {
+      setisUserNameExists(true)
+      setusernameHelperText('帳號已存在')
     } else {
+      setisUserNameExists(true)
       setusernameHelperText('需大於5個字元，不可數字開頭')
     }
   }
@@ -210,6 +239,10 @@ const SignInSide = () => {
     } else {
       setconfirmHelperText('密碼不一致')
     }
+  }
+
+  const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setphoneNumber(event.target.value)
   }
 
   return (
@@ -302,7 +335,7 @@ const SignInSide = () => {
               margin="normal" required fullWidth id="email" label="Email Address"
               name="email" autoComplete="email" autoFocus value={registerEmail}
               onChange={handleRegisterEmailChange} onBlur={handleValidateEmail}
-              error={!isEmailValid && registerEmail.length !== 0}
+              error={(!isEmailValid || isEmailUsed) && registerEmail.length !== 0}
               helperText={emailHelperText}
             />
 
@@ -310,7 +343,7 @@ const SignInSide = () => {
               margin="normal" required fullWidth id="username" label="Username"
               name="username" autoComplete="username" autoFocus value={registerUsername}
               onChange={handleRegisterUsernameChange} onBlur={handleValidateUsername}
-              error={!isUsernameValid && registerUsername.length !== 0}
+              error={(!isUsernameValid || isUserNameExists) && registerUsername.length !== 0}
               helperText={usernameHelperText}
             />
 
@@ -331,7 +364,9 @@ const SignInSide = () => {
             />
 
             <TextField
-              margin="normal" required fullWidth name="phonenumber" label="Phone number" type="phonenumber" id="phonenumber" autoComplete="phonenumber"
+              margin="normal" required fullWidth name="phonenumber" label="Phone number"
+              type="phonenumber" id="phonenumber" autoComplete="phonenumber" value={phoneNumber}
+              onChange={handlePhoneChange}
             />
 
             <Button
@@ -385,6 +420,27 @@ const SignInSide = () => {
         </Box>
 
       </Grid>
+
+      <Dialog
+        open={alertOpen}
+        onClose={() => { setalertOpen(prev => !prev) }}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'錯誤'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            請確認表格內容正確性
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={() => { setalertOpen(false) }}>
+            知道了
+          </Button>
+        </DialogActions>
+      </Dialog>
 
     </Grid>
   )
