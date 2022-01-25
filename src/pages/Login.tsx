@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined'
 import Typography from '@mui/material/Typography'
 import api from '../api'
-import { User } from '../api/DTO/User'
+import { User, RegisterUser } from '../api/DTO/User'
 import { useNavigate } from 'react-router-dom'
 import { authStatusContext } from '../routes/AuthStatus/AuthStatusProvider'
 import classNames from 'classnames'
@@ -24,6 +24,8 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
+import util from 'tweetnacl-util'
+import sha256 from 'fast-sha256'
 // React.useContext()
 
 const Copyright = (props: any) => {
@@ -66,7 +68,7 @@ const isPassWordValid = (password: string) => {
     - Dots (.)
     - Underscores (_)
   */
-  const res = /^[a-z0-9_]+$/.exec(password)
+  const res = /^[a-z0-9A-Z_]+$/.exec(password)
   const valid = !!res
   if (password.length < 8) {
     return false
@@ -108,6 +110,12 @@ const SignInSide = () => {
   const [phoneNumber, setphoneNumber] = React.useState<string>('')
 
   const [alertOpen, setalertOpen] = React.useState<boolean>(false)
+  const [alertContent, setalertContent] = React.useState<string>('')
+
+  // const [loginEmail, setloginEmail] = React.useState<string>('')
+  const [isLoginEmailExist, setisLoginEmailExist] = React.useState<boolean>(false)
+  const [loginEmailHelperText, setloginEmailHelperText] = React.useState<string>('')
+
   React.useEffect(() => {
     localStorage.removeItem('token')
   }, [])
@@ -125,7 +133,7 @@ const SignInSide = () => {
       const response = await api.auth.authenticateUser(
         new User({
           email: data.get('email') as string,
-          password: data.get('password') as string
+          password: util.encodeBase64(sha256(data.get('password') as any))
         })
       )
       if (response.status === 200) {
@@ -139,36 +147,35 @@ const SignInSide = () => {
 
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
     const isFormValid = isEmailValid && isUsernameValid && isPasswordValid && isPassWordSame(registerPassword, confirmPassword) && phoneNumber.length !== 0
     if (!isFormValid) {
       setalertOpen(true)
+      setalertContent('請確認表格內容正確性')
       return
     }
+
     const data = new FormData(event.currentTarget)
-    // data.get('email') !== null && data.get('email') !== null && data.get('email') !== null && data.get('email') !== null
-    if (data) {
-      // const response = await api.user.registerUser(
-      //   new RegisterUser({
-      //     email: data.get('email') as string,
-      //     username: data.get('username') as string,
-      //     password: data.get('password') as string,
-      //     phoneNumber: data.get('phonenumber') as string
-      //   })
-      // ) response.status === 200
-      if (data) {
-        // const content = await response.json()
-        // console.log(content)
-        setverifyOpen(true)
-        setsignUpOpen(false)
-      }
+    const response = await api.user.registerUser(
+      new RegisterUser({
+        email: data.get('email') as string,
+        username: data.get('username') as string,
+        password: util.encodeBase64(sha256(data.get('password') as any)),
+        phoneNumber: data.get('phonenumber') as string
+      })
+    ) //
+    if (response.status === 200) {
+      setverifyOpen(true)
+      setsignUpOpen(false)
+    } else {
+      setalertContent('註冊失敗，請聯繫server team')
+      setalertOpen(true)
     }
   }
 
-  const handleContinueSignIn = async () => {
-    setverifyOpen(false)
-    setsignInOpen(true)
-  }
+  // const handleContinueSignIn = async () => {
+  //   setverifyOpen(false)
+  //   setsignInOpen(true)
+  // }
 
   const handleSignUpOpen = () => {
     setsignInOpen(prev => !prev)
@@ -245,6 +252,18 @@ const SignInSide = () => {
     setphoneNumber(event.target.value)
   }
 
+  const handleCheckEmailExist = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const response = await api.user.isEmailUsed(event.target.value)
+    console.log(event.target.value)
+    if (response.status === 200) {
+      setisLoginEmailExist(true)
+      setloginEmailHelperText('')
+    } else {
+      setisLoginEmailExist(false)
+      setloginEmailHelperText('帳號不存在')
+    }
+  }
+
   return (
     <Grid container component="main" sx={{ height: '100vh' }} className='login-page'>
       <CssBaseline />
@@ -282,7 +301,9 @@ const SignInSide = () => {
 
           <Box component="form" noValidate onSubmit={handleSignIn} sx={{ mt: 1 }}>
             <TextField
-              margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus
+              margin="normal" required fullWidth id="email" label="Email Address"
+              name="email" autoComplete="email" autoFocus onChange={handleCheckEmailExist}
+              error={!isLoginEmailExist} helperText={loginEmailHelperText}
             />
             <TextField
               margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password"
@@ -403,24 +424,22 @@ const SignInSide = () => {
           </Avatar>
 
           <Typography component="h1" variant="h5">
-            Verification mail sent!
+            驗證信已寄至{registerEmail}，請前往收信。
           </Typography>
 
-          <Box component="form" noValidate onSubmit={handleContinueSignIn} sx={{ mt: 1 }}>
-
+          {/* <Box component="form" noValidate onSubmit={handleContinueSignIn} sx={{ mt: 1 }}>
             <Button
               type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
             >
               Log In!
             </Button>
-
             <Copyright sx={{ mt: 5 }} />
-
-          </Box>
+          </Box> */}
         </Box>
 
       </Grid>
 
+      {/* 警告popup */}
       <Dialog
         open={alertOpen}
         onClose={() => { setalertOpen(prev => !prev) }}
@@ -432,7 +451,7 @@ const SignInSide = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            請確認表格內容正確性
+            {alertContent}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
