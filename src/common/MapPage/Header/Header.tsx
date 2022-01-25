@@ -7,6 +7,7 @@ import {
   routeAnalysisDrawerContext
 } from '../../DrawerProvider'
 import './Header.scss'
+import { arcGisContext } from '../../../lib/MapProvider'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -16,20 +17,19 @@ const Header = () => {
     realTimeMonitorSethide,
     realTimeMonitorSetcontent
   } = useContext(realTimeMonitorDrawerContext)
-
   const {
     historyQueryHide,
     historyQuerySettitle,
     historyQuerySethide,
     historyQuerySetcontent
   } = useContext(historyQueryDrawerContext)
-
   const {
     routeAnalysisHide,
     routeAnalysisSettitle,
     routeAnalysisSethide,
     routeAnalysisSetcontent
   } = useContext(routeAnalysisDrawerContext)
+  const arcGis = useContext(arcGisContext)
 
   const handleDrawerOpen = (title: string) => {
     if (title === '空品即時監測') {
@@ -38,24 +38,27 @@ const Header = () => {
       historyQuerySethide(true)
       routeAnalysisSethide(true)
       realTimeMonitorSetcontent(undefined)
+      arcGis.realTimeController?.start()
     } else if (title === '歷史查詢') {
       historyQuerySettitle(title)
       historyQuerySethide(!historyQueryHide)
       realTimeMonitorSethide(true)
       routeAnalysisSethide(true)
       historyQuerySetcontent(undefined)
+      arcGis.realTimeController?.stop()
     } else {
       routeAnalysisSettitle(title)
       routeAnalysisSethide(!routeAnalysisHide)
       realTimeMonitorSethide(true)
       historyQuerySethide(true)
       routeAnalysisSetcontent(undefined)
+      arcGis.realTimeController?.stop()
     }
   }
 
   const handleDataCenterClick = () => {
+    arcGis.realTimeController?.stop()
     navigate('/dashboard')
-    console.log('/dashboard')
   }
 
   return (

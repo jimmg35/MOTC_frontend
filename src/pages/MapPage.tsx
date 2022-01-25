@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import './MapPage.scss'
 import Header from '../common/MapPage/Header'
 import {
@@ -10,15 +10,8 @@ import HistoryQueryDrawer from '../common/MapPage/HistoryQueryDrawer'
 import RealTimeMonitorDrawer from '../common/MapPage/RealTimeMonitorDrawer'
 import RouteAnalysisDrawer from '../common/MapPage/RouteAnalysisDrawer'
 import ArcGisContainer from '../common/MapPage/Map'
-import { arcGisContext } from '../lib/MapProvider'
 
 const MapPage = () => {
-  const context = useContext(arcGisContext)
-
-  useEffect(() => {
-    console.log(context.map)
-  }, [])
-
   return (
     <RealTimeMonitorDrawerProvider>
       <HistoryQueryDrawerProvider>
