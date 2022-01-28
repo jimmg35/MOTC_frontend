@@ -18,11 +18,17 @@ const LogIn = Loadable({
   loading: Loading
 })
 
+const PasswordReset = Loadable({
+  loader: () => import('../pages/PasswordReset'),
+  loading: Loading
+})
+
 const routes: Array<RouteItem> = [
   { path: '/', exact: true, component: Home, protected: true },
   { path: '/login', exact: true, component: LogIn, protected: false },
   { path: '/dashboard', exact: true, component: Dashboard, protected: true },
-  { path: '/loading', exact: true, component: Loading, protected: true }
+  { path: '/loading', exact: true, component: Loading, protected: true },
+  { path: '/passwordreset', exact: true, component: PasswordReset, protected: false }
 ]
 
 export default routes
