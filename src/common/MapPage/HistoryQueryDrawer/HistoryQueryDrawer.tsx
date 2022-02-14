@@ -18,6 +18,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DatePicker from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import Divider from '@mui/material/Divider'
+// import { arcGisContext } from '../../../lib/MapProvider'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -51,6 +52,7 @@ const getStyles = (name: string, personName: readonly string[], theme: Theme) =>
 
 const HistoryQueryDrawer = () => {
   const theme = useTheme()
+  // const arcGis = useContext(arcGisContext)
   const [startDateTime, setstartDateTime] = useState<Date>(new Date())
   const [endDateTime, setendDateTime] = useState<Date>(new Date())
   const [startTime, setstartTime] = useState<Date>(new Date())
@@ -97,11 +99,16 @@ const HistoryQueryDrawer = () => {
 
   const handleMobileIdSelect = (event: SelectChangeEvent) => {
     setdeviceId(event.target.value as string)
-    console.log(deviceId)
   }
 
   const handleQueryMobile = () => {
-
+    console.log(startDateTime)
+    console.log(endDateTime)
+    console.log(startTime)
+    console.log(endTime)
+    console.log(days)
+    console.log(excludeDates)
+    console.log(deviceId)
   }
 
   return (

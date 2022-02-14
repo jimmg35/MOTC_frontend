@@ -3,8 +3,8 @@ import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 
 export interface IController {
-	start: () => void
-	stop: () => void
+	// start: () => void
+	// stop: () => void
 }
 
 export interface IBaseControllerParam {
@@ -21,9 +21,9 @@ export default class BaseController implements IController {
 		this.mapView = options.mapView
 	}
 
-	public start = () => { }
+	// public start = () => { }
 
-	public stop = () => { }
+	// public stop = () => { }
 
 	protected _clearMap = () => {
 		this.map.removeAll()
