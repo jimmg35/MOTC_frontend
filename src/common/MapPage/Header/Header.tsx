@@ -38,26 +38,29 @@ const Header = () => {
       historyQuerySethide(true)
       routeAnalysisSethide(true)
       realTimeMonitorSetcontent(undefined)
-      arcGis.realTimeController?.start()
+      // arcGis.realTimeController?.start()
+      // arcGis.historyController?.stop()
+      arcGis.controllerManager?.activate('realTime')
     } else if (title === '歷史查詢') {
       historyQuerySettitle(title)
       historyQuerySethide(!historyQueryHide)
       realTimeMonitorSethide(true)
       routeAnalysisSethide(true)
       historyQuerySetcontent(undefined)
-      arcGis.realTimeController?.stop()
+      // arcGis.realTimeController?.stop()
+      arcGis.controllerManager?.activate('history')
     } else {
       routeAnalysisSettitle(title)
       routeAnalysisSethide(!routeAnalysisHide)
       realTimeMonitorSethide(true)
       historyQuerySethide(true)
       routeAnalysisSetcontent(undefined)
-      arcGis.realTimeController?.stop()
+      // arcGis.realTimeController?.stop()
     }
   }
 
   const handleDataCenterClick = () => {
-    arcGis.realTimeController?.stop()
+    // arcGis.realTimeController?.stop()
     navigate('/dashboard')
   }
 

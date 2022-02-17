@@ -5,10 +5,6 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import PopupTemplate from '@arcgis/core/PopupTemplate'
 import ClassBreaksRenderer from '@arcgis/core/renderers/ClassBreaksRenderer'
 import Extent from '@arcgis/core/geometry/Extent'
-import * as projection from '@arcgis/core/geometry/projection'
-import SpatialReference from '@arcgis/core/geometry/SpatialReference'
-import Geometry from '@arcgis/core/geometry/Geometry'
-import Polygon from '@arcgis/core/geometry/Polygon'
 import geometry, { Point } from "@arcgis/core/geometry"
 import Graphic from '@arcgis/core/Graphic'
 import StatisticDefinition from '@arcgis/core/rest/support/StatisticDefinition'
@@ -22,6 +18,7 @@ import { mobileFeatureFields, fixedFeatureFields, standardFeatureFields, changeS
 import api from '../../api'
 import { resolve } from 'path'
 import { fixedStyle, standardStyle } from './RealTimeController/rendererContent'
+import { projectExtent } from '../../utils/modules/Extent'
 
 const typeSet = {
   mot: {
@@ -114,7 +111,7 @@ export default class RealTimeController extends BaseController {
     }
 
     // 請求資料
-    const geoJson = await this.fetchLayerData(sensorType, extent)
+    const geoJson = await this.fetchLayerData(sensorType)
     // 產出graphic實體
     const graphicArray: Array<Graphic> = this.createGraphics(geoJson, sensorType)
     // 使用graphic陣列產出featureLayer實體
@@ -135,7 +132,7 @@ export default class RealTimeController extends BaseController {
    * @param sensorType
    * @param extent
    */
-  public fetchLayerData = async (sensorType: sensor_type, extent?: Extent) => {
+  public fetchLayerData = async (sensorType: sensor_type) => {
     if (sensorType === 'mot') {
       return await api.realTime.getRealTimeMobile()
     }
@@ -145,18 +142,11 @@ export default class RealTimeController extends BaseController {
     }
 
     if (sensorType === 'fixed') {
-      // console.log(extent)
-      let area = Polygon.fromExtent(extent as Extent)
-      projection.load()
-      let outSpatialReference = new SpatialReference({
-        wkid: 4326
-      })
-      let prj = projection.project(area, outSpatialReference)
-      let _extent = [(prj as Geometry).extent.xmin, (prj as Geometry).extent.ymin, (prj as Geometry).extent.xmax, (prj as Geometry).extent.ymax]
       var requestOptions = {
         method: 'GET',
         redirect: 'follow'
       }
+      const _extent = projectExtent(this.mapView)
       return await api.realTime.getRealTimeFixed(_extent, requestOptions)
     }
   }
@@ -273,7 +263,7 @@ export default class RealTimeController extends BaseController {
     }
 
     // 請求資料
-    const geoJson = await this.fetchLayerData(sensorType, extent)
+    const geoJson = await this.fetchLayerData(sensorType)
     // 產出graphic實體
     const graphicArray: Array<Graphic> = this.createGraphics(geoJson, sensorType)
     // 更新features

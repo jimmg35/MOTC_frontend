@@ -7,7 +7,8 @@ import MapView from '@arcgis/core/views/MapView'
 import ViewerTask from '../ViewerTask'
 
 /* Controllers */
-import { RealTimeController } from '../Controller'
+import { RealTimeController, HistoryController } from '../Controller'
+import ControllerManager from '../ControllerManager'
 
 export interface IMapOptions {
   basemap: string
@@ -23,12 +24,13 @@ export class ArcGIS {
   map: Map | undefined
   mapView: MapView | undefined
   viewerTask: ViewerTask
-  realTimeController: RealTimeController | undefined
+  controllerManager: ControllerManager | undefined
 
   constructor() {
     this.map = undefined
     this.mapView = undefined
     this.viewerTask = new ViewerTask()
+    this.controllerManager = new ControllerManager()
   }
 
   public createMapAndMapView = (mapOptions: IMapOptions, viewOptions: IMapViewOptions) => {
@@ -56,11 +58,17 @@ export class ArcGIS {
   private _registerControllers = () => {
     const mapSet = { map: this.map as Map, mapView: this.mapView as MapView }
 
-    this.realTimeController = new RealTimeController({
+    const realTimeController = new RealTimeController({
       mapSet: mapSet,
       updateMode: true
     })
-    this.realTimeController.start()
+    const historyController = new HistoryController({
+      mapSet: mapSet
+    })
+
+    this.controllerManager?.register('realTime', realTimeController)
+    this.controllerManager?.register('history', historyController)
+    this.controllerManager?.activate('realTime')
   }
 }
 

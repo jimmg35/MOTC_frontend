@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { arcGisContext } from '../../../lib/MapProvider'
 import './RealTimeMonitorDrawer.scss'
+import { RealTimeController } from '../../../lib/Controller'
 
 const RealTimeMonitorDrawer = () => {
   const [mobileSelect, setmobileSelect] = useState<string>('Pm2_5_AVG')
@@ -21,17 +22,23 @@ const RealTimeMonitorDrawer = () => {
 
   const handleMobileSelect = (event: SelectChangeEvent) => {
     setmobileSelect(event.target.value as string)
-    arcGis.realTimeController?.changeSymbol(mobileSelect, 'mot')
+    // arcGis.realTimeController?.changeSymbol(mobileSelect, 'mot')
+    const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController
+    realTimeController.changeSymbol(mobileSelect, 'mot')
   }
 
   const handleFixedSelect = (event: SelectChangeEvent) => {
     setfixedSelect(event.target.value as string)
-    arcGis.realTimeController?.changeSymbol(fixedSelect, 'fixed')
+    // arcGis.realTimeController?.changeSymbol(fixedSelect, 'fixed')
+    const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController
+    realTimeController.changeSymbol(fixedSelect, 'fixed')
   }
 
   const handleNationalSelect = (event: SelectChangeEvent) => {
     setnationalSelect(event.target.value as string)
-    arcGis.realTimeController?.changeSymbol(nationalSelect, 'standard')
+    // arcGis.realTimeController?.changeSymbol(nationalSelect, 'standard')
+    const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController
+    realTimeController.changeSymbol(nationalSelect, 'standard')
   }
 
   const handleClose = () => {

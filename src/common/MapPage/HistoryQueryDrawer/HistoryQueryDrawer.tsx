@@ -1,10 +1,13 @@
+/* eslint-disable */
 import React, { useContext, useState } from 'react'
-import { Theme, useTheme } from '@mui/material/styles'
+// import { Theme, useTheme } from '@mui/material/styles'
 import { historyQueryDrawerContext } from '../../DrawerProvider'
 import Drawer from '../../../jsdc-ui/components/Drawer'
 import './HistoryQueryDrawer.scss'
-import { MobileDateTimePicker, TimePicker } from '@mui/lab'
-import { TextField, InputLabel, MenuItem, Button, OutlinedInput, Box, Chip } from '@mui/material'
+// import { MobileDateTimePicker, TimePicker } from '@mui/lab'
+// import { TextField, InputLabel, MenuItem, Button, OutlinedInput, Box, Chip } from '@mui/material'
+import { MobileDateTimePicker } from '@mui/lab'
+import { TextField, InputLabel, MenuItem, Button } from '@mui/material'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -15,53 +18,54 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import DatePicker from 'react-multi-date-picker'
-import DatePanel from 'react-multi-date-picker/plugins/date_panel'
+// import DatePicker from 'react-multi-date-picker'
+// import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import Divider from '@mui/material/Divider'
-// import { arcGisContext } from '../../../lib/MapProvider'
+import { arcGisContext } from '../../../lib/MapProvider'
+import { HistoryController } from '../../../lib/Controller'
+import SpatialQuery from '../../../widgets/SpatialQuery'
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
-    }
-  }
-}
+// const ITEM_HEIGHT = 48
+// const ITEM_PADDING_TOP = 8
+// const MenuProps = {
+//   PaperProps: {
+//     style: {
+//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+//       width: 250
+//     }
+//   }
+// }
 
-const weekEnum = [
-  { name: '星期一' },
-  { name: '星期二' },
-  { name: '星期三' },
-  { name: '星期四' },
-  { name: '星期五' },
-  { name: '星期六' },
-  { name: '星期日' }
-]
+// const weekEnum = [
+//   { name: '星期一' },
+//   { name: '星期二' },
+//   { name: '星期三' },
+//   { name: '星期四' },
+//   { name: '星期五' },
+//   { name: '星期六' },
+//   { name: '星期日' }
+// ]
 
-const getStyles = (name: string, personName: readonly string[], theme: Theme) => {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium
-  }
-}
+// const getStyles = (name: string, personName: readonly string[], theme: Theme) => {
+//   return {
+//     fontWeight:
+//       personName.indexOf(name) === -1
+//         ? theme.typography.fontWeightRegular
+//         : theme.typography.fontWeightMedium
+//   }
+// }
 
 const HistoryQueryDrawer = () => {
-  const theme = useTheme()
-  // const arcGis = useContext(arcGisContext)
+  // const theme = useTheme()
+  const arcGis = useContext(arcGisContext)
   const [startDateTime, setstartDateTime] = useState<Date>(new Date())
   const [endDateTime, setendDateTime] = useState<Date>(new Date())
-  const [startTime, setstartTime] = useState<Date>(new Date())
-  const [endTime, setendTime] = useState<Date>(new Date())
-  const [days, setdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
-  const [excludeDates, setexcludeDates] = useState<Array<string>>([])
-  const [deviceId, setdeviceId] = useState<string>('')
+  // const [startTime, setstartTime] = useState<Date>(new Date())
+  // const [endTime, setendTime] = useState<Date>(new Date())
+  // const [days, setdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
+  // const [excludeDates, setexcludeDates] = useState<Array<string>>([])
+  const [deviceId, setdeviceId] = useState<string | null>(null)
   const [mobileSelect, setmobileSelect] = useState<string>('0')
-  const [fixedSelect, setfixedSelect] = useState<string>('0')
 
   const {
     historyQueryTitle = '',
@@ -78,10 +82,6 @@ const HistoryQueryDrawer = () => {
     setmobileSelect(event.target.value as string)
   }
 
-  const handleFixedSelect = (event: SelectChangeEvent) => {
-    setfixedSelect(event.target.value as string)
-  }
-
   const [open, setOpen] = React.useState(false)
 
   const handleSettingOpen = () => {
@@ -92,23 +92,38 @@ const HistoryQueryDrawer = () => {
     setOpen(false)
   }
 
-  const handleWeekChange = (event: SelectChangeEvent<typeof days>) => {
-    const { target: { value } } = event
-    setdays(typeof value === 'string' ? value.split(',') : value)
-  }
+  // const handleWeekChange = (event: SelectChangeEvent<typeof days>) => {
+  //   const { target: { value } } = event
+  //   setdays(typeof value === 'string' ? value.split(',') : value)
+  // }
 
   const handleMobileIdSelect = (event: SelectChangeEvent) => {
     setdeviceId(event.target.value as string)
   }
 
   const handleQueryMobile = () => {
-    console.log(startDateTime)
-    console.log(endDateTime)
-    console.log(startTime)
-    console.log(endTime)
-    console.log(days)
-    console.log(excludeDates)
-    console.log(deviceId)
+
+
+    const historyController = arcGis.controllerManager?.getController('history') as HistoryController
+    historyController.query({
+      startDateTime: new Date(startDateTime).getTime(),
+      endDateTime: new Date(endDateTime).getTime(),
+      DeviceList: deviceId
+    })
+    // console.log(endDateTime)
+    // console.log(startTime)
+    // console.log(deviceId)
+
+    // console.log(endTime)
+    // console.log(days)
+    // console.log(excludeDates)
+    // if (arcGis.historyController?.workingStatus) {
+    //   arcGis.historyController.stop()
+    // } else {
+    //   arcGis.historyController?.start({
+    //   })
+    // }
+
   }
 
   return (
@@ -122,7 +137,7 @@ const HistoryQueryDrawer = () => {
       <div className="history-query">
         <LocalizationProvider dateAdapter={AdapterDateFns}>
 
-          <div className='select-row'>
+          <div className='select-row time-select'>
             <div className='select-cell'>
               <InputLabel id="start-date">起始日期</InputLabel>
               <MobileDateTimePicker
@@ -147,6 +162,13 @@ const HistoryQueryDrawer = () => {
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
+            </div>
+          </div>
+
+          <div className='select-row'>
+            <div className='select-cell'>
+              <InputLabel id="spatial-query">空間範圍</InputLabel>
+              <SpatialQuery></SpatialQuery>
             </div>
           </div>
 
@@ -201,7 +223,7 @@ const HistoryQueryDrawer = () => {
               </Select>
             </div>
 
-            <div className='select-cell'>
+            {/* <div className='select-cell'>
               <InputLabel id="fixed-label">固定點顯示</InputLabel>
               <Select
                 labelId="fixed-label"
@@ -216,7 +238,7 @@ const HistoryQueryDrawer = () => {
                 <MenuItem value={'3'}>SO2</MenuItem>
                 <MenuItem value={'4'}>NO2</MenuItem>
               </Select>
-            </div>
+            </div> */}
           </div>
 
           {/* <Dialog
@@ -237,7 +259,7 @@ const HistoryQueryDrawer = () => {
         aria-labelledby="historyQuery-dialog-title"
         aria-describedby="historyQuery-dialog-description"
       >
-        <DialogTitle id="historyQuery-dialog-title">
+        {/* <DialogTitle id="historyQuery-dialog-title">
           {'時段篩選'}
         </DialogTitle>
         <DialogContent>
@@ -279,7 +301,6 @@ const HistoryQueryDrawer = () => {
           {'星期篩選'}
         </DialogTitle>
         <DialogContent>
-          {/* <InputLabel id="demo-multiple-chip-label">Chip</InputLabel> */}
           <div className='setting-modal'>
             <div className='setting-row'>
               <div className='setting-cell'>
@@ -344,7 +365,7 @@ const HistoryQueryDrawer = () => {
             </div>
 
           </LocalizationProvider>
-        </DialogContent>
+        </DialogContent> */}
 
         <DialogTitle id="historyQuery-dialog-title">
           {'感測器篩選'}
@@ -359,7 +380,7 @@ const HistoryQueryDrawer = () => {
                   labelId="mobile-id-label"
                   id="mobile-id-select"
                   className="mobile-id-select"
-                  value={deviceId}
+                  value={deviceId ? deviceId : ''}
                   onChange={handleMobileIdSelect}
                 >
                   <MenuItem value={0}>ID 0</MenuItem>

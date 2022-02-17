@@ -17,9 +17,13 @@
         align-items: center;
     }
 
+    .time-select {
+        flex-direction: row;
+    }
+
     .select-row-btn {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         flex-direction: row;
     }
 

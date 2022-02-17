@@ -11,22 +11,24 @@ import { mobileHistoryFields } from './HistoryController/featureField'
 import { mobileTemplateContent } from './RealTimeController/templateContent'
 import { mobileRendererContent } from './RealTimeController/rendererContent'
 import { Extent } from '@arcgis/core/geometry'
+import api from '../../api'
+import { projectExtent } from '../../utils/modules/Extent'
 
 export interface HistoryQueryParams {
-  startTime: number
-  endTime: number
+  startDateTime: number
+  endDateTime: number
   DeviceList: string | null
 }
 
-export interface IRealTimeControllerParam {
+export interface IHistoryControllerParam {
   mapSet: IBaseControllerParam
 }
 
-export default class RealTimeController extends BaseController {
+export default class HistoryController extends BaseController {
   mobileLayer: GeoJSONLayer | undefined
   workingStatus: boolean
 
-  constructor(options: IRealTimeControllerParam) {
+  constructor(options: IHistoryControllerParam) {
     super({
       map: options.mapSet.map,
       mapView: options.mapSet.mapView
@@ -34,10 +36,8 @@ export default class RealTimeController extends BaseController {
     this.workingStatus = false
   }
 
-  public start = (params: HistoryQueryParams) => {
-    if (this.workingStatus === false) {
-      // this.getHistory(params)
-    }
+  public start = () => {
+    if (this.workingStatus === false) { }
     this.workingStatus = true
   }
 
@@ -48,40 +48,46 @@ export default class RealTimeController extends BaseController {
     this.workingStatus = false
   }
 
-  // public getHistory = async (params: HistoryQueryParams) => {
-  //   const value = await this.fetchLayerData(params)
-  //   this.mobileLayer = new GeoJSONLayer({
-  //     title: "移動歷史觀測",
-  //     // url: value,
-  //     fields: mobileHistoryFields,
-  //     timeInfo: {
-  //       startField: 'Datetime'
-  //     },
-  //     popupTemplate: new PopupTemplate(mobileTemplateContent),
-  //     renderer: new ClassBreaksRenderer(mobileRendererContent)
-  //   })
-  // }
+  public query = async (params: HistoryQueryParams) => {
+    const value = await this.fetchLayerData(params)
+    if (value) {
+      this.mobileLayer = new GeoJSONLayer({
+        title: "移動歷史觀測",
+        url: value,
+        fields: mobileHistoryFields,
+        timeInfo: {
+          startField: 'Datetime'
+        },
+        popupTemplate: new PopupTemplate(mobileTemplateContent),
+        renderer: new ClassBreaksRenderer(mobileRendererContent)
+      })
+      this.map.add(this.mobileLayer)
+      this.mobileLayer.when(() => {
+        this.mapView.goTo(this.mobileLayer?.fullExtent)
+      })
+    } else {
+      alert('該時段查無資料')
+    }
+  }
 
-  // public fetchLayerData = async (params: HistoryQueryParams) => {
-  //   if (params.DeviceList != null) {
-  //     return await fetch('/api/MobileSensor/QueryMobileHistory2?DeviceNameList=' + DeviceList + '&StartTime=' + startTime + '&EndTime=' + endTime).then(response => {
-  //       if (response.ok) {
-  //         return 'Contents/history.json';
-  //       }
-  //       else {
-  //         return '1';
-  //       }
-  //     });
-  //   }
-  //   else {
-  //     return await fetch('/api/MobileSensor/QueryMobileHistory?xmin=' + extent[0] + '&ymin=' + extent[1] + '&xmax=' + extent[2] + '&ymax=' + extent[3] + '&StartTime=' + startTime + '&EndTime=' + endTime).then(response => {
-  //       if (response.ok) {
-  //         return 'Contents/history.json';
-  //       }
-  //       else {
-  //         return '1';
-  //       }
-  //     });
-  //   }
-  // }
+  public fetchLayerData = async (params: HistoryQueryParams) => {
+    let response: Response
+    if (params.DeviceList !== null) {
+      response = await api.history.QueryMobileHistory2({
+        startDateTime: params.startDateTime,
+        endDateTime: params.endDateTime
+      }, params.DeviceList)
+    }
+    else {
+      const _extent = projectExtent(this.mapView)
+      response = await api.history.QueryMobileHistory({
+        startDateTime: params.startDateTime,
+        endDateTime: params.endDateTime
+      }, _extent)
+    }
+    if (response.status === 200) {
+      return api.history.historyJsonPath
+    }
+    return undefined
+  }
 }
