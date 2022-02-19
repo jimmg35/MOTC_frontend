@@ -43,6 +43,11 @@
     }
 
     .setting-btn {
+        @apply border-gray-400 text-gray-600;
+    }
+
+    .setting-btn-fill {
+        @apply border-gray-400 text-gray-100 bg-gray-500;
     }
 
     .divider-dark {

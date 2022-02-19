@@ -195,7 +195,7 @@ const HistoryQueryDrawer = () => {
 
             <div className='select-cell-btn'>
               <Button
-                className='setting-btn'
+                className='setting-btn-fill'
                 variant="contained"
                 onClick={handleQueryMobile}
                 startIcon={<TrendingFlatIcon />}>
