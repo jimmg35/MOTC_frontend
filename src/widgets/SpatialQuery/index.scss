@@ -2,6 +2,9 @@
     @apply border-gray-400 border rounded;
     width: 455px;
     height: fit-content;
+    .sketch-tool {
+        display: none;
+    }
     .manipulate-group {
         display: flex;
         justify-content: center;
