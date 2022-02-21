@@ -16,3 +16,13 @@ export const projectExtent = (mapView: MapView) => {
   const _extent = [(prj as Geometry).extent.xmin, (prj as Geometry).extent.ymin, (prj as Geometry).extent.xmax, (prj as Geometry).extent.ymax]
   return _extent
 }
+
+export const geometry2Extent = (geometry: Geometry) => {
+  projection.load()
+  const outSpatialReference = new SpatialReference({
+    wkid: 4326
+  })
+  const prj = projection.project(geometry, outSpatialReference)
+  const _extent = [(prj as Geometry).extent.xmin, (prj as Geometry).extent.ymin, (prj as Geometry).extent.xmax, (prj as Geometry).extent.ymax]
+  return _extent
+}

@@ -8,17 +8,22 @@ module.exports = {
       ...colors,
       transparent: 'transparent',
       current: 'currentColor',
-      primary:{
+      primary: {
         DEFAULT: colors.blue[700],
         light: colors.blue[400],
         dark: colors.blue[800]
       },
-      accent:{
+      accent: {
         DEFAULT: colors.red[700],
         light: colors.red[400],
         dark: colors.red[800]
       },
-      bg:{
+      mgray: {
+        DEFAULT: '#49494962',
+        light: '#49494962',
+        dark: '#49494962'
+      },
+      bg: {
         DEFAULT: colors.white,
         accent: colors.indigo[800]
       },
@@ -27,24 +32,24 @@ module.exports = {
         error: colors.red[600],
         white: colors.white
       },
-      'primary-bg':{
+      'primary-bg': {
         DEFAULT: '#30434d',
         light: '#5d7480',
         dark: '#182c36',
         lighter: '#7e9dad',
         darker: '#0b161b'
       },
-      'primary-text':{
+      'primary-text': {
         DEFAULT: colors.gray[200],
         light: colors.black,
         dark: colors.white,
       },
-      'accent-text':{
+      'accent-text': {
         DEFAULT: colors.red[700],
         light: colors.red[300],
         dark: colors.red[400]
       },
-      'divider':{
+      'divider': {
         DEFAULT: '#ffffff6b',
         light: '#0000005c',
         dark: '#ffffff6b'
