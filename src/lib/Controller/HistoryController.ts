@@ -6,16 +6,16 @@ import PopupTemplate from '@arcgis/core/PopupTemplate'
 import ClassBreaksRenderer from '@arcgis/core/renderers/ClassBreaksRenderer'
 import StatisticDefinition from '@arcgis/core/rest/support/StatisticDefinition'
 import SimpleMarkerSymbol from '@arcgis/core/symbols/SimpleMarkerSymbol'
+import TimeSlider from '@arcgis/core/widgets/TimeSlider'
+import FeatureFilter from '@arcgis/core/views/layers/support/FeatureFilter'
 
 /* Controllers */
 import BaseController, { IBaseControllerParam } from './BaseController'
 import { mobileHistoryFields } from './HistoryController/featureField'
 import { mobileTemplateContent } from './RealTimeController/templateContent'
 import { mobileRendererContent } from './RealTimeController/rendererContent'
-import { Extent } from '@arcgis/core/geometry'
-import api from '../../api'
-import { projectExtent } from '../../utils/modules/Extent'
 import { changeSymbolDefinition } from './RealTimeController/featureField'
+import api from '../../api'
 
 const typeSet = {
   mot: {
@@ -35,10 +35,12 @@ export interface HistoryQueryParams {
 
 export interface IHistoryControllerParam {
   mapSet: IBaseControllerParam
+  timeSlider: TimeSlider
 }
 
 export default class HistoryController extends BaseController {
   mobileLayer: GeoJSONLayer | undefined
+  timeSlider: TimeSlider | undefined
   workingStatus: boolean
 
   constructor(options: IHistoryControllerParam) {
@@ -46,6 +48,7 @@ export default class HistoryController extends BaseController {
       map: options.mapSet.map,
       mapView: options.mapSet.mapView
     })
+    this.timeSlider = options.timeSlider
     this.workingStatus = false
   }
 
@@ -95,12 +98,29 @@ export default class HistoryController extends BaseController {
         renderer: new ClassBreaksRenderer(mobileRendererContent)
       })
       this.map.add(this.mobileLayer)
+
       this.mobileLayer.when(() => {
         this.mapView.goTo(this.mobileLayer?.fullExtent)
+        this.updateTimeSlider()
       })
+
     } else {
       alert('該時段查無資料')
+      return false
     }
+  }
+
+  public updateTimeSlider = () => {
+    this.mapView?.whenLayerView(this.mobileLayer as GeoJSONLayer).then((lv) => {
+      if (this.timeSlider && this.mobileLayer) {
+        this.timeSlider.fullTimeExtent = this.mobileLayer.timeInfo.fullTimeExtent.expandTo('minutes')
+        this.timeSlider.watch('timeExtent', () => {
+          lv.filter = new FeatureFilter({
+            timeExtent: this.timeSlider?.timeExtent
+          })
+        })
+      }
+    })
   }
 
   public fetchLayerData = async (params: HistoryQueryParams) => {

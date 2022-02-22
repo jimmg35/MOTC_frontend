@@ -23,7 +23,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Divider from '@mui/material/Divider'
 import { arcGisContext } from '../../../lib/MapProvider'
 import { HistoryController } from '../../../lib/Controller'
-import SpatialQuery from '../../../widgets/SpatialQuery'
+import SpatialQuery from '../../../widgets/react/SpatialQuery'
 import CircularProgress from '../../../jsdc-ui/components/CircularProgress'
 import classNames from 'classnames'
 
@@ -90,14 +90,6 @@ const HistoryQueryDrawer = () => {
 
   const [open, setOpen] = React.useState(false)
 
-  const handleSettingOpen = () => {
-    setOpen(true)
-  }
-
-  const handleSettingClose = () => {
-    setOpen(false)
-  }
-
   // const handleWeekChange = (event: SelectChangeEvent<typeof days>) => {
   //   const { target: { value } } = event
   //   setdays(typeof value === 'string' ? value.split(',') : value)
@@ -110,19 +102,22 @@ const HistoryQueryDrawer = () => {
   const handleQueryMobile = async () => {
     setqueryStatusOpen(true)
     const historyController = arcGis.controllerManager?.getController('history') as HistoryController
-    await historyController.query({
+    const queryStatus = await historyController.query({
       startDateTime: new Date(startDateTime).getTime(),
       endDateTime: new Date(endDateTime).getTime(),
       DeviceList: deviceId,
       _extent: _extent as number[]
     })
+    if (queryStatus !== undefined) {
+      setqueryStatusOpen(false)
+    }
     historyController.mobileLayer?.when(() => {
       setqueryStatusOpen(false)
     })
+
     // console.log(endDateTime)
     // console.log(startTime)
     // console.log(deviceId)
-
     // console.log(endTime)
     // console.log(days)
     // console.log(excludeDates)
@@ -184,7 +179,7 @@ const HistoryQueryDrawer = () => {
                 className='setting-btn'
                 variant="outlined"
                 startIcon={<SettingsIcon />}
-                onClick={handleSettingOpen}
+                onClick={() => { setOpen(true) }}
               >
                 進階篩選
               </Button>
@@ -274,7 +269,7 @@ const HistoryQueryDrawer = () => {
 
       <Dialog
         open={open}
-        onClose={handleSettingClose}
+        onClose={() => { setOpen(false) }}
         aria-labelledby="historyQuery-dialog-title"
         aria-describedby="historyQuery-dialog-description"
       >
@@ -420,7 +415,7 @@ const HistoryQueryDrawer = () => {
         </DialogContent> */}
 
         <DialogActions>
-          <Button onClick={handleSettingClose} autoFocus>
+          <Button onClick={() => { setOpen(false) }} autoFocus>
             儲存
           </Button>
         </DialogActions>
