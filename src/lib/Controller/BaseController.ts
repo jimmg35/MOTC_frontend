@@ -1,6 +1,7 @@
 /* eslint-disable */
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
+import Layer from '@arcgis/core/layers/Layer';
 
 export interface IController {
 	start: () => void
@@ -25,7 +26,7 @@ export default class BaseController implements IController {
 
 	public stop = () => { }
 
-	protected _clearMap = () => {
-		this.map.removeAll()
+	protected _clearMap = (layers: Layer[]) => {
+		this.map.removeMany(layers)
 	}
 }

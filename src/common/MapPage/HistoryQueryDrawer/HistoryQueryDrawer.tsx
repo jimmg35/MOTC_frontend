@@ -24,6 +24,8 @@ import Divider from '@mui/material/Divider'
 import { arcGisContext } from '../../../lib/MapProvider'
 import { HistoryController } from '../../../lib/Controller'
 import SpatialQuery from '../../../widgets/SpatialQuery'
+import CircularProgress from '../../../jsdc-ui/components/CircularProgress'
+import classNames from 'classnames'
 
 // const ITEM_HEIGHT = 48
 // const ITEM_PADDING_TOP = 8
@@ -65,7 +67,9 @@ const HistoryQueryDrawer = () => {
   // const [days, setdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
   // const [excludeDates, setexcludeDates] = useState<Array<string>>([])
   const [deviceId, setdeviceId] = useState<string | null>(null)
-  const [mobileSelect, setmobileSelect] = useState<string>('0')
+  const [mobileSelect, setmobileSelect] = useState<string>('Pm2_5_AVG')
+  const [_extent, set_extent] = useState<number[] | undefined[]>([undefined, undefined, undefined, undefined])
+  const [queryStatusOpen, setqueryStatusOpen] = useState<boolean>(false)
 
   const {
     historyQueryTitle = '',
@@ -80,6 +84,8 @@ const HistoryQueryDrawer = () => {
 
   const handleMobileSelect = (event: SelectChangeEvent) => {
     setmobileSelect(event.target.value as string)
+    const historyController = arcGis.controllerManager?.getController('history') as HistoryController
+    historyController.changeSymbol(event.target.value as string)
   }
 
   const [open, setOpen] = React.useState(false)
@@ -101,14 +107,17 @@ const HistoryQueryDrawer = () => {
     setdeviceId(event.target.value as string)
   }
 
-  const handleQueryMobile = () => {
-
-
+  const handleQueryMobile = async () => {
+    setqueryStatusOpen(true)
     const historyController = arcGis.controllerManager?.getController('history') as HistoryController
-    historyController.query({
+    await historyController.query({
       startDateTime: new Date(startDateTime).getTime(),
       endDateTime: new Date(endDateTime).getTime(),
-      DeviceList: deviceId
+      DeviceList: deviceId,
+      _extent: _extent as number[]
+    })
+    historyController.mobileLayer?.when(() => {
+      setqueryStatusOpen(false)
     })
     // console.log(endDateTime)
     // console.log(startTime)
@@ -117,13 +126,10 @@ const HistoryQueryDrawer = () => {
     // console.log(endTime)
     // console.log(days)
     // console.log(excludeDates)
-    // if (arcGis.historyController?.workingStatus) {
-    //   arcGis.historyController.stop()
-    // } else {
-    //   arcGis.historyController?.start({
-    //   })
-    // }
+  }
 
+  const handleExtentChange = (value: number[]) => {
+    set_extent(value)
   }
 
   return (
@@ -168,7 +174,7 @@ const HistoryQueryDrawer = () => {
           <div className='select-row'>
             <div className='select-cell'>
               <InputLabel id="spatial-query">空間範圍</InputLabel>
-              <SpatialQuery></SpatialQuery>
+              <SpatialQuery onChange={handleExtentChange} _extent={_extent}></SpatialQuery>
             </div>
           </div>
 
@@ -193,7 +199,20 @@ const HistoryQueryDrawer = () => {
               </Button>
             </div> */}
 
-            <div className='select-cell-btn'>
+            <div className='select-cell-btn query-set'>
+
+              <div
+                className={
+                  classNames({
+                    'circular-progress-container': true
+                  }, {
+                    hide: !queryStatusOpen
+                  })
+                }>
+                <CircularProgress radius={18.25}></CircularProgress>
+                <p>查詢中</p>
+              </div>
+
               <Button
                 className='setting-btn-fill'
                 variant="contained"
@@ -216,10 +235,10 @@ const HistoryQueryDrawer = () => {
                 className="mobile-select"
                 onChange={handleMobileSelect}
               >
-                <MenuItem value={'0'}>PM 2.5 儀器平均</MenuItem>
-                <MenuItem value={'1'}>PM 2.5 UART</MenuItem>
-                <MenuItem value={'2'}>PM 2.5 I2C</MenuItem>
-                <MenuItem value={'3'}>VOC</MenuItem>
+                <MenuItem value={'Pm2_5_AVG'}>PM 2.5 儀器平均</MenuItem>
+                <MenuItem value={'Pm2_5_UART'}>PM 2.5 UART</MenuItem>
+                <MenuItem value={'Pm2_5_I2C'}>PM 2.5 I2C</MenuItem>
+                <MenuItem value={'Voc'}>VOC</MenuItem>
               </Select>
             </div>
 

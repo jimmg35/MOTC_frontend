@@ -90,7 +90,11 @@ export default class RealTimeController extends BaseController {
       clearInterval(this.timerSet['mot'])
       clearInterval(this.timerSet['fixed'])
       clearInterval(this.timerSet['standard'])
-      this._clearMap()
+      this._clearMap([
+        this.featureLayerSet['mot'],
+        this.featureLayerSet['fixed'],
+        this.featureLayerSet['standard']
+      ])
     }
     this.workingStatus = false
   }
@@ -304,8 +308,7 @@ export default class RealTimeController extends BaseController {
 
     var renderer: ClassBreaksRenderer
     renderer = await featureLayer.queryFeatures(query).then(function (response) {
-      let stats = response.features[0].attributes;
-      console.log(stats);
+      let stats = response.features[0].attributes
       let attr_avg = "AVG_" + aq_type; //平均值欄位名稱
       let attr_std = "STD_" + aq_type; //標準差欄位名稱
       let avg = Math.round(stats[attr_avg])

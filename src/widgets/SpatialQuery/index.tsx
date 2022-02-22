@@ -25,13 +25,18 @@ const mockSketch = {
 type mode = 'current' | 'manual'
 type btnMode = 'default' | 'info'
 
-const SpatialQuery = () => {
+export interface ISpatialQuery {
+  _extent: number[] | undefined[]
+  onChange: (_extent: number[]) => void
+}
+
+const SpatialQuery = (props: ISpatialQuery) => {
   const arcgis = useContext(arcGisContext)
   const [, setcurrentMode] = useState<mode>('current')
-  const [xmin, setxmin] = useState<number | undefined>(undefined)
-  const [ymin, setymin] = useState<number | undefined>(undefined)
-  const [xmax, setxmax] = useState<number | undefined>(undefined)
-  const [ymax, setymax] = useState<number | undefined>(undefined)
+  // const [xmin, setxmin] = useState<number | undefined>(undefined)
+  // const [ymin, setymin] = useState<number | undefined>(undefined)
+  // const [xmax, setxmax] = useState<number | undefined>(undefined)
+  // const [ymax, setymax] = useState<number | undefined>(undefined)
   const [precision] = useState<number>(1000)
   const [watchHandle, setwatchHandle] = useState<any | undefined>(undefined)
   const [btnStateArray, setbtnStateArray] = useState<Array<btnMode>>(['info', 'default'])
@@ -45,13 +50,23 @@ const SpatialQuery = () => {
         mockSketch.clickPanButton(sketchId)
       }
       setwatchHandle(
+        // watchUtils.watch(arcgis.mapView as MapView, 'extent', () => {
+        //   if (arcgis.mapView?.extent) {
+        //     const _extent = projectExtent(arcgis.mapView)
+        //     setxmin(_extent[0])
+        //     setymin(_extent[1])
+        //     setxmax(_extent[2])
+        //     setymax(_extent[3])
+        //   }
+        // })
         watchUtils.whenTrue(arcgis.mapView as MapView, 'stationary', () => {
           if (arcgis.mapView?.extent) {
             const _extent = projectExtent(arcgis.mapView)
-            setxmin(_extent[0])
-            setymin(_extent[1])
-            setxmax(_extent[2])
-            setymax(_extent[3])
+            // setxmin(_extent[0])
+            // setymin(_extent[1])
+            // setxmax(_extent[2])
+            // setymax(_extent[3])
+            props.onChange(_extent)
           }
         })
       )
@@ -84,10 +99,11 @@ const SpatialQuery = () => {
       if (event.state === 'complete') {
         layer.remove(event.graphic)
         const _extent = geometry2Extent(event.graphic.geometry)
-        setxmin(_extent[0])
-        setymin(_extent[1])
-        setxmax(_extent[2])
-        setymax(_extent[3])
+        // setxmin(_extent[0])
+        // setymin(_extent[1])
+        // setxmax(_extent[2])
+        // setymax(_extent[3])
+        props.onChange(_extent)
       }
     })
     setcurrentSketch(sketch)
@@ -120,10 +136,11 @@ const SpatialQuery = () => {
   }
 
   const handleClearExtent = () => {
-    setxmin(0)
-    setymin(0)
-    setxmax(0)
-    setymax(0)
+    // setxmin(0)
+    // setymin(0)
+    // setxmax(0)
+    // setymax(0)
+    props.onChange([0, 0, 0, 0])
   }
 
   return (
@@ -152,16 +169,16 @@ const SpatialQuery = () => {
 
       <div className='extent-group'>
         <Tooltip title="xmin">
-          <input type='text' placeholder='xmin' value={xmin !== undefined ? Math.floor(xmin * precision) / precision : undefined} onChange={(event) => { setxmin(Number(event.target.value)) }} disabled></input>
+          <input type='text' placeholder='xmin' value={props._extent[0] !== undefined ? Math.floor(props._extent[0] * precision) / precision : undefined} disabled></input>
         </Tooltip>
         <Tooltip title="ymin">
-          <input type='text' placeholder='ymin' value={ymin !== undefined ? Math.floor(ymin * precision) / precision : undefined} onChange={(event) => { setymin(Number(event.target.value)) }} disabled></input>
+          <input type='text' placeholder='ymin' value={props._extent[1] !== undefined ? Math.floor(props._extent[1] * precision) / precision : undefined} disabled></input>
         </Tooltip>
         <Tooltip title="xmax">
-          <input type='text' placeholder='xmax' value={xmax !== undefined ? Math.floor(xmax * precision) / precision : undefined} onChange={(event) => { setxmax(Number(event.target.value)) }} disabled></input>
+          <input type='text' placeholder='xmax' value={props._extent[2] !== undefined ? Math.floor(props._extent[2] * precision) / precision : undefined} disabled></input>
         </Tooltip>
         <Tooltip title="ymax">
-          <input type='text' placeholder='ymax' value={ymax !== undefined ? Math.floor(ymax * precision) / precision : undefined} onChange={(event) => { setymax(Number(event.target.value)) }} disabled></input>
+          <input type='text' placeholder='ymax' value={props._extent[3] !== undefined ? Math.floor(props._extent[3] * precision) / precision : undefined} disabled></input>
         </Tooltip>
       </div>
 
