@@ -13,6 +13,8 @@ export default class ControllerManager {
   }
 
   public activate = (name: string) => {
+    if (this.controllerSet[name].workingStatus === true)
+      return
     for (const key in this.controllerSet) {
       this.controllerSet[key].stop()
     }
@@ -21,5 +23,11 @@ export default class ControllerManager {
 
   public getController = (name: string) => {
     return this.controllerSet[name]
+  }
+
+  public shutdown = () => {
+    for (const key in this.controllerSet) {
+      this.controllerSet[key].stop()
+    }
   }
 }
