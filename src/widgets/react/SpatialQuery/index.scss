@@ -1,0 +1,30 @@
+.SpatialQuery {
+    @apply border-gray-400 border rounded;
+    width: 455px;
+    height: fit-content;
+    .sketch-tool {
+        display: none;
+    }
+    .manipulate-group {
+        display: flex;
+        justify-content: center;
+    }
+    .divider-primary {
+        @apply border-gray-600;
+    }
+    .extent-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        padding: 10px;
+        width: 450px;
+        height: fit-content;
+        max-height: 100px;
+        input {
+            @apply text-gray-600 border rounded;
+            background-color: #ffffff00;
+            width: 100px;
+            height: 30px;
+        }
+    }
+}

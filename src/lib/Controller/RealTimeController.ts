@@ -5,10 +5,6 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import PopupTemplate from '@arcgis/core/PopupTemplate'
 import ClassBreaksRenderer from '@arcgis/core/renderers/ClassBreaksRenderer'
 import Extent from '@arcgis/core/geometry/Extent'
-import * as projection from '@arcgis/core/geometry/projection'
-import SpatialReference from '@arcgis/core/geometry/SpatialReference'
-import Geometry from '@arcgis/core/geometry/Geometry'
-import Polygon from '@arcgis/core/geometry/Polygon'
 import geometry, { Point } from "@arcgis/core/geometry"
 import Graphic from '@arcgis/core/Graphic'
 import StatisticDefinition from '@arcgis/core/rest/support/StatisticDefinition'
@@ -22,6 +18,7 @@ import { mobileFeatureFields, fixedFeatureFields, standardFeatureFields, changeS
 import api from '../../api'
 import { resolve } from 'path'
 import { fixedStyle, standardStyle } from './RealTimeController/rendererContent'
+import { projectExtent } from '../../utils/modules/Extent'
 
 const typeSet = {
   mot: {
@@ -79,54 +76,61 @@ export default class RealTimeController extends BaseController {
     this.workingStatus = false
   }
 
-  public start = () => {
+  public start = async () => {
     if (this.workingStatus === false) {
-      this.getFeatureLayer('mot')
-      this.getFeatureLayer('fixed')
-      this.getFeatureLayer('standard')
+      await this.loadLayer()
+      if (this.updateMode === true) {
+        this.startUpdatingLayers()
+      }
     }
     this.workingStatus = true
   }
 
   public stop = () => {
     if (this.workingStatus === true) {
-      clearInterval(this.timerSet['mot'])
-      clearInterval(this.timerSet['fixed'])
-      clearInterval(this.timerSet['standard'])
-      this._clearMap()
+      this.stopUpdatingLayers()
+      this._clearMap([
+        this.featureLayerSet['mot'],
+        this.featureLayerSet['fixed'],
+        this.featureLayerSet['standard']
+      ])
     }
     this.workingStatus = false
+  }
+
+  public loadLayer = async () => {
+    const layerTypes: Array<sensor_type> = ['mot', 'fixed', 'standard']
+    for (let i = 0; i < layerTypes.length; i++) {
+      // 請求資料
+      const geoJson = await this.fetchLayerData(layerTypes[i])
+      // 產出graphic實體
+      const graphicArray: Array<Graphic> = this.createGraphics(geoJson, layerTypes[i])
+      // 使用graphic陣列產出featureLayer實體
+      const featureLayer: FeatureLayer = this.createFeatureLayer(graphicArray, layerTypes[i])
+      this.featureLayerSet[layerTypes[i]] = featureLayer
+      this.map.add(this.featureLayerSet[layerTypes[i]])
+    }
   }
 
   /**
    * 繪製即時FeatureLayer
    * @param sensorType
    */
-  public getFeatureLayer = async (sensorType: sensor_type) => {
-    let template = new PopupTemplate()
-    let renderer = new ClassBreaksRenderer()
-    let extent = new Extent()
-
-    template = typeSet[sensorType].template
-    renderer = typeSet[sensorType].renderer
-    if (sensorType === 'fixed') {
-      extent = this.mapView.extent
-    }
-
-    // 請求資料
-    const geoJson = await this.fetchLayerData(sensorType, extent)
-    // 產出graphic實體
-    const graphicArray: Array<Graphic> = this.createGraphics(geoJson, sensorType)
-    // 使用graphic陣列產出featureLayer實體
-    const featureLayer: FeatureLayer = this.createFeatureLayer(graphicArray, sensorType)
-    this.featureLayerSet[sensorType] = featureLayer
-    this.map.add(this.featureLayerSet[sensorType])
+  public startUpdatingLayers = () => {
+    const layerTypes: Array<sensor_type> = ['mot', 'fixed', 'standard']
     // 掛載定時更新
-    if (this.updateMode === true) {
-      this.timerSet[sensorType] = setInterval(() => {
-        this.updateData(sensorType)
+    for (let i = 0; i < layerTypes.length; i++) {
+      this.timerSet[layerTypes[i]] = setInterval(async () => {
+        await this.updateData(layerTypes[i])
         console.log("data updated!")
       }, 3000)
+    }
+  }
+
+  public stopUpdatingLayers = () => {
+    const layerTypes: Array<sensor_type> = ['mot', 'fixed', 'standard']
+    for (let i = 0; i < layerTypes.length; i++) {
+      clearInterval(this.timerSet[layerTypes[i]])
     }
   }
 
@@ -135,7 +139,7 @@ export default class RealTimeController extends BaseController {
    * @param sensorType
    * @param extent
    */
-  public fetchLayerData = async (sensorType: sensor_type, extent?: Extent) => {
+  public fetchLayerData = async (sensorType: sensor_type) => {
     if (sensorType === 'mot') {
       return await api.realTime.getRealTimeMobile()
     }
@@ -145,18 +149,11 @@ export default class RealTimeController extends BaseController {
     }
 
     if (sensorType === 'fixed') {
-      // console.log(extent)
-      let area = Polygon.fromExtent(extent as Extent)
-      projection.load()
-      let outSpatialReference = new SpatialReference({
-        wkid: 4326
-      })
-      let prj = projection.project(area, outSpatialReference)
-      let _extent = [(prj as Geometry).extent.xmin, (prj as Geometry).extent.ymin, (prj as Geometry).extent.xmax, (prj as Geometry).extent.ymax]
       var requestOptions = {
         method: 'GET',
         redirect: 'follow'
       }
+      const _extent = projectExtent(this.mapView)
       return await api.realTime.getRealTimeFixed(_extent, requestOptions)
     }
   }
@@ -273,7 +270,7 @@ export default class RealTimeController extends BaseController {
     }
 
     // 請求資料
-    const geoJson = await this.fetchLayerData(sensorType, extent)
+    const geoJson = await this.fetchLayerData(sensorType)
     // 產出graphic實體
     const graphicArray: Array<Graphic> = this.createGraphics(geoJson, sensorType)
     // 更新features
@@ -314,8 +311,7 @@ export default class RealTimeController extends BaseController {
 
     var renderer: ClassBreaksRenderer
     renderer = await featureLayer.queryFeatures(query).then(function (response) {
-      let stats = response.features[0].attributes;
-      console.log(stats);
+      let stats = response.features[0].attributes
       let attr_avg = "AVG_" + aq_type; //平均值欄位名稱
       let attr_std = "STD_" + aq_type; //標準差欄位名稱
       let avg = Math.round(stats[attr_avg])

@@ -50,3 +50,28 @@ export const sendVerifyEmail = async (username: string) => {
   })
   return response
 }
+
+export const resetPassword = async (email: string, originalPassword: string, newPassword: string) => {
+  const headersList = {
+    Accept: '*/*',
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+  const bodyContent = `email=${email}&originalPassword=${originalPassword}&newPassword=${newPassword}`
+  const response = await fetch(`${userServiceApiConfig.serverString}/api/User/resetPassword`, {
+    method: 'POST',
+    body: bodyContent,
+    headers: headersList
+  })
+  return response
+}
+
+export const sendPasswordResetEmail = async (email: string) => {
+  const headersList = {
+    Accept: '*/*'
+  }
+  const response = await fetch(`${userServiceApiConfig.serverString}/api/User/sendPasswordResetEmail?email=${email}`, {
+    method: 'GET',
+    headers: headersList
+  })
+  return response
+}

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { realTimeMonitorDrawerContext } from '../../DrawerProvider'
 import Drawer from '../../../jsdc-ui/components/Drawer'
 import InputLabel from '@mui/material/InputLabel'
@@ -6,6 +6,8 @@ import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { arcGisContext } from '../../../lib/MapProvider'
 import './RealTimeMonitorDrawer.scss'
+import { RealTimeController } from '../../../lib/Controller'
+import LinearProgress from '@mui/material/LinearProgress'
 
 const RealTimeMonitorDrawer = () => {
   const [mobileSelect, setmobileSelect] = useState<string>('Pm2_5_AVG')
@@ -18,25 +20,47 @@ const RealTimeMonitorDrawer = () => {
     realTimeMonitorSethide
   } = useContext(realTimeMonitorDrawerContext)
   const arcGis = useContext(arcGisContext)
+  const [fetchProgress, setfetchProgress] = useState<number>(0)
 
   const handleMobileSelect = (event: SelectChangeEvent) => {
     setmobileSelect(event.target.value as string)
-    arcGis.realTimeController?.changeSymbol(mobileSelect, 'mot')
+    const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController
+    realTimeController.changeSymbol(mobileSelect, 'mot')
   }
 
   const handleFixedSelect = (event: SelectChangeEvent) => {
     setfixedSelect(event.target.value as string)
-    arcGis.realTimeController?.changeSymbol(fixedSelect, 'fixed')
+    const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController
+    realTimeController.changeSymbol(fixedSelect, 'fixed')
   }
 
   const handleNationalSelect = (event: SelectChangeEvent) => {
     setnationalSelect(event.target.value as string)
-    arcGis.realTimeController?.changeSymbol(nationalSelect, 'standard')
+    const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController
+    realTimeController.changeSymbol(nationalSelect, 'standard')
   }
 
   const handleClose = () => {
     realTimeMonitorSethide(true)
   }
+
+  useEffect(() => {
+    const original = 100
+    let delta = 33
+    const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController | undefined
+    realTimeController?.featureLayerSet.mot.when(() => {
+      setfetchProgress(100)
+    })
+    setInterval(() => {
+      if (delta > 99) {
+        delta = 33
+        setfetchProgress(100)
+        return
+      }
+      setfetchProgress(original - delta)
+      delta += 33
+    }, 1000)
+  }, [arcGis.controllerManager?.getController('realTime') as RealTimeController])
 
   return (
     <Drawer
@@ -47,6 +71,10 @@ const RealTimeMonitorDrawer = () => {
       {realTimeMonitorContent}
 
       <div className="real-time-monitor">
+
+        <div className='progress-cell'>
+          <LinearProgress variant="determinate" value={fetchProgress} />
+        </div>
 
         <div className='select-cell'>
           <InputLabel id="mobile-label">移動點顯示</InputLabel>

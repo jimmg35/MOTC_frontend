@@ -89,6 +89,9 @@ const SignInSide = () => {
   const [signInOpen, setsignInOpen] = React.useState<boolean>(true)
   const [signUpOpen, setsignUpOpen] = React.useState<boolean>(false)
   const [verifyOpen, setverifyOpen] = React.useState<boolean>(false)
+  const [resetOpen, setresetOpen] = React.useState<boolean>(false)
+  const [sentOpen, setsentOpen] = React.useState<boolean>(false)
+  const [resetEmail, setresetEmail] = React.useState<string>('')
 
   const [registerEmail, setregisterEmail] = React.useState<string>('')
   const [isEmailValid, setisEmailValid] = React.useState<boolean>(false)
@@ -186,6 +189,24 @@ const SignInSide = () => {
   const handleSignUpOpen = () => {
     setsignInOpen(prev => !prev)
     setsignUpOpen(prev => !prev)
+  }
+
+  const handleResetOpen = () => {
+    setresetOpen(true)
+    setsignInOpen(false)
+  }
+
+  const handleSendResetMail = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    if (data.get('email') !== null) {
+      console.log(data.get('email'))
+      const response = await api.user.sendPasswordResetEmail(data.get('email') as string)
+      console.log(response)
+    }
+    setsentOpen(true)
+    setresetOpen(false)
+    setresetEmail(data.get('email') as string)
   }
 
   const handleRegisterEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -321,13 +342,13 @@ const SignInSide = () => {
 
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  {'Forgot password?'}
-                </Link>
+                <p onClick={handleResetOpen}>
+                  {'忘記密碼?'}
+                </p>
               </Grid>
               <Grid item>
                 <p onClick={handleSignUpOpen}>
-                  {"Don't have an account? Sign Up"}
+                  {'還沒有帳號? 點此註冊'}
                 </p>
               </Grid>
             </Grid>
@@ -440,6 +461,55 @@ const SignInSide = () => {
             </Button>
             <Copyright sx={{ mt: 5 }} />
           </Box> */}
+        </Box>
+
+        {/* 重設密碼寄信頁面 */}
+        <Box
+          sx={{
+            my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center'
+          }}
+          className={
+            classNames({ 'reset-email': true }, { hide: !resetOpen })
+          }
+        >
+
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <HowToRegOutlinedIcon />
+          </Avatar>
+
+          <Box component="form" noValidate onSubmit={handleSendResetMail} sx={{ mt: 1 }}>
+
+            <TextField
+              margin="normal" required fullWidth id="email" label="Email Address"
+              name="email" autoComplete="email" autoFocus
+            />
+            <Button
+              type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
+            >
+              Send
+            </Button>
+            <Copyright sx={{ mt: 5 }} />
+          </Box>
+        </Box>
+
+        {/* 重設密碼寄信寄出頁面 */}
+        <Box
+          sx={{
+            my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center'
+          }}
+          className={
+            classNames({ 'reset-email-sent': true }, { hide: !sentOpen })
+          }
+        >
+
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <HowToRegOutlinedIcon />
+          </Avatar>
+
+          <Typography component="h1" variant="h5">
+            驗證信已寄至{resetEmail}，請前往收信。
+          </Typography>
+          <Copyright sx={{ mt: 5 }} />
         </Box>
 
       </Grid>

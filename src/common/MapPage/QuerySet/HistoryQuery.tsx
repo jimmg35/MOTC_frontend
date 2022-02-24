@@ -8,40 +8,13 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import GpsFixedIcon from '@mui/icons-material/GpsFixed'
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
-// import Dialog from '@mui/material/Dialog'
-// import DialogActions from '@mui/material/DialogActions'
-// import DialogContent from '@mui/material/DialogContent'
-// import DialogContentText from '@mui/material/DialogContentText'
-// import DialogTitle from '@mui/material/DialogTitle'
-// import Slide from '@mui/material/Slide'
-// import { TransitionProps } from '@mui/material/transitions'
-
-// const Transition = React.forwardRef(function Transition(
-//   props: TransitionProps & { children: React.ReactElement<any, any> },
-//   ref: React.Ref<unknown>) { return <Slide direction="up" ref={ref} {...props} /> }
-// )
 
 const HistoryQuery = () => {
-  // const [historyModalOpen, sethistoryModalOpen] = useState<boolean>(false)
-  // const [value, setValue] = React.useState<Date | null>(new Date())
-  // useEffect(() => {
-  //   console.log('AAAAAAAAAAAAAAAAAAAAAAAAaa')
-  // }, [])
   const handleMobileSelect = (event: SelectChangeEvent) => {
     console.log(event.target.value as string)
   }
 
-  const handleFixedSelect = (event: SelectChangeEvent) => {
-    console.log(event.target.value as string)
-  }
-
-  // const handleHistoryModalClose = () => {
-  //   sethistoryModalOpen(false)
-  // }
-
   const handleHistoryModalOpen = () => {
-    // console.log(historyModalOpen)
-    // sethistoryModalOpen(true)
     console.log('AAAAAAAAAAAAa')
   }
 
@@ -122,32 +95,7 @@ const HistoryQuery = () => {
               <MenuItem value={3}>VOC</MenuItem>
             </Select>
           </div>
-
-          <div className='select-cell'>
-            <InputLabel id="mobile-label">固定點顯示</InputLabel>
-            <Select
-              labelId="mobile-label"
-              id="mobile-select"
-              className="mobile-select"
-              onChange={handleFixedSelect}
-            >
-              <MenuItem value={0}>PM 2.5</MenuItem>
-              <MenuItem value={1}>VOC</MenuItem>
-              <MenuItem value={2}>CO</MenuItem>
-              <MenuItem value={3}>SO2</MenuItem>
-              <MenuItem value={4}>NO2</MenuItem>
-            </Select>
-          </div>
         </div>
-
-        {/* <Dialog
-          open={historyModalOpen}
-          // TransitionComponent={Transition}
-          keepMounted
-          onClose={handleHistoryModalClose}
-          aria-describedby="alert-dialog-slide-description"
-        >
-        </Dialog> */}
 
       </LocalizationProvider>
     </div>

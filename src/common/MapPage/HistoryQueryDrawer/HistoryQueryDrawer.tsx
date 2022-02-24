@@ -1,10 +1,13 @@
+/* eslint-disable */
 import React, { useContext, useState } from 'react'
-import { Theme, useTheme } from '@mui/material/styles'
+// import { Theme, useTheme } from '@mui/material/styles'
 import { historyQueryDrawerContext } from '../../DrawerProvider'
 import Drawer from '../../../jsdc-ui/components/Drawer'
 import './HistoryQueryDrawer.scss'
-import { MobileDateTimePicker, TimePicker } from '@mui/lab'
-import { TextField, InputLabel, MenuItem, Button, OutlinedInput, Box, Chip } from '@mui/material'
+// import { MobileDateTimePicker, TimePicker } from '@mui/lab'
+// import { TextField, InputLabel, MenuItem, Button, OutlinedInput, Box, Chip } from '@mui/material'
+import { MobileDateTimePicker } from '@mui/lab'
+import { TextField, InputLabel, MenuItem, Button } from '@mui/material'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -15,51 +18,58 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import DatePicker from 'react-multi-date-picker'
-import DatePanel from 'react-multi-date-picker/plugins/date_panel'
+// import DatePicker from 'react-multi-date-picker'
+// import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import Divider from '@mui/material/Divider'
+import { arcGisContext } from '../../../lib/MapProvider'
+import { HistoryController } from '../../../lib/Controller'
+import SpatialQuery from '../../../widgets/react/SpatialQuery'
+import CircularProgress from '../../../jsdc-ui/components/CircularProgress'
+import classNames from 'classnames'
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
-    }
-  }
-}
+// const ITEM_HEIGHT = 48
+// const ITEM_PADDING_TOP = 8
+// const MenuProps = {
+//   PaperProps: {
+//     style: {
+//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+//       width: 250
+//     }
+//   }
+// }
 
-const weekEnum = [
-  { name: '星期一' },
-  { name: '星期二' },
-  { name: '星期三' },
-  { name: '星期四' },
-  { name: '星期五' },
-  { name: '星期六' },
-  { name: '星期日' }
-]
+// const weekEnum = [
+//   { name: '星期一' },
+//   { name: '星期二' },
+//   { name: '星期三' },
+//   { name: '星期四' },
+//   { name: '星期五' },
+//   { name: '星期六' },
+//   { name: '星期日' }
+// ]
 
-const getStyles = (name: string, personName: readonly string[], theme: Theme) => {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium
-  }
-}
+// const getStyles = (name: string, personName: readonly string[], theme: Theme) => {
+//   return {
+//     fontWeight:
+//       personName.indexOf(name) === -1
+//         ? theme.typography.fontWeightRegular
+//         : theme.typography.fontWeightMedium
+//   }
+// }
 
 const HistoryQueryDrawer = () => {
-  const theme = useTheme()
+  // const theme = useTheme()
+  const arcGis = useContext(arcGisContext)
   const [startDateTime, setstartDateTime] = useState<Date>(new Date())
   const [endDateTime, setendDateTime] = useState<Date>(new Date())
-  const [startTime, setstartTime] = useState<Date>(new Date())
-  const [endTime, setendTime] = useState<Date>(new Date())
-  const [days, setdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
-  const [excludeDates, setexcludeDates] = useState<Array<string>>([])
-  const [deviceId, setdeviceId] = useState<string>('')
-  const [mobileSelect, setmobileSelect] = useState<string>('0')
-  const [fixedSelect, setfixedSelect] = useState<string>('0')
+  // const [startTime, setstartTime] = useState<Date>(new Date())
+  // const [endTime, setendTime] = useState<Date>(new Date())
+  // const [days, setdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
+  // const [excludeDates, setexcludeDates] = useState<Array<string>>([])
+  const [deviceId, setdeviceId] = useState<string | null>(null)
+  const [mobileSelect, setmobileSelect] = useState<string>('Pm2_5_AVG')
+  const [_extent, set_extent] = useState<number[] | undefined[]>([undefined, undefined, undefined, undefined])
+  const [queryStatusOpen, setqueryStatusOpen] = useState<boolean>(false)
 
   const {
     historyQueryTitle = '',
@@ -74,34 +84,47 @@ const HistoryQueryDrawer = () => {
 
   const handleMobileSelect = (event: SelectChangeEvent) => {
     setmobileSelect(event.target.value as string)
-  }
-
-  const handleFixedSelect = (event: SelectChangeEvent) => {
-    setfixedSelect(event.target.value as string)
+    const historyController = arcGis.controllerManager?.getController('history') as HistoryController
+    historyController.changeSymbol(event.target.value as string)
   }
 
   const [open, setOpen] = React.useState(false)
 
-  const handleSettingOpen = () => {
-    setOpen(true)
-  }
-
-  const handleSettingClose = () => {
-    setOpen(false)
-  }
-
-  const handleWeekChange = (event: SelectChangeEvent<typeof days>) => {
-    const { target: { value } } = event
-    setdays(typeof value === 'string' ? value.split(',') : value)
-  }
+  // const handleWeekChange = (event: SelectChangeEvent<typeof days>) => {
+  //   const { target: { value } } = event
+  //   setdays(typeof value === 'string' ? value.split(',') : value)
+  // }
 
   const handleMobileIdSelect = (event: SelectChangeEvent) => {
     setdeviceId(event.target.value as string)
-    console.log(deviceId)
   }
 
-  const handleQueryMobile = () => {
+  const handleQueryMobile = async () => {
+    setqueryStatusOpen(true)
+    const historyController = arcGis.controllerManager?.getController('history') as HistoryController
+    const queryStatus = await historyController.query({
+      startDateTime: new Date(startDateTime).getTime(),
+      endDateTime: new Date(endDateTime).getTime(),
+      DeviceList: deviceId,
+      _extent: _extent as number[]
+    })
+    if (queryStatus !== undefined) {
+      setqueryStatusOpen(false)
+    }
+    historyController.mobileLayer?.when(() => {
+      setqueryStatusOpen(false)
+    })
 
+    // console.log(endDateTime)
+    // console.log(startTime)
+    // console.log(deviceId)
+    // console.log(endTime)
+    // console.log(days)
+    // console.log(excludeDates)
+  }
+
+  const handleExtentChange = (value: number[]) => {
+    set_extent(value)
   }
 
   return (
@@ -115,7 +138,7 @@ const HistoryQueryDrawer = () => {
       <div className="history-query">
         <LocalizationProvider dateAdapter={AdapterDateFns}>
 
-          <div className='select-row'>
+          <div className='select-row time-select'>
             <div className='select-cell'>
               <InputLabel id="start-date">起始日期</InputLabel>
               <MobileDateTimePicker
@@ -143,13 +166,20 @@ const HistoryQueryDrawer = () => {
             </div>
           </div>
 
+          <div className='select-row'>
+            <div className='select-cell'>
+              <InputLabel id="spatial-query">空間範圍</InputLabel>
+              <SpatialQuery onChange={handleExtentChange} _extent={_extent}></SpatialQuery>
+            </div>
+          </div>
+
           <div className='select-row-btn'>
             <div className='select-cell-btn'>
               <Button
                 className='setting-btn'
                 variant="outlined"
                 startIcon={<SettingsIcon />}
-                onClick={handleSettingOpen}
+                onClick={() => { setOpen(true) }}
               >
                 進階篩選
               </Button>
@@ -164,9 +194,22 @@ const HistoryQueryDrawer = () => {
               </Button>
             </div> */}
 
-            <div className='select-cell-btn'>
+            <div className='select-cell-btn query-set'>
+
+              <div
+                className={
+                  classNames({
+                    'circular-progress-container': true
+                  }, {
+                    hide: !queryStatusOpen
+                  })
+                }>
+                <CircularProgress radius={18.25}></CircularProgress>
+                <p>查詢中</p>
+              </div>
+
               <Button
-                className='setting-btn'
+                className='setting-btn-fill'
                 variant="contained"
                 onClick={handleQueryMobile}
                 startIcon={<TrendingFlatIcon />}>
@@ -187,14 +230,14 @@ const HistoryQueryDrawer = () => {
                 className="mobile-select"
                 onChange={handleMobileSelect}
               >
-                <MenuItem value={'0'}>PM 2.5 儀器平均</MenuItem>
-                <MenuItem value={'1'}>PM 2.5 UART</MenuItem>
-                <MenuItem value={'2'}>PM 2.5 I2C</MenuItem>
-                <MenuItem value={'3'}>VOC</MenuItem>
+                <MenuItem value={'Pm2_5_AVG'}>PM 2.5 儀器平均</MenuItem>
+                <MenuItem value={'Pm2_5_UART'}>PM 2.5 UART</MenuItem>
+                <MenuItem value={'Pm2_5_I2C'}>PM 2.5 I2C</MenuItem>
+                <MenuItem value={'Voc'}>VOC</MenuItem>
               </Select>
             </div>
 
-            <div className='select-cell'>
+            {/* <div className='select-cell'>
               <InputLabel id="fixed-label">固定點顯示</InputLabel>
               <Select
                 labelId="fixed-label"
@@ -209,7 +252,7 @@ const HistoryQueryDrawer = () => {
                 <MenuItem value={'3'}>SO2</MenuItem>
                 <MenuItem value={'4'}>NO2</MenuItem>
               </Select>
-            </div>
+            </div> */}
           </div>
 
           {/* <Dialog
@@ -226,11 +269,11 @@ const HistoryQueryDrawer = () => {
 
       <Dialog
         open={open}
-        onClose={handleSettingClose}
+        onClose={() => { setOpen(false) }}
         aria-labelledby="historyQuery-dialog-title"
         aria-describedby="historyQuery-dialog-description"
       >
-        <DialogTitle id="historyQuery-dialog-title">
+        {/* <DialogTitle id="historyQuery-dialog-title">
           {'時段篩選'}
         </DialogTitle>
         <DialogContent>
@@ -272,7 +315,6 @@ const HistoryQueryDrawer = () => {
           {'星期篩選'}
         </DialogTitle>
         <DialogContent>
-          {/* <InputLabel id="demo-multiple-chip-label">Chip</InputLabel> */}
           <div className='setting-modal'>
             <div className='setting-row'>
               <div className='setting-cell'>
@@ -337,7 +379,7 @@ const HistoryQueryDrawer = () => {
             </div>
 
           </LocalizationProvider>
-        </DialogContent>
+        </DialogContent> */}
 
         <DialogTitle id="historyQuery-dialog-title">
           {'感測器篩選'}
@@ -352,7 +394,7 @@ const HistoryQueryDrawer = () => {
                   labelId="mobile-id-label"
                   id="mobile-id-select"
                   className="mobile-id-select"
-                  value={deviceId}
+                  value={deviceId ? deviceId : ''}
                   onChange={handleMobileIdSelect}
                 >
                   <MenuItem value={0}>ID 0</MenuItem>
@@ -373,7 +415,7 @@ const HistoryQueryDrawer = () => {
         </DialogContent> */}
 
         <DialogActions>
-          <Button onClick={handleSettingClose} autoFocus>
+          <Button onClick={() => { setOpen(false) }} autoFocus>
             儲存
           </Button>
         </DialogActions>
