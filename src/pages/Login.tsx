@@ -343,12 +343,12 @@ const SignInSide = () => {
             <Grid container>
               <Grid item xs>
                 <p onClick={handleResetOpen}>
-                  {'Forgot password?'}
+                  {'忘記密碼?'}
                 </p>
               </Grid>
               <Grid item>
                 <p onClick={handleSignUpOpen}>
-                  {"Don't have an account? Sign Up"}
+                  {'還沒有帳號? 點此註冊'}
                 </p>
               </Grid>
             </Grid>
