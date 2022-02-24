@@ -8,6 +8,7 @@ import {
 } from '../../DrawerProvider'
 import './Header.scss'
 import { arcGisContext } from '../../../lib/MapProvider'
+import { HistoryController, RealTimeController } from '../../../lib/Controller'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -38,9 +39,10 @@ const Header = () => {
       historyQuerySethide(true)
       routeAnalysisSethide(true)
       realTimeMonitorSetcontent(undefined)
-      // arcGis.realTimeController?.start()
-      // arcGis.historyController?.stop()
-      arcGis.controllerManager?.activate('realTime')
+      const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController
+      if (realTimeController.workingStatus === false) {
+        arcGis.controllerManager?.activate('realTime')
+      }
     } else if (title === '歷史查詢') {
       historyQuerySettitle(title)
       historyQuerySethide(!historyQueryHide)
@@ -48,7 +50,10 @@ const Header = () => {
       routeAnalysisSethide(true)
       historyQuerySetcontent(undefined)
       // arcGis.realTimeController?.stop()
-      arcGis.controllerManager?.activate('history')
+      const historyController = arcGis.controllerManager?.getController('history') as HistoryController
+      if (historyController.workingStatus === false) {
+        arcGis.controllerManager?.activate('history')
+      }
     } else {
       routeAnalysisSettitle(title)
       routeAnalysisSethide(!routeAnalysisHide)

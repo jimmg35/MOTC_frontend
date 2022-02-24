@@ -76,20 +76,19 @@ export default class RealTimeController extends BaseController {
     this.workingStatus = false
   }
 
-  public start = () => {
+  public start = async () => {
     if (this.workingStatus === false) {
-      this.getFeatureLayer('mot')
-      this.getFeatureLayer('fixed')
-      this.getFeatureLayer('standard')
+      await this.loadLayer()
+      if (this.updateMode === true) {
+        this.startUpdatingLayers()
+      }
     }
     this.workingStatus = true
   }
 
   public stop = () => {
     if (this.workingStatus === true) {
-      clearInterval(this.timerSet['mot'])
-      clearInterval(this.timerSet['fixed'])
-      clearInterval(this.timerSet['standard'])
+      this.stopUpdatingLayers()
       this._clearMap([
         this.featureLayerSet['mot'],
         this.featureLayerSet['fixed'],
@@ -99,35 +98,39 @@ export default class RealTimeController extends BaseController {
     this.workingStatus = false
   }
 
+  public loadLayer = async () => {
+    const layerTypes: Array<sensor_type> = ['mot', 'fixed', 'standard']
+    for (let i = 0; i < layerTypes.length; i++) {
+      // 請求資料
+      const geoJson = await this.fetchLayerData(layerTypes[i])
+      // 產出graphic實體
+      const graphicArray: Array<Graphic> = this.createGraphics(geoJson, layerTypes[i])
+      // 使用graphic陣列產出featureLayer實體
+      const featureLayer: FeatureLayer = this.createFeatureLayer(graphicArray, layerTypes[i])
+      this.featureLayerSet[layerTypes[i]] = featureLayer
+      this.map.add(this.featureLayerSet[layerTypes[i]])
+    }
+  }
+
   /**
    * 繪製即時FeatureLayer
    * @param sensorType
    */
-  public getFeatureLayer = async (sensorType: sensor_type) => {
-    let template = new PopupTemplate()
-    let renderer = new ClassBreaksRenderer()
-    let extent = new Extent()
-
-    template = typeSet[sensorType].template
-    renderer = typeSet[sensorType].renderer
-    if (sensorType === 'fixed') {
-      extent = this.mapView.extent
-    }
-
-    // 請求資料
-    const geoJson = await this.fetchLayerData(sensorType)
-    // 產出graphic實體
-    const graphicArray: Array<Graphic> = this.createGraphics(geoJson, sensorType)
-    // 使用graphic陣列產出featureLayer實體
-    const featureLayer: FeatureLayer = this.createFeatureLayer(graphicArray, sensorType)
-    this.featureLayerSet[sensorType] = featureLayer
-    this.map.add(this.featureLayerSet[sensorType])
+  public startUpdatingLayers = () => {
+    const layerTypes: Array<sensor_type> = ['mot', 'fixed', 'standard']
     // 掛載定時更新
-    if (this.updateMode === true) {
-      this.timerSet[sensorType] = setInterval(() => {
-        this.updateData(sensorType)
+    for (let i = 0; i < layerTypes.length; i++) {
+      this.timerSet[layerTypes[i]] = setInterval(async () => {
+        await this.updateData(layerTypes[i])
         console.log("data updated!")
       }, 3000)
+    }
+  }
+
+  public stopUpdatingLayers = () => {
+    const layerTypes: Array<sensor_type> = ['mot', 'fixed', 'standard']
+    for (let i = 0; i < layerTypes.length; i++) {
+      clearInterval(this.timerSet[layerTypes[i]])
     }
   }
 

@@ -2,7 +2,7 @@
 import BaseController from '../Controller/BaseController'
 
 export default class ControllerManager {
-  private controllerSet: { [name: string]: BaseController }
+  public controllerSet: { [name: string]: BaseController }
 
   constructor() {
     this.controllerSet = {}
