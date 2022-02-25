@@ -10,7 +10,7 @@ import TimeSlider from '@arcgis/core/widgets/TimeSlider'
 import Expand from '@arcgis/core/widgets/Expand'
 
 /* Controllers */
-import { RealTimeController, HistoryController } from '../Controller'
+import { RealTimeController, HistoryController, RouteController } from '../Controller'
 import ControllerManager from '../ControllerManager'
 
 export interface IMapOptions {
@@ -83,9 +83,13 @@ export class ArcGIS {
       mapSet: mapSet,
       timeSlider: this.timeSlider as TimeSlider
     })
+    const routeController = new RouteController({
+      mapSet: mapSet
+    })
 
     this.controllerManager?.register('realTime', realTimeController)
     this.controllerManager?.register('history', historyController)
+    this.controllerManager?.register('route', routeController)
     this.controllerManager?.activate('realTime')
   }
 }

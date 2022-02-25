@@ -8,7 +8,6 @@ import {
 } from '../../DrawerProvider'
 import './Header.scss'
 import { arcGisContext } from '../../../lib/MapProvider'
-import { HistoryController, RealTimeController } from '../../../lib/Controller'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -32,40 +31,45 @@ const Header = () => {
   } = useContext(routeAnalysisDrawerContext)
   const arcGis = useContext(arcGisContext)
 
+  const switchRealTimePanel = (title: string) => {
+    realTimeMonitorSettitle(title)
+    realTimeMonitorSethide(!realTimeMonitorHide)
+    historyQuerySethide(true)
+    routeAnalysisSethide(true)
+    realTimeMonitorSetcontent(undefined)
+  }
+
+  const switchHistoryPanel = (title: string) => {
+    historyQuerySettitle(title)
+    historyQuerySethide(!historyQueryHide)
+    realTimeMonitorSethide(true)
+    routeAnalysisSethide(true)
+    historyQuerySetcontent(undefined)
+  }
+
+  const switchRoutePanel = (title: string) => {
+    routeAnalysisSettitle(title)
+    routeAnalysisSethide(!routeAnalysisHide)
+    realTimeMonitorSethide(true)
+    historyQuerySethide(true)
+    routeAnalysisSetcontent(undefined)
+  }
+
   const handleDrawerOpen = (title: string) => {
     if (title === '空品即時監測') {
-      realTimeMonitorSettitle(title)
-      realTimeMonitorSethide(!realTimeMonitorHide)
-      historyQuerySethide(true)
-      routeAnalysisSethide(true)
-      realTimeMonitorSetcontent(undefined)
-      const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController
-      if (realTimeController.workingStatus === false) {
-        arcGis.controllerManager?.activate('realTime')
-      }
+      switchRealTimePanel(title)
+      arcGis.controllerManager?.activate('realTime')
     } else if (title === '歷史查詢') {
-      historyQuerySettitle(title)
-      historyQuerySethide(!historyQueryHide)
-      realTimeMonitorSethide(true)
-      routeAnalysisSethide(true)
-      historyQuerySetcontent(undefined)
-      // arcGis.realTimeController?.stop()
-      const historyController = arcGis.controllerManager?.getController('history') as HistoryController
-      if (historyController.workingStatus === false) {
-        arcGis.controllerManager?.activate('history')
-      }
+      switchHistoryPanel(title)
+      arcGis.controllerManager?.activate('history')
     } else {
-      routeAnalysisSettitle(title)
-      routeAnalysisSethide(!routeAnalysisHide)
-      realTimeMonitorSethide(true)
-      historyQuerySethide(true)
-      routeAnalysisSetcontent(undefined)
-      // arcGis.realTimeController?.stop()
+      switchRoutePanel(title)
+      arcGis.controllerManager?.activate('route')
     }
   }
 
   const handleDataCenterClick = () => {
-    // arcGis.realTimeController?.stop()
+    arcGis.controllerManager?.shutdown()
     navigate('/dashboard')
   }
 

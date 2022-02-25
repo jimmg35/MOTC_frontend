@@ -3,6 +3,13 @@
         &.hide {
             display: none;
         }
+        .login-fail-caption {
+            display: flex;
+            justify-content: center;
+            &.hide {
+                display: none;
+            }
+        }
     }
     .sign-up {
         &.hide {

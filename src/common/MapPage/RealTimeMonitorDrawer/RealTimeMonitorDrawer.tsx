@@ -47,10 +47,6 @@ const RealTimeMonitorDrawer = () => {
   useEffect(() => {
     const original = 100
     let delta = 33
-    const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController | undefined
-    realTimeController?.featureLayerSet.mot.when(() => {
-      setfetchProgress(100)
-    })
     setInterval(() => {
       if (delta > 99) {
         delta = 33
@@ -60,7 +56,7 @@ const RealTimeMonitorDrawer = () => {
       setfetchProgress(original - delta)
       delta += 33
     }, 1000)
-  }, [arcGis.controllerManager?.getController('realTime') as RealTimeController])
+  }, [])
 
   return (
     <Drawer
