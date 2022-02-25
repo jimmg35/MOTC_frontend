@@ -119,6 +119,7 @@ const SignInSide = () => {
   const [isLoginEmailExist, setisLoginEmailExist] = React.useState<boolean>(false)
   const [loginEmailHelperText, setloginEmailHelperText] = React.useState<string>('')
 
+  const [loginFailShow, setloginFailShow] = React.useState<boolean>(false)
   React.useEffect(() => {
     localStorage.removeItem('token')
   }, [])
@@ -140,11 +141,13 @@ const SignInSide = () => {
         })
       )
       if (response.status === 200) {
+        setloginFailShow(false)
         const content = await response.json()
         localStorage.setItem('token', content.token)
         await authStatus.authenticateToken(content.token)
         navigate('/', { replace: true })
       }
+      setloginFailShow(true)
     }
   }
 
@@ -334,6 +337,18 @@ const SignInSide = () => {
             <TextField
               margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password"
             />
+
+            <div className={
+              classNames(
+                { 'login-fail-caption': true },
+                { hide: !loginFailShow }
+              )
+            }>
+              <Typography variant='subtitle2' color='red'>
+                登入失敗
+              </Typography>
+            </div>
+
             <Button
               type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
             >
@@ -343,12 +358,12 @@ const SignInSide = () => {
             <Grid container>
               <Grid item xs>
                 <p onClick={handleResetOpen}>
-                  {'忘記密碼?'}
+                  {'Forget password?'}
                 </p>
               </Grid>
               <Grid item>
                 <p onClick={handleSignUpOpen}>
-                  {'還沒有帳號? 點此註冊'}
+                  {"Don't have an account? sign up here"}
                 </p>
               </Grid>
             </Grid>
