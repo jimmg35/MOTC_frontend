@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { realTimeMonitorDrawerContext } from '../../DrawerProvider'
 import Drawer from '../../../jsdc-ui/components/Drawer'
 import InputLabel from '@mui/material/InputLabel'
@@ -7,7 +7,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { arcGisContext } from '../../../lib/MapProvider'
 import './RealTimeMonitorDrawer.scss'
 import { RealTimeController } from '../../../lib/Controller'
-// import LinearProgress from '@mui/material/LinearProgress'
+import LinearProgress from '@mui/material/LinearProgress'
 
 const RealTimeMonitorDrawer = () => {
   const [mobileSelect, setmobileSelect] = useState<string>('Pm2_5_AVG')
@@ -20,7 +20,7 @@ const RealTimeMonitorDrawer = () => {
     realTimeMonitorSethide
   } = useContext(realTimeMonitorDrawerContext)
   const arcGis = useContext(arcGisContext)
-  // const [fetchProgress, setfetchProgress] = useState<number>(0)
+  const [fetchProgress, setfetchProgress] = useState<number>(0)
 
   const handleMobileSelect = (event: SelectChangeEvent) => {
     setmobileSelect(event.target.value as string)
@@ -44,23 +44,19 @@ const RealTimeMonitorDrawer = () => {
     realTimeMonitorSethide(true)
   }
 
-  // useEffect(() => {
-  //   const original = 100
-  //   let delta = 33
-  //   const realTimeController = arcGis.controllerManager?.getController('realTime') as RealTimeController | undefined
-  //   realTimeController?.featureLayerSet.mot.when(() => {
-  //     setfetchProgress(100)
-  //   })
-  //   setInterval(() => {
-  //     if (delta > 99) {
-  //       delta = 33
-  //       setfetchProgress(100)
-  //       return
-  //     }
-  //     setfetchProgress(original - delta)
-  //     delta += 33
-  //   }, 1000)
-  // }, [arcGis.controllerManager?.getController('realTime') as RealTimeController])
+  useEffect(() => {
+    const original = 100
+    let delta = 33
+    setInterval(() => {
+      if (delta > 99) {
+        delta = 33
+        setfetchProgress(100)
+        return
+      }
+      setfetchProgress(original - delta)
+      delta += 33
+    }, 1000)
+  }, [])
 
   return (
     <Drawer
@@ -72,9 +68,9 @@ const RealTimeMonitorDrawer = () => {
 
       <div className="real-time-monitor">
 
-        {/* <div className='progress-cell'>
+        <div className='progress-cell'>
           <LinearProgress variant="determinate" value={fetchProgress} />
-        </div> */}
+        </div>
 
         <div className='select-cell'>
           <InputLabel id="mobile-label">移動點顯示</InputLabel>
