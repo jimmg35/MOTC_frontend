@@ -1,8 +1,6 @@
 /* eslint-disable */
 
 /* ArcGIS API for javascript */
-import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer'
-import TimeSlider from '@arcgis/core/widgets/TimeSlider'
 
 /* Controllers */
 import BaseController, { IBaseControllerParam } from './BaseController'
