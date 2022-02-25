@@ -29,16 +29,16 @@ export const airServiceApiConfig = new ApiConfig({
 
 export const authServiceApiConfig = new ApiConfig({
   protocol: 'http',
-  // domain: 'localhost',
-  // port: '85'
-  domain: '140.122.82.98',
-  port: '86'
+  domain: 'localhost',
+  port: '85'
+  // domain: '140.122.82.98',
+  // port: '86'
 })
 
 export const userServiceApiConfig = new ApiConfig({
   protocol: 'http',
-  // domain: 'localhost',
-  // port: '85'
-  domain: '140.122.82.98',
-  port: '86'
+  domain: 'localhost',
+  port: '85'
+  // domain: '140.122.82.98',
+  // port: '86'
 })
