@@ -2,15 +2,24 @@
   @apply flex py-1 items-center;
   min-height: 64px;
   background-color: rgb(51, 51, 51);
+  @media (max-width: 810px) {
+    @apply flex flex-col;
+  }
 
   .MapPage-Header-title {
     @apply px-2 text-4xl text-text-white text-center;
     min-width: 100px;
+    @media (max-width: 810px) {
+      font-size: 24px;
+    }
   }
   .MapPage-Header-mainAction {
     @apply flex-1 px-2;
   }
   .MapPage-Header-endAction {
     @apply px-2;
+    @media (max-width: 810px) {
+      display: none;
+    }
   }
 }
