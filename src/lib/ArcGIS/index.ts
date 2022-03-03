@@ -7,6 +7,8 @@ import MapView from '@arcgis/core/views/MapView'
 import ViewerTask from '../ViewerTask'
 import timeSlider from '../../widgets/arcgis/TimeSlider'
 import TimeSlider from '@arcgis/core/widgets/TimeSlider'
+import layerList from '../../widgets/arcgis/LayerList'
+import LayerList from '@arcgis/core/widgets/LayerList'
 import Expand from '@arcgis/core/widgets/Expand'
 
 /* Controllers */
@@ -27,6 +29,7 @@ export class ArcGIS {
   map: Map | undefined
   mapView: MapView | undefined
   timeSlider: TimeSlider | undefined
+  layerList: LayerList | undefined
   viewerTask: ViewerTask
   controllerManager: ControllerManager | undefined
 
@@ -34,6 +37,7 @@ export class ArcGIS {
     this.map = undefined
     this.mapView = undefined
     this.timeSlider = undefined
+    this.layerList = undefined
     this.viewerTask = new ViewerTask()
     this.controllerManager = new ControllerManager()
   }
@@ -69,7 +73,16 @@ export class ArcGIS {
       content: timeSlider,
       expanded: false
     })
+    layerList.view = this.mapView as MapView
+    this.layerList = layerList
+    const layerListExpand = new Expand({
+      expandIconClass: 'esri-icon-layer-list',
+      expandTooltip: 'Legend',
+      content: layerList,
+      expanded: false
+    })
     this.mapView?.ui.add(timeExpand, 'bottom-left')
+    this.mapView?.ui.add(layerListExpand, 'top-left')
   }
 
   private _registerControllers = () => {
