@@ -69,6 +69,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.14",
     "@types/uuid": "^8.3.3",
     "@types/validator": "^13.7.1",
     "@typescript-eslint/eslint-plugin": "^5.8.0",

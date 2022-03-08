@@ -69,7 +69,7 @@ export class ArcGIS {
     this.timeSlider = timeSlider
     const timeExpand = new Expand({
       expandIconClass: 'esri-icon-dashboard',
-      expandTooltip: 'Legend',
+      expandTooltip: 'timeSlider',
       content: timeSlider,
       expanded: false
     })
@@ -81,8 +81,8 @@ export class ArcGIS {
       content: layerList,
       expanded: false
     })
-    this.mapView?.ui.add(timeExpand, 'bottom-left')
-    this.mapView?.ui.add(layerListExpand, 'top-left')
+    this.mapView?.ui.add(layerListExpand, 'bottom-left')
+    this.mapView?.ui.add(timeExpand, 'top-left')
   }
 
   private _registerControllers = () => {

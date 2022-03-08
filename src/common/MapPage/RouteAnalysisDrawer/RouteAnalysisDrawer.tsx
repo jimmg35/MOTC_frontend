@@ -53,7 +53,7 @@ const RealTimeMonitorDrawer = () => {
   const [endDateTime, setendDateTime] = useState<Date>(new Date())
   const [startTime, setstartTime] = useState<Date>(new Date())
   const [endTime, setendTime] = useState<Date>(new Date())
-  const [days, setdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
+  const [weekdays, setdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
   const [excludeDates, setexcludeDates] = useState<Array<string>>([])
   const [item, setitem] = useState<string>('0')
 
@@ -78,7 +78,7 @@ const RealTimeMonitorDrawer = () => {
     setOpen(false)
   }
 
-  const handleWeekChange = (event: SelectChangeEvent<typeof days>) => {
+  const handleWeekChange = (event: SelectChangeEvent<typeof weekdays>) => {
     const { target: { value } } = event
     setdays(typeof value === 'string' ? value.split(',') : value)
   }
@@ -89,7 +89,8 @@ const RealTimeMonitorDrawer = () => {
   }
 
   const handleRouteQuery = () => {
-
+    const startdate = new Date(startDateTime).getTime()
+    window.alert(startdate)
   }
 
   return (
@@ -230,7 +231,7 @@ const RealTimeMonitorDrawer = () => {
                   id="demo-multiple-chip"
                   className="demo-multiple-chip"
                   multiple
-                  value={days}
+                  value={weekdays}
                   onChange={handleWeekChange}
                   input={<OutlinedInput id="select-multiple-chip" />}
                   renderValue={(selected) => (
@@ -246,7 +247,7 @@ const RealTimeMonitorDrawer = () => {
                     <MenuItem
                       key={dayData.name}
                       value={dayData.name}
-                      style={getStyles(dayData.name, days, theme)}
+                      style={getStyles(dayData.name, weekdays, theme)}
                     >
                       {dayData.name}
                     </MenuItem>
