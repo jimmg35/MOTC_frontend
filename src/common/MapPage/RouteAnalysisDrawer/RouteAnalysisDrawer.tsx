@@ -16,6 +16,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import DatePicker from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
+import dateFormat from 'dateformat'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -47,13 +48,13 @@ const getStyles = (name: string, personName: readonly string[], theme: Theme) =>
   }
 }
 
-const RealTimeMonitorDrawer = () => {
+const RouteAnalysisDrawer = () => {
   const theme = useTheme()
   const [startDateTime, setstartDateTime] = useState<Date>(new Date())
   const [endDateTime, setendDateTime] = useState<Date>(new Date())
-  const [startTime, setstartTime] = useState<Date>(new Date())
-  const [endTime, setendTime] = useState<Date>(new Date())
-  const [weekdays, setdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
+  const [intervalStartTime, setIntervalStartTime] = useState<Date>(new Date())
+  const [intervalEndTime, setIntervalEndTime] = useState<Date>(new Date())
+  const [weekdays, setWeekdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
   const [excludeDates, setexcludeDates] = useState<Array<string>>([])
   const [item, setitem] = useState<string>('0')
 
@@ -80,7 +81,7 @@ const RealTimeMonitorDrawer = () => {
 
   const handleWeekChange = (event: SelectChangeEvent<typeof weekdays>) => {
     const { target: { value } } = event
-    setdays(typeof value === 'string' ? value.split(',') : value)
+    setWeekdays(typeof value === 'string' ? value.split(',') : value)
   }
 
   const handleItemChange = (event: SelectChangeEvent) => {
@@ -89,8 +90,22 @@ const RealTimeMonitorDrawer = () => {
   }
 
   const handleRouteQuery = () => {
-    const startdate = new Date(startDateTime).getTime()
-    window.alert(startdate)
+    const startDate = dateFormat(startDateTime, 'yyyy-mm-dd')
+    const endDate = dateFormat(endDateTime, 'yyyy-mm-dd')
+    const startTime = dateFormat(startDateTime, 'HH:MM')
+    const endTime = dateFormat(endDateTime, 'HH:MM')
+    // const intervalST = dateFormat(intervalStartTime, 'HH:MM')
+    // const intervalET = dateFormat(intervalEndTime, 'HH:MM')
+    const myweekdays = weekdays
+    const myexcludeDates = excludeDates
+    console.log(startDate)
+    console.log(endDate)
+    console.log(startTime)
+    console.log(endTime)
+    console.log(intervalStartTime)
+    console.log(intervalEndTime)
+    console.log(myweekdays)
+    console.log(myexcludeDates)
   }
 
   return (
@@ -190,12 +205,12 @@ const RealTimeMonitorDrawer = () => {
               <div className='setting-row'>
                 <div className='setting-cell'>
                   <TimePicker
-                    minutesStep={60}
+                    minutesStep={30}
                     label="起始時間"
-                    value={startTime}
+                    value={intervalStartTime}
                     onChange={(newValue) => {
                       if (newValue != null) {
-                        setstartTime(newValue)
+                        setIntervalStartTime(newValue)
                       }
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -203,12 +218,12 @@ const RealTimeMonitorDrawer = () => {
                 </div>
                 <div className='setting-cell'>
                   <TimePicker
-                    minutesStep={60}
+                    minutesStep={30}
                     label="結束時間"
-                    value={endTime}
+                    value={intervalEndTime}
                     onChange={(newValue) => {
                       if (newValue != null) {
-                        setendTime(newValue)
+                        setIntervalEndTime(newValue)
                       }
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -295,11 +310,9 @@ const RealTimeMonitorDrawer = () => {
             儲存
           </Button>
         </DialogActions>
-
       </Dialog>
-
     </Drawer>
   )
 }
 
-export default RealTimeMonitorDrawer
+export default RouteAnalysisDrawer

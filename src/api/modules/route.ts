@@ -17,3 +17,22 @@ export const QueryRouteAnalysis = async (Network_Query: RouteQueryParams) => {
      });
 }
 
+// 'startDate': _from_date,
+//         'endDate': _end_date,
+//         'startTime': from_time,
+//         'endTime': end_time,
+//         'extent': extent,
+//         'interval_st': interval_st,
+//         'interval_et': interval_et,
+//         'weekdays': _weekdays,
+//         'rmdates': rmdates
+export const QueryRouteAnalysis2 = async (Network_Query: RouteQueryParams) => {
+  Network_Query.startDate
+    const response = await fetch(
+        `${airServiceApiConfig.serverString}/api/MobileSensor/queryMSHNetwork?startDate`,
+        {
+          method: 'GET'
+        }
+      )
+      return response
+}
