@@ -169,7 +169,7 @@ const HistoryQueryDrawer = () => {
           <div className='select-row'>
             <div className='select-cell'>
               <InputLabel id="spatial-query">空間範圍</InputLabel>
-              <SpatialQuery onChange={handleExtentChange} _extent={_extent}></SpatialQuery>
+              <SpatialQuery onChange={handleExtentChange} _extent={_extent} sketchID='sketchhistory'></SpatialQuery>
             </div>
           </div>
 

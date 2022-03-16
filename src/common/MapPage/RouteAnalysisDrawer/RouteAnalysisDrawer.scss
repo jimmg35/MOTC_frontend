@@ -40,11 +40,23 @@
     .setting-btn {
     }
 }
+.aa{
+    .ggg{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    }
+    .MuiPaper-root{
+        width:500px;
+        height:410px;
+    }
+    // min-width:500px;
+}
 
 .setting-modal {
-    display: flex;
+    // display: flex;
     justify-content: flex-start;
-    flex-direction: column;
+    // flex-direction: column;
     .setting-row {
         display: flex;
         justify-content: flex-start;

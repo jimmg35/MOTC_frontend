@@ -1,9 +1,9 @@
 .SpatialQuery {
     @apply border-gray-400 border rounded;
-    width: 455px;
+    width: 300px;
     height: fit-content;
     @media (max-width: 810px) {
-        width: 315px;
+        width: 300px;
     }
     .sketch-tool {
         display: none;
@@ -15,16 +15,34 @@
     .divider-primary {
         @apply border-gray-600;
     }
-    .extent-group {
+    .extent-group-min {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-evenly;
         padding: 10px;
-        width: 450px;
+        width: 300px;
         height: fit-content;
-        max-height: 100px;
+        max-height: 50px;
         @media (max-width: 810px) {
-            width: 315px;
+            width: 300px;
+        }
+        input {
+            @apply text-gray-600 border rounded;
+            background-color: #ffffff00;
+            width: 100px;
+            height: 30px;
+        }
+    }
+    .extent-group-max {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        padding: 10px;
+        width: 300px;
+        height: fit-content;
+        max-height: 50px;
+        @media (max-width: 810px) {
+            width: 300px;
         }
         input {
             @apply text-gray-600 border rounded;

@@ -12,11 +12,19 @@ import TrendingFlatIcon from '@mui/icons-material/TrendingFlat'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
+import SpatialQuery from '../../../widgets/react/SpatialQuery'
+// import DialogContent from '@mui/material/DialogContent'
+// import DialogTitle from '@mui/material/DialogTitle'
 import DatePicker from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import dateFormat from 'dateformat'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import List from '@mui/material/List'
+import Collapse from '@mui/material/Collapse'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import ExpandMore from '@mui/icons-material/ExpandMore'
+import Divider from '@mui/material/Divider'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -52,9 +60,10 @@ const RouteAnalysisDrawer = () => {
   const theme = useTheme()
   const [startDateTime, setstartDateTime] = useState<Date>(new Date())
   const [endDateTime, setendDateTime] = useState<Date>(new Date())
-  const [intervalStartTime, setIntervalStartTime] = useState<Date>(new Date())
-  const [intervalEndTime, setIntervalEndTime] = useState<Date>(new Date())
-  const [weekdays, setWeekdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
+  const [_extent, setExtent] = useState<number[] | undefined[]>([undefined, undefined, undefined, undefined])
+  const [intervalStartTime, setIntervalStartTime] = useState<Date>()
+  const [intervalEndTime, setIntervalEndTime] = useState<Date>()
+  const [weekdays, setWeekdays] = useState<string[]>([])
   const [excludeDates, setexcludeDates] = useState<Array<string>>([])
   const [item, setitem] = useState<string>('0')
 
@@ -70,15 +79,35 @@ const RouteAnalysisDrawer = () => {
   }
 
   const [open, setOpen] = React.useState(false)
+  const [openTimeIT, setTimeITOpen] = React.useState(false)
+  const [openWeek, setWeekOpen] = React.useState(false)
+  const [openRMdays, setRmdaysOpen] = React.useState(false)
 
   const handleSettingOpen = () => {
     setOpen(true)
   }
-
   const handleSettingClose = () => {
     setOpen(false)
   }
+  const handleTimeITOpen = () => {
+    setTimeITOpen(!openTimeIT)
+  }
+  const handleExtentChange = (value: number[]) => {
+    setExtent(value)
+  }
+  const handleWeekOpen = () => {
+    setWeekOpen(!openWeek)
+  }
+  const handleRMdaysOpen = () => {
+    setRmdaysOpen(!openRMdays)
+  }
 
+  const handleAdvancedParams = () => {
+    setIntervalStartTime(undefined)
+    setIntervalEndTime(undefined)
+    setWeekdays([])
+    setexcludeDates([])
+  }
   const handleWeekChange = (event: SelectChangeEvent<typeof weekdays>) => {
     const { target: { value } } = event
     setWeekdays(typeof value === 'string' ? value.split(',') : value)
@@ -94,16 +123,16 @@ const RouteAnalysisDrawer = () => {
     const endDate = dateFormat(endDateTime, 'yyyy-mm-dd')
     const startTime = dateFormat(startDateTime, 'HH:MM')
     const endTime = dateFormat(endDateTime, 'HH:MM')
-    // const intervalST = dateFormat(intervalStartTime, 'HH:MM')
-    // const intervalET = dateFormat(intervalEndTime, 'HH:MM')
-    const myweekdays = weekdays
-    const myexcludeDates = excludeDates
+    const intervalIT = (intervalStartTime === undefined) ? null : dateFormat(intervalStartTime, 'HH:MM')
+    const intervalET = (intervalEndTime === undefined) ? null : dateFormat(intervalEndTime, 'HH:MM')
+    const myweekdays = (weekdays[0] === undefined) ? null : weekdays
+    const myexcludeDates = (excludeDates[0] === undefined) ? null : excludeDates
     console.log(startDate)
     console.log(endDate)
     console.log(startTime)
     console.log(endTime)
-    console.log(intervalStartTime)
-    console.log(intervalEndTime)
+    console.log(intervalIT)
+    console.log(intervalET)
     console.log(myweekdays)
     console.log(myexcludeDates)
   }
@@ -163,7 +192,12 @@ const RouteAnalysisDrawer = () => {
             </div>
 
           </div>
-
+          <div className='select-row'>
+            <div className='select-cell'>
+              <InputLabel id="spatial-query">空間範圍</InputLabel>
+              <SpatialQuery onChange={handleExtentChange} _extent={_extent} sketchID='sketchspatial'></SpatialQuery>
+            </div>
+          </div>
           <div className='select-row-btn'>
             <div className='select-cell-btn'>
               <Button
@@ -191,19 +225,138 @@ const RouteAnalysisDrawer = () => {
       </div>
 
       <Dialog
+        className='aa'
         open={open}
         onClose={handleSettingClose}
-        aria-labelledby="historyQuery-dialog-title"
-        aria-describedby="historyQuery-dialog-description"
+        aria-labelledby="routeAnalysisQuery-dialog-title"
+        aria-describedby="routeAnalysisQuery-dialog-description"
       >
-        <DialogTitle id="historyQuery-dialog-title">
+        <ListItemButton onClick={handleTimeITOpen}>
+          <ListItemText primary="時段篩選" />
+          {openTimeIT ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Divider />
+        <Collapse in={openTimeIT} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <div className='setting-modal'>
+              <div className='setting-row'>
+                <div className='setting-cell'>
+                  <TimePicker
+                    minutesStep={30}
+                    label="起始時間"
+                    value={intervalStartTime}
+                    onChange={(newValue) => {
+                      if (newValue != null) {
+                        setIntervalStartTime(newValue)
+                      }
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </div>
+                <div className='setting-cell'>
+                  <TimePicker
+                    minutesStep={30}
+                    label="結束時間"
+                    value={undefined}
+                    onChange={(newValue) => {
+                      if (newValue != null) {
+                        setIntervalEndTime(newValue)
+                      }
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </div>
+              </div>
+            </div>
+            </LocalizationProvider>
+          </ListItemButton>
+          </List>
+        </Collapse>
+        <ListItemButton onClick={handleWeekOpen}>
+          <ListItemText primary="星期篩選" />
+          {openWeek ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Divider/>
+        <Collapse in={openWeek} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+          <div className='setting-modal'>
+            <div className='setting-row'>
+              <div className='setting-cell'>
+                <Select
+                  id="demo-multiple-chip"
+                  className="demo-multiple-chip"
+                  multiple
+                  value={weekdays}
+                  onChange={handleWeekChange}
+                  input={<OutlinedInput id="select-multiple-chip" />}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {weekEnum.map((dayData) => (
+                    <MenuItem
+                      key={dayData.name}
+                      value={dayData.name}
+                      style={getStyles(dayData.name, weekdays, theme)}
+                    >
+                      {dayData.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
+            </div>
+          </div>
+          </ListItemButton>
+          </List>
+        </Collapse>
+        <ListItemButton onClick={handleRMdaysOpen}>
+          <ListItemText primary="排除日期" />
+          {openRMdays ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Divider/>
+        <Collapse in={openRMdays} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+
+            <div className='setting-modal'>
+              <div className='setting-row'>
+                <div className='setting-cell-mulselect'>
+                  <DatePicker
+                    multiple
+                    value={excludeDates}
+                    onChange={(values: Array<any>) => {
+                      const dateStringArray: Array<string> = []
+                      values.forEach((value) => {
+                        const dateString = `${value.year}-${value.month.number.toString().padStart(2, '0')}-${value.day.toString().padStart(2, '0')}`
+                        dateStringArray.push(dateString)
+                      })
+                      setexcludeDates(dateStringArray)
+                      console.log(excludeDates)
+                    }}
+                    plugins={[
+                  <DatePanel key={null} />
+                    ]}
+                />
+                </div>
+              </div>
+            </div>
+
+          </LocalizationProvider>
+          </ListItemButton>
+          </List>
+        </Collapse>
+        {/* <DialogTitle id="historyQuery-dialog-title">
           {'時段篩選'}
         </DialogTitle>
-        <Dialog
-          open ={openTI}
-          onClose = {handleTimeITClose}
-          aria-describedby ='timeInterval-dialog-description'
-        >
         <DialogContent>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <div className='setting-modal'>
@@ -244,7 +397,7 @@ const RouteAnalysisDrawer = () => {
         </DialogTitle>
         <DialogContent>
           {/* <InputLabel id="demo-multiple-chip-label">Chip</InputLabel> */}
-          <div className='setting-modal'>
+          {/* <div className='setting-modal'>
             <div className='setting-row'>
               <div className='setting-cell'>
                 <Select
@@ -308,13 +461,17 @@ const RouteAnalysisDrawer = () => {
             </div>
 
           </LocalizationProvider>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleSettingClose} autoFocus>
-            儲存
-          </Button>
-        </DialogActions>
+        </DialogContent> */}
+        <div className='ggg'>
+          <DialogActions>
+            <Button onClick={handleAdvancedParams} autoFocus>
+              清除設定
+            </Button>
+            <Button onClick={handleSettingClose} autoFocus>
+              儲存
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
     </Drawer>
   )

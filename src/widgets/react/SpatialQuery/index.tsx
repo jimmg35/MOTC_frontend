@@ -27,6 +27,7 @@ type btnMode = 'default' | 'info'
 
 export interface ISpatialQuery {
   _extent: number[] | undefined[]
+  sketchID: string
   onChange: (_extent: number[]) => void
 }
 
@@ -40,7 +41,7 @@ const SpatialQuery = (props: ISpatialQuery) => {
   const [precision] = useState<number>(1000)
   const [watchHandle, setwatchHandle] = useState<any | undefined>(undefined)
   const [btnStateArray, setbtnStateArray] = useState<Array<btnMode>>(['info', 'default'])
-  const [sketchId] = useState<string>('sketchTool')
+  const [sketchId] = useState<string>(props.sketchID)
   const [currentSketch, setcurrentSketch] = useState<Sketch | undefined>(undefined)
   // const [, setsketchLayer] = useState<GraphicsLayer | undefined>(undefined)
 
@@ -167,13 +168,15 @@ const SpatialQuery = (props: ISpatialQuery) => {
 
       <Divider className='divider-primary' variant="middle" />
 
-      <div className='extent-group'>
+      <div className='extent-group-min'>
         <Tooltip title="xmin">
           <input type='text' placeholder='xmin' value={props._extent[0] !== undefined ? Math.floor(props._extent[0] * precision) / precision : undefined} disabled></input>
         </Tooltip>
         <Tooltip title="ymin">
           <input type='text' placeholder='ymin' value={props._extent[1] !== undefined ? Math.floor(props._extent[1] * precision) / precision : undefined} disabled></input>
         </Tooltip>
+      </div>
+      <div className='extent-group-max'>
         <Tooltip title="xmax">
           <input type='text' placeholder='xmax' value={props._extent[2] !== undefined ? Math.floor(props._extent[2] * precision) / precision : undefined} disabled></input>
         </Tooltip>
