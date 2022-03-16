@@ -199,6 +199,11 @@ const RouteAnalysisDrawer = () => {
         <DialogTitle id="historyQuery-dialog-title">
           {'時段篩選'}
         </DialogTitle>
+        <Dialog
+          open ={openTI}
+          onClose = {handleTimeITClose}
+          aria-describedby ='timeInterval-dialog-description'
+        >
         <DialogContent>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <div className='setting-modal'>
