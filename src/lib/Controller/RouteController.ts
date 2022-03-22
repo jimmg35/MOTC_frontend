@@ -22,17 +22,18 @@ const typeSet = {
 
   }
 }
-export interface RouteQueryParams {
+export interface IRouteQueryParams {
   startDate: string
   endDate: string
   startTime: string
   endTime: string
-  _extent: number[]
-  interval_st: string| null
-  interval_et: string| null
-  weekdays: number[]|null
-  rmdays: string[]|null
+  extent: number[] | undefined[] | null | string
+  interval_st: string | null | string
+  interval_et: string | null | string
+  weekdays: string[] |null | string
+  rmdays: string[] |null | string
 }
+
 export interface IRouteControllerParam {
   mapSet: IBaseControllerParam
 }
@@ -67,17 +68,46 @@ export default class RouteController extends BaseController {
   }
 
   public loadLayer = () => {
-    this.routeLayer = new GeoJSONLayer({
-      title: '移動感測器路段統計',
-      fields: routeAnalysisFields,
-      popupTemplate: new PopupTemplate(routeTemplateContent),
-      renderer: new ClassBreaksRenderer(routeRendererContent)
-    })
-    this.map.add(this.routeLayer)
+    // this.routeLayer = new GeoJSONLayer({
+    //   title: '移動感測器路段統計',
+    //   fields: routeAnalysisFields,
+    //   popupTemplate: new PopupTemplate(routeTemplateContent),
+    //   renderer: new ClassBreaksRenderer(routeRendererContent)
+    // })
+    // this.map.add(this.routeLayer)
+    
   }
+  public query = async (params: IRouteQueryParams) => {
+    if (this.routeLayer) {
+      console.log('clearmap')
+      this._clearMap([this.routeLayer])
+    }
+    const value = await this.fetchLayerData(params)
+    if (value) {
+      this.routeLayer = new GeoJSONLayer({
+        title: '移動感測器路段統計',
+        url: value,
+        fields: routeAnalysisFields,
+        popupTemplate: new PopupTemplate(routeTemplateContent),
+        renderer: new ClassBreaksRenderer(routeRendererContent)
+      })
+      console.log(value)
+      this.map.add(this.routeLayer)
 
-  public fetchLayerData = async (params: RouteQueryParams) => {
+      this.routeLayer.when(() => {
+        this.mapView.goTo(this.routeLayer?.fullExtent)
+      })
+    } else {
+      alert('該時段查無資料')
+      return false
+    }
+  } 
+  public fetchLayerData = async (params: IRouteQueryParams) => {
     let response: Response
-    await api.route.QueryRouteAnalysis(params)
+    response = await api.route.QueryRouteAnalysis2(params)
+    if (response.status ===200) {
+      return api.route.routeJsonPath
+    }
+    return undefined
   }
 }

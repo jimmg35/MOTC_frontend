@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext, useState } from 'react'
 import { Theme, useTheme } from '@mui/material/styles'
 import { routeAnalysisDrawerContext } from '../../DrawerProvider'
@@ -25,7 +26,11 @@ import Collapse from '@mui/material/Collapse'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import Divider from '@mui/material/Divider'
-
+import { arcGisContext } from '../../../lib/MapProvider'
+import { RouteController } from '../../../lib/Controller'
+// import CircularProgress from '../../../jsdc-ui/components/CircularProgress'
+// import classNames from 'classnames'
+import { IRouteQueryParams } from '../../../lib/Controller/RouteController'
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
@@ -38,13 +43,13 @@ const MenuProps = {
 }
 
 const weekEnum = [
-  { name: '星期一' },
-  { name: '星期二' },
-  { name: '星期三' },
-  { name: '星期四' },
-  { name: '星期五' },
-  { name: '星期六' },
-  { name: '星期日' }
+  { name: '星期一', code: 1 },
+  { name: '星期二', code: 2 },
+  { name: '星期三', code: 3 },
+  { name: '星期四', code: 4 },
+  { name: '星期五', code: 5 },
+  { name: '星期六', code: 6 },
+  { name: '星期日', code: 0 }
 ]
 
 const getStyles = (name: string, personName: readonly string[], theme: Theme) => {
@@ -57,6 +62,7 @@ const getStyles = (name: string, personName: readonly string[], theme: Theme) =>
 }
 
 const RouteAnalysisDrawer = () => {
+  const arcGis = useContext(arcGisContext)
   const theme = useTheme()
   const [startDateTime, setstartDateTime] = useState<Date>(new Date())
   const [endDateTime, setendDateTime] = useState<Date>(new Date())
@@ -66,7 +72,7 @@ const RouteAnalysisDrawer = () => {
   const [weekdays, setWeekdays] = useState<string[]>([])
   const [excludeDates, setexcludeDates] = useState<Array<string>>([])
   const [item, setitem] = useState<string>('0')
-
+  // const [queryStatusOpen, setqueryStatusOoen] = useState<boolean>(false)
   const {
     routeAnalysisTitle = '',
     routeAnalysisContent,
@@ -82,7 +88,7 @@ const RouteAnalysisDrawer = () => {
   const [openTimeIT, setTimeITOpen] = React.useState(false)
   const [openWeek, setWeekOpen] = React.useState(false)
   const [openRMdays, setRmdaysOpen] = React.useState(false)
-
+  // const [queryStatusOpen, setqueryStatusOpen] = useState<boolean>(false)
   const handleSettingOpen = () => {
     setOpen(true)
   }
@@ -118,11 +124,34 @@ const RouteAnalysisDrawer = () => {
     setitem(event.target.value as string)
   }
 
-  const handleRouteQuery = () => {
+  const handleRouteQuery = async () => {
+    // setqueryStatusOpen(true)
+    const routeController = arcGis.controllerManager?.getController('route') as RouteController
+    console.log('GGG')
+    const data:IRouteQueryParams = {
+      startDate: dateFormat(startDateTime, 'yyyy-mm-dd'),
+      endDate: dateFormat(endDateTime, 'yyyy-mm-dd'),
+      startTime: encodeURIComponent(dateFormat(startDateTime, 'HH:MM')),
+      endTime: encodeURIComponent(dateFormat(endDateTime, 'HH:MM')),
+      extent: (_extent[0] === 0) ? '' : _extent,
+      interval_st: (intervalStartTime === undefined) ? '' : encodeURIComponent(dateFormat(intervalStartTime, 'HH:MM')),
+      interval_et: (intervalEndTime === undefined) ? '' : encodeURIComponent(dateFormat(intervalEndTime, 'HH:MM')),
+      weekdays: (weekdays[0] === undefined) ? '' : encodeURIComponent(weekdays.toString()),
+      rmdays: (excludeDates[0] === undefined) ? '' : encodeURIComponent(excludeDates.toString())
+    }
+    console.log(data)
+    await routeController.query(data)
+    // if (queryStatus !== undefined) {
+    //   setqueryStatusOpen(false)
+    // }
+    // routeController.routeLayer?.when(() => {
+    //   setqueryStatusOpen(false)
+    // })
     const startDate = dateFormat(startDateTime, 'yyyy-mm-dd')
     const endDate = dateFormat(endDateTime, 'yyyy-mm-dd')
     const startTime = dateFormat(startDateTime, 'HH:MM')
     const endTime = dateFormat(endDateTime, 'HH:MM')
+    const myExtent = (_extent[0] === 0) ? null : _extent
     const intervalIT = (intervalStartTime === undefined) ? null : dateFormat(intervalStartTime, 'HH:MM')
     const intervalET = (intervalEndTime === undefined) ? null : dateFormat(intervalEndTime, 'HH:MM')
     const myweekdays = (weekdays[0] === undefined) ? null : weekdays
@@ -131,6 +160,7 @@ const RouteAnalysisDrawer = () => {
     console.log(endDate)
     console.log(startTime)
     console.log(endTime)
+    console.log(myExtent)
     console.log(intervalIT)
     console.log(intervalET)
     console.log(myweekdays)
@@ -209,7 +239,17 @@ const RouteAnalysisDrawer = () => {
                 進階篩選
               </Button>
             </div>
-
+            {/* <div
+                className={
+                  classNames({
+                    'circular-progress-container': true
+                  }, {
+                    hide: !queryStatusOpen
+                  })
+                }>
+                <CircularProgress radius={18.25}></CircularProgress>
+                <p>查詢中</p>
+            </div> */}
             <div className='select-cell-btn'>
               <Button
                 className='setting-btn'
@@ -259,7 +299,7 @@ const RouteAnalysisDrawer = () => {
                   <TimePicker
                     minutesStep={30}
                     label="結束時間"
-                    value={undefined}
+                    value={intervalEndTime}
                     onChange={(newValue) => {
                       if (newValue != null) {
                         setIntervalEndTime(newValue)
@@ -304,7 +344,7 @@ const RouteAnalysisDrawer = () => {
                   {weekEnum.map((dayData) => (
                     <MenuItem
                       key={dayData.name}
-                      value={dayData.name}
+                      value={dayData.code}
                       style={getStyles(dayData.name, weekdays, theme)}
                     >
                       {dayData.name}

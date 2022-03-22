@@ -2,7 +2,7 @@
 import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol'
 
 const size = '3px'
-const myfield = 'GGG'
+const myfield = 'Pm2_5_UART'
 
 export const routeRendererContent = {
     field: myfield,
