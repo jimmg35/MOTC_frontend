@@ -27,11 +27,11 @@ export interface IRouteQueryParams {
   endDate: string
   startTime: string
   endTime: string
-  extent: number[] | undefined[] | null | string
-  interval_st: string | null | string
-  interval_et: string | null | string
-  weekdays: string[] |null | string
-  rmdays: string[] |null | string
+  extent: number[] | undefined[] | string
+  interval_st: string | string
+  interval_et: string | string
+  weekdays: string[] | string
+  rmdays: string[] | string
 }
 
 export interface IRouteControllerParam {

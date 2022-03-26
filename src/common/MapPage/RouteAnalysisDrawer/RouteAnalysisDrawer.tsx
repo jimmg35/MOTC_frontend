@@ -107,8 +107,7 @@ const RouteAnalysisDrawer = () => {
   const handleRMdaysOpen = () => {
     setRmdaysOpen(!openRMdays)
   }
-
-  const handleAdvancedParams = () => {
+    const handleAdvancedParams = () => {
     setIntervalStartTime(undefined)
     setIntervalEndTime(undefined)
     setWeekdays([])
@@ -137,7 +136,7 @@ const RouteAnalysisDrawer = () => {
       interval_st: (intervalStartTime === undefined) ? '' : encodeURIComponent(dateFormat(intervalStartTime, 'HH:MM')),
       interval_et: (intervalEndTime === undefined) ? '' : encodeURIComponent(dateFormat(intervalEndTime, 'HH:MM')),
       weekdays: (weekdays[0] === undefined) ? '' : encodeURIComponent(weekdays.toString()),
-      rmdays: (excludeDates[0] === undefined) ? '' : encodeURIComponent(excludeDates.toString())
+      rmdays: (excludeDates[0] === undefined) ? '' : excludeDates.map(dates => "'" + dates +"'").toString()
     }
     console.log(data)
     await routeController.query(data)
@@ -155,7 +154,7 @@ const RouteAnalysisDrawer = () => {
     const intervalIT = (intervalStartTime === undefined) ? null : dateFormat(intervalStartTime, 'HH:MM')
     const intervalET = (intervalEndTime === undefined) ? null : dateFormat(intervalEndTime, 'HH:MM')
     const myweekdays = (weekdays[0] === undefined) ? null : weekdays
-    const myexcludeDates = (excludeDates[0] === undefined) ? null : excludeDates
+    const myexcludeDates = (excludeDates[0] === undefined) ? null : excludeDates.map(x => "'" + x +"'").toString()
     console.log(startDate)
     console.log(endDate)
     console.log(startTime)
@@ -380,7 +379,7 @@ const RouteAnalysisDrawer = () => {
                         dateStringArray.push(dateString)
                       })
                       setexcludeDates(dateStringArray)
-                      console.log(excludeDates)
+                      console.log(excludeDates.map(dates => "'" + dates +"'").toString())
                     }}
                     plugins={[
                   <DatePanel key={null} />
