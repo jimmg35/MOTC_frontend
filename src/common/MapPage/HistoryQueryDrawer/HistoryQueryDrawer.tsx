@@ -6,7 +6,7 @@ import Drawer from '../../../jsdc-ui/components/Drawer'
 import './HistoryQueryDrawer.scss'
 // import { MobileDateTimePicker, TimePicker } from '@mui/lab'
 // import { TextField, InputLabel, MenuItem, Button, OutlinedInput, Box, Chip } from '@mui/material'
-import { MobileDateTimePicker } from '@mui/lab'
+import { MobileDateTimePicker,LoadingButton } from '@mui/lab'
 import { TextField, InputLabel, MenuItem, Button } from '@mui/material'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
@@ -196,7 +196,7 @@ const HistoryQueryDrawer = () => {
 
             <div className='select-cell-btn query-set'>
 
-              <div
+              {/* <div
                 className={
                   classNames({
                     'circular-progress-container': true
@@ -206,15 +206,17 @@ const HistoryQueryDrawer = () => {
                 }>
                 <CircularProgress radius={18.25}></CircularProgress>
                 <p>查詢中</p>
-              </div>
+              </div> */}
 
-              <Button
-                className='setting-btn-fill'
+              <LoadingButton
+                className='setting-btn'
+                loading={queryStatusOpen}
+                loadingPosition="start"
                 variant="contained"
                 onClick={handleQueryMobile}
                 startIcon={<TrendingFlatIcon />}>
                 查詢
-              </Button>
+              </LoadingButton>
             </div>
           </div>
 

@@ -7,7 +7,7 @@ import './RouteAnalysisDrawer.scss'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import { TextField, InputLabel, MenuItem, Button, OutlinedInput, Box, Chip } from '@mui/material'
-import { MobileDateTimePicker, TimePicker } from '@mui/lab'
+import { MobileDateTimePicker, TimePicker,LoadingButton } from '@mui/lab'
 import SettingsIcon from '@mui/icons-material/Settings'
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
@@ -28,7 +28,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore'
 import Divider from '@mui/material/Divider'
 import { arcGisContext } from '../../../lib/MapProvider'
 import { RouteController } from '../../../lib/Controller'
-// import CircularProgress from '../../../jsdc-ui/components/CircularProgress'
+import CircularProgress from '../../../jsdc-ui/components/CircularProgress'
 // import classNames from 'classnames'
 import { IRouteQueryParams } from '../../../lib/Controller/RouteController'
 const ITEM_HEIGHT = 48
@@ -72,7 +72,7 @@ const RouteAnalysisDrawer = () => {
   const [weekdays, setWeekdays] = useState<string[]>([])
   const [excludeDates, setexcludeDates] = useState<Array<string>>([])
   const [item, setitem] = useState<string>('0')
-  // const [queryStatusOpen, setqueryStatusOoen] = useState<boolean>(false)
+
   const {
     routeAnalysisTitle = '',
     routeAnalysisContent,
@@ -88,7 +88,9 @@ const RouteAnalysisDrawer = () => {
   const [openTimeIT, setTimeITOpen] = React.useState(false)
   const [openWeek, setWeekOpen] = React.useState(false)
   const [openRMdays, setRmdaysOpen] = React.useState(false)
-  // const [queryStatusOpen, setqueryStatusOpen] = useState<boolean>(false)
+  const [queryStatusOpen, setqueryStatusOpen] = useState<boolean>(false)
+
+
   const handleSettingOpen = () => {
     setOpen(true)
   }
@@ -124,7 +126,7 @@ const RouteAnalysisDrawer = () => {
   }
 
   const handleRouteQuery = async () => {
-    // setqueryStatusOpen(true)
+    setqueryStatusOpen(true)
     const routeController = arcGis.controllerManager?.getController('route') as RouteController
     console.log('GGG')
     const data:IRouteQueryParams = {
@@ -139,13 +141,13 @@ const RouteAnalysisDrawer = () => {
       rmdays: (excludeDates[0] === undefined) ? '' : excludeDates.map(dates => "'" + dates +"'").toString()
     }
     console.log(data)
-    await routeController.query(data)
-    // if (queryStatus !== undefined) {
-    //   setqueryStatusOpen(false)
-    // }
-    // routeController.routeLayer?.when(() => {
-    //   setqueryStatusOpen(false)
-    // })
+    const queryStatus  = await routeController.query(data)
+    if (queryStatus !== undefined) {
+      setqueryStatusOpen(false)
+    }
+    routeController.routeLayer?.when(() => {
+      setqueryStatusOpen(false)
+    })
     const startDate = dateFormat(startDateTime, 'yyyy-mm-dd')
     const endDate = dateFormat(endDateTime, 'yyyy-mm-dd')
     const startTime = dateFormat(startDateTime, 'HH:MM')
@@ -224,7 +226,7 @@ const RouteAnalysisDrawer = () => {
           <div className='select-row'>
             <div className='select-cell'>
               <InputLabel id="spatial-query">空間範圍</InputLabel>
-              <SpatialQuery onChange={handleExtentChange} _extent={_extent} sketchID='sketchspatial'></SpatialQuery>
+              <SpatialQuery onChange={handleExtentChange} _extent={_extent} sketchID='sketchRoute'></SpatialQuery>
             </div>
           </div>
           <div className='select-row-btn'>
@@ -250,13 +252,15 @@ const RouteAnalysisDrawer = () => {
                 <p>查詢中</p>
             </div> */}
             <div className='select-cell-btn'>
-              <Button
+              <LoadingButton
                 className='setting-btn'
+                loading={queryStatusOpen}
+                loadingPosition="start"
                 variant="contained"
                 onClick={handleRouteQuery}
                 startIcon={<TrendingFlatIcon />}>
                 查詢
-              </Button>
+              </LoadingButton>
             </div>
           </div>
 
