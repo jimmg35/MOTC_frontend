@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useContext, useEffect } from 'react'
 import './index.scss'
 import { IconButton, Tooltip, Divider } from '@mui/material'
@@ -10,6 +11,8 @@ import MapView from '@arcgis/core/views/MapView'
 import { projectExtent, geometry2Extent } from '../../../utils/modules/Extent'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Sketch from '@arcgis/core/widgets/Sketch'
+import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel"
+import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol"
 
 const mockSketch = {
   clickDrawingButton: (sketchId: string) => {
@@ -44,7 +47,6 @@ const SpatialQuery = (props: ISpatialQuery) => {
   const [sketchId] = useState<string>(props.sketchID)
   const [currentSketch, setcurrentSketch] = useState<Sketch | undefined>(undefined)
   // const [, setsketchLayer] = useState<GraphicsLayer | undefined>(undefined)
-
   const startWatchingExtent = () => {
     if (watchHandle === undefined) {
       if (currentSketch) {
@@ -76,6 +78,19 @@ const SpatialQuery = (props: ISpatialQuery) => {
 
   const initSketchWidget = () => {
     const layer = new GraphicsLayer({ listMode: 'hide' })
+    // const spatialExtentSymbol = new SimpleFillSymbol({
+    //   type: "simple-fill",
+    //   style: "none",
+    //   outline: {  
+    //     color: "#333",
+    //     width: 1
+    //   }
+    // })
+    // const spatialExtentSketchViewModel = new SketchViewModel({
+    //   view: arcgis.mapView,
+    //   layer: layer,
+    //   polygonSymbol: spatialExtentSymbol
+    // })
     arcgis.map?.add(layer)
     const sketch = new Sketch({
       view: arcgis.mapView,
