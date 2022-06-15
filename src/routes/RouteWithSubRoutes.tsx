@@ -7,9 +7,9 @@ const RouteWithSubRoutes = (route: RouteItem) => {
   return (
     <Route
       path={route.path}
-      element={
-        <route.component routes={route.routes}/>
-      }
+    // element={
+    //   // <route.component routes={route.routes}/>
+    // }
     />
   )
 }

@@ -180,7 +180,7 @@ const RouteAnalysisDrawer = () => {
           <div className='select-row'>
             <div className='select-cell'>
               <InputLabel id="start-date">起始日期</InputLabel>
-              <MobileDateTimePicker
+              {/* <MobileDateTimePicker
                 value={startDateTime}
                 onChange={(newValue: Date) => {
                   if (newValue != null) {
@@ -188,12 +188,12 @@ const RouteAnalysisDrawer = () => {
                   }
                 }}
                 renderInput={(params: any) => <TextField {...params} />}
-              />
+              /> */}
             </div>
 
             <div className='select-cell'>
               <InputLabel id="end-date">結束日期</InputLabel>
-              <MobileDateTimePicker
+              {/* <MobileDateTimePicker
                 value={endDateTime}
                 onChange={(newValue: Date) => {
                   if (newValue != null) {
@@ -201,7 +201,7 @@ const RouteAnalysisDrawer = () => {
                   }
                 }}
                 renderInput={(params: any) => <TextField {...params} />}
-              />
+              /> */}
             </div>
 
             <div className='select-cell'>
@@ -282,30 +282,30 @@ const RouteAnalysisDrawer = () => {
                 <div className='setting-modal'>
                   <div className='setting-row'>
                     <div className='setting-cell'>
-                      <TimePicker
+                      {/* <TimePicker
                         minutesStep={30}
                         label="起始時間"
                         value={intervalStartTime}
-                        onChange={(newValue: Date) => {
-                          if (newValue != null) {
-                            setIntervalStartTime(newValue)
-                          }
-                        }}
+                        // onChange={(newValue: Date) => {
+                        //   if (newValue != null) {
+                        //     setIntervalStartTime(newValue)
+                        //   }
+                        // }}
                         renderInput={(params: any) => <TextField {...params} />}
-                      />
+                      /> */}
                     </div>
                     <div className='setting-cell'>
-                      <TimePicker
+                      {/* <TimePicker
                         minutesStep={30}
                         label="結束時間"
                         value={intervalEndTime}
-                        onChange={(newValue: Date) => {
-                          if (newValue != null) {
-                            setIntervalEndTime(newValue)
-                          }
-                        }}
+                        // onChange={(newValue: Date) => {
+                        //   if (newValue != null) {
+                        //     setIntervalEndTime(newValue)
+                        //   }
+                        // }}
                         renderInput={(params: any) => <TextField {...params} />}
-                      />
+                      /> */}
                     </div>
                   </div>
                 </div>
