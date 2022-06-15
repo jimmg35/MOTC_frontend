@@ -13,10 +13,11 @@ export const getRealTimeStation = async () => {
   })
   return response.json()
 }
+// `${airServiceApiConfig.serverString}/api/FixedSensor/getRealTimeFixed?xmin=${_extent[0]}&ymin=${_extent[1]}&xmax=${_extent[2]}&ymax=${_extent[3]}`,
 
 export const getRealTimeFixed = async (_extent: Array<number>, requestOptions: any) => {
   const response = await fetch(
-    `${airServiceApiConfig.serverString}/api/FixedSensor/getRealTimeFixed?xmin=${_extent[0]}&ymin=${_extent[1]}&xmax=${_extent[2]}&ymax=${_extent[3]}`,
+    `http://localhost:86/api/FixedSensor/getRealTimeFixed?xmin=${_extent[0]}&ymin=${_extent[1]}&xmax=${_extent[2]}&ymax=${_extent[3]}`,
     requestOptions)
   return response.json()
 }

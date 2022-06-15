@@ -166,6 +166,10 @@ export default class RealTimeController extends BaseController {
    */
   public createGraphics = (data: any, sensorType: sensor_type): Array<Graphic> => {
     return data.features.map((feature: any, i: any) => {
+      // if (sensorType === 'fixed') {
+      //   console.log(feature)
+
+      // }
       const _point: Point = new Point({
         x: feature.geometry.coordinates[0],
         y: feature.geometry.coordinates[1]
@@ -176,7 +180,7 @@ export default class RealTimeController extends BaseController {
       if (sensorType === 'mot') {
         _attribute = {
           OBJECTID: i,
-          Device_Name: feature.properties['Device_Name'],
+          Device_Name: feature.properties['deviceId'],
           Datetime: new Date(feature.properties['Datetime']).getTime(),
           Flow: feature.properties['Flow'],
           Pm2_5_UART: feature.properties['Pm2_5_UART'],
@@ -192,17 +196,22 @@ export default class RealTimeController extends BaseController {
       if (sensorType === 'fixed') {
         _attribute = {
           OBJECTID: i,
-          Device_Name: feature.properties['Device_Name'],
-          CreatedTime: new Date(feature.properties['CreatedTime']).getTime(),
-          Datetime: new Date(feature.properties['Datetime']).getTime(),
-          OnlineStatus: feature.properties['onlineStatus'],
-          Pm2_5: feature.properties['Pm2_5'],
-          Temperature: feature.properties['Temperature'],
-          Humidity: feature.properties['Humidity'],
-          Co: feature.properties['Co'] === null ? -999 : feature.properties['Co'],
-          Voc: feature.properties['Voc'],
-          So2: feature.properties['So2'] === null ? -999 : feature.properties['So2'],
-          No2: feature.properties['No2']
+          deviceId: feature.properties['deviceId'],
+          pm25: Number(feature.properties['pm25Value']),
+          voc: Number(feature.properties['vocValue']),
+          updateTime: feature.properties['updateTime']
+
+          // Device_Name: feature.properties['Device_Name'],
+          // CreatedTime: new Date(feature.properties['CreatedTime']).getTime(),
+          // Datetime: new Date(feature.properties['Datetime']).getTime(),
+          // OnlineStatus: feature.properties['onlineStatus'],
+          // Pm2_5: feature.properties['Pm2_5'],
+          // Temperature: feature.properties['Temperature'],
+          // Humidity: feature.properties['Humidity'],
+          // Co: feature.properties['Co'] === null ? -999 : feature.properties['Co'],
+          // Voc: feature.properties['Voc'],
+          // So2: feature.properties['So2'] === null ? -999 : feature.properties['So2'],
+          // No2: feature.properties['No2']
         }
       }
 

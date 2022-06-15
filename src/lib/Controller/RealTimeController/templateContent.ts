@@ -58,44 +58,60 @@ export const fixedTemplateContent = {
     type: "fields",
     fieldInfos: [
       {
-        fieldName: "Device_Name",
+        fieldName: 'deviceId',
         label: "識別碼"
       },
       {
-        fieldName: "Datetime",
-        label: "時間",
-        format: {
-          dateFormat: "short-date-short-time"
-        }
-      },
-      {
-        fieldName: "Pm2_5",
+        fieldName: 'pm25',
         label: "PM 2.5"
       },
       {
-        fieldName: "Co",
-        label: "CO"
-      },
-      {
-        fieldName: "Voc",
+        fieldName: 'voc',
         label: "VOC"
       },
       {
-        fieldName: "So2",
-        label: "SO2"
-      },
-      {
-        fieldName: "No2",
-        label: "NO2"
-      },
-      {
-        fieldName: "Temperature",
-        label: "溫度"
-      },
-      {
-        fieldName: "Humidity",
-        label: "濕度"
+        fieldName: 'updateTime',
+        label: "最後更新時間"
       }
+      // {
+      //   fieldName: "Device_Name",
+      //   label: "識別碼"
+      // },
+      // {
+      //   fieldName: "Datetime",
+      //   label: "時間",
+      //   format: {
+      //     dateFormat: "short-date-short-time"
+      //   }
+      // },
+      // {
+      //   fieldName: "Pm2_5",
+      //   label: "PM 2.5"
+      // },
+      // {
+      //   fieldName: "Co",
+      //   label: "CO"
+      // },
+      // {
+      //   fieldName: "Voc",
+      //   label: "VOC"
+      // },
+      // {
+      //   fieldName: "So2",
+      //   label: "SO2"
+      // },
+      // {
+      //   fieldName: "No2",
+      //   label: "NO2"
+      // },
+      // {
+      //   fieldName: "Temperature",
+      //   label: "溫度"
+      // },
+      // {
+      //   fieldName: "Humidity",
+      //   label: "濕度"
+      // }
     ]
   }]
 }
