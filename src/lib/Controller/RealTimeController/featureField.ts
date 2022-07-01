@@ -164,55 +164,75 @@ export const fixedFeatureFields = [
     type: "oid"
   },
   {
-    name: "Device_Name",
-    alias: "Device_Name",
+    name: "deviceId",
+    alias: "deviceId",
     type: "string"
   },
   {
-    name: "Createtime",
-    alias: "Createtime",
-    type: "date"
-  },
-  {
-    name: "Datetime",
-    alias: "Datetime",
-    type: "date"
-  },
-  {
-    name: "Pm2_5",
-    alias: "Pm2_5",
+    name: "pm25",
+    alias: "pm25",
     type: "double"
   },
   {
-    name: "Co",
-    alias: "Co",
+    name: "voc",
+    alias: "voc",
     type: "double"
   },
   {
-    name: "Voc",
-    alias: "Voc",
-    type: "double"
-  },
-  {
-    name: "So2",
-    alias: "So2",
-    type: "double"
-  },
-  {
-    name: "No2",
-    alias: "No2",
-    type: "double"
-  },
-  {
-    name: "Temperature",
-    alias: "Temperature",
-    type: "double"
-  },
-  {
-    name: "Humidity",
-    alias: "Humidity",
-    type: "double"
+    name: "updateTime",
+    alias: "updateTime",
+    type: "string"
   }
+  // {
+  //   name: "Device_Name",
+  //   alias: "Device_Name",
+  //   type: "string"
+  // },
+  // {
+  //   name: "Createtime",
+  //   alias: "Createtime",
+  //   type: "date"
+  // },
+  // {
+  //   name: "Datetime",
+  //   alias: "Datetime",
+  //   type: "date"
+  // },
+  // {
+  //   name: "Pm2_5",
+  //   alias: "Pm2_5",
+  //   type: "double"
+  // },
+  // {
+  //   name: "Co",
+  //   alias: "Co",
+  //   type: "double"
+  // },
+  // {
+  //   name: "Voc",
+  //   alias: "Voc",
+  //   type: "double"
+  // },
+  // {
+  //   name: "So2",
+  //   alias: "So2",
+  //   type: "double"
+  // },
+  // {
+  //   name: "No2",
+  //   alias: "No2",
+  //   type: "double"
+  // },
+  // {
+  //   name: "Temperature",
+  //   alias: "Temperature",
+  //   type: "double"
+  // },
+  // {
+  //   name: "Humidity",
+  //   alias: "Humidity",
+  //   type: "double"
+  // }
 ]
 
 const outlineR = 0, outlineG = 0, outlineB = 0

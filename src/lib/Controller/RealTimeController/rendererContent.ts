@@ -264,7 +264,7 @@ export const mobileRendererContent = {
 }
 
 export const fixedRendererContent = {
-  field: "Pm2_5",
+  field: "pm25",
   classBreakInfos: [
     {
       minValue: 0,
