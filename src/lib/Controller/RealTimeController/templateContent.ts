@@ -7,7 +7,7 @@ export const mobileTemplateContent = {
     fieldInfos: [
       {
         fieldName: "Device_Name",
-        label: "識別碼"
+        label: "感測器編號"
       },
       {
         fieldName: "Datetime",
@@ -34,7 +34,7 @@ export const mobileTemplateContent = {
       },
       {
         fieldName: "Voc",
-        label: "Voc"
+        label: "VOC"
       },
       {
         fieldName: "Temperature",
@@ -59,7 +59,7 @@ export const fixedTemplateContent = {
     fieldInfos: [
       {
         fieldName: 'deviceId',
-        label: "識別碼"
+        label: "感測器編號"
       },
       {
         fieldName: 'pm25',

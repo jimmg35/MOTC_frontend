@@ -10,6 +10,9 @@ import TimeSlider from '@arcgis/core/widgets/TimeSlider'
 import layerList from '../../widgets/arcgis/LayerList'
 import LayerList from '@arcgis/core/widgets/LayerList'
 import Expand from '@arcgis/core/widgets/Expand'
+import BasemapToggle from '@arcgis/core/widgets/BasemapToggle'
+import esriConfig from '@arcgis/core/config'
+import BasemapGallery from '@arcgis/core/widgets/BasemapGallery'
 
 /* Controllers */
 import { RealTimeController, HistoryController, RouteController } from '../Controller'
@@ -43,6 +46,7 @@ export class ArcGIS {
   }
 
   public createMapAndMapView = (mapOptions: IMapOptions, viewOptions: IMapViewOptions) => {
+    esriConfig.apiKey = 'AAPK620f9f302ffc480d955193c09112f138QuPJVyLfdb8ULKKd3TYrBjR6U_k6dLlBMuyuGZBFr_SptXMdZh2VaP3KMGK6R1q5'
     const map = new Map({
       basemap: mapOptions.basemap
     })
@@ -81,8 +85,27 @@ export class ArcGIS {
       content: layerList,
       expanded: false
     })
+    const basemapToggle = new BasemapToggle({
+      view: this.mapView,
+      nextBasemap: 'osm'
+    })
+    const basemapGallery = new BasemapGallery({
+      view: this.mapView,
+      container: document.createElement('div'),
+      source: {
+        query: {
+          title: '"World Basemaps for Developers" AND owner:esri'
+        }
+      }
+    })
+    const bgExpand = new Expand({
+      view: this.mapView,
+      content: basemapGallery
+    })
     this.mapView?.ui.add(layerListExpand, 'bottom-left')
     this.mapView?.ui.add(timeExpand, 'top-left')
+    this.mapView?.ui.add(bgExpand, 'bottom-left')
+    this.mapView?.ui.add(basemapToggle, 'bottom-left')
   }
 
   private _registerControllers = () => {
