@@ -24,7 +24,7 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
-"@arcgis/core@^4.22.2":
+"@arcgis/core@4.23.7":
   version "4.23.7"
   resolved "https://registry.yarnpkg.com/@arcgis/core/-/core-4.23.7.tgz#636cb40b2faff593d7e7cc81fbea0c28d46add08"
   integrity sha512-xi3eBV513CmoHQ6F1OurEt71aBt4FzDOaOrPKzsFVJnq0LeDPKUHfsBs4E8BoGLSk5df+gDCZG+WHTmzxu8c0w==
