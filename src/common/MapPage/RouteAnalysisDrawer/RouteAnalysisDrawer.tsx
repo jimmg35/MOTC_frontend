@@ -275,7 +275,7 @@ const RouteAnalysisDrawer = () => {
         aria-describedby="routeAnalysisQuery-dialog-description"
       >
         <ListItemButton onClick={handleTimeITOpen}>
-          <ListItemText primary="時段篩選" />
+          <ListItemText primary="時段篩選   (請重新設定起始時間與結束時間)" />
           {openTimeIT ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Divider />
