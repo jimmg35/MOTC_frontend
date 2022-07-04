@@ -8,55 +8,80 @@ export const mobileFeatureFields = [
     type: "oid"
   },
   {
-    name: "Device_Name",
-    alias: "Device_Name",
+    name: "deviceId",
+    alias: "deviceId",
     type: "string"
   },
   {
-    name: "Datetime",
-    alias: "Datetime",
-    type: "date"
+    name: "pm25uart",
+    alias: "pm25uart",
+    type: "double"
   },
   {
-    name: "Flow",
-    alias: "Flow",
-    type: "single"
+    name: "voc",
+    alias: "voc",
+    type: "double"
   },
   {
-    name: "Pm2_5_UART",
-    alias: "Pm2_5_UART",
-    type: "single"
-  },
-  {
-    name: "Pm2_5_I2C",
-    alias: "Pm2_5_I2C",
-    type: "single"
-  },
-  {
-    name: "Pm2_5_AVG",
-    alias: "Pm2_5_AVG",
-    type: "single"
-  },
-  {
-    name: "Voc",
-    alias: "Voc",
-    type: "single"
-  },
-  {
-    name: "Temperature",
-    alias: "Temperature",
-    type: "single"
-  },
-  {
-    name: "Humidity",
-    alias: "Humidity",
-    type: "single"
-  },
-  {
-    name: "Speed",
-    alias: "Speed",
-    type: "single"
+    name: "updateTime",
+    alias: "updateTime",
+    type: "string"
   }
+  // {
+  //   name: "OBJECTID",
+  //   alias: "OBJECTID",
+  //   type: "oid"
+  // },
+  // {
+  //   name: "Device_Name",
+  //   alias: "Device_Name",
+  //   type: "string"
+  // },
+  // {
+  //   name: "Datetime",
+  //   alias: "Datetime",
+  //   type: "date"
+  // },
+  // {
+  //   name: "Flow",
+  //   alias: "Flow",
+  //   type: "single"
+  // },
+  // {
+  //   name: "Pm2_5_UART",
+  //   alias: "Pm2_5_UART",
+  //   type: "single"
+  // },
+  // {
+  //   name: "Pm2_5_I2C",
+  //   alias: "Pm2_5_I2C",
+  //   type: "single"
+  // },
+  // {
+  //   name: "Pm2_5_AVG",
+  //   alias: "Pm2_5_AVG",
+  //   type: "single"
+  // },
+  // {
+  //   name: "Voc",
+  //   alias: "Voc",
+  //   type: "single"
+  // },
+  // {
+  //   name: "Temperature",
+  //   alias: "Temperature",
+  //   type: "single"
+  // },
+  // {
+  //   name: "Humidity",
+  //   alias: "Humidity",
+  //   type: "single"
+  // },
+  // {
+  //   name: "Speed",
+  //   alias: "Speed",
+  //   type: "single"
+  // }
 ]
 
 export const standardFeatureFields = [

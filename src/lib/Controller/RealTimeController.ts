@@ -180,16 +180,20 @@ export default class RealTimeController extends BaseController {
       if (sensorType === 'mot') {
         _attribute = {
           OBJECTID: i,
-          Device_Name: feature.properties['deviceId'],
-          Datetime: new Date(feature.properties['Datetime']).getTime(),
-          Flow: feature.properties['Flow'],
-          Pm2_5_UART: feature.properties['Pm2_5_UART'],
-          Pm2_5_I2C: feature.properties['Pm2_5_I2C'],
-          Pm2_5_AVG: feature.properties['Pm2_5_AVG'],
-          Voc: feature.properties['Voc'],
-          Temperature: feature.properties['Temperature'],
-          Humidity: feature.properties['Humidity'],
-          Speed: feature.properties['Speed']
+          deviceId: feature.properties['deviceId'],
+          pm25uart: Number(feature.properties['pm25UartValue']),
+          voc: Number(feature.properties['vocValue']),
+          updateTime: feature.properties['updateTime']
+          // Device_Name: feature.properties['deviceId'],
+          // Datetime: new Date(feature.properties['Datetime']).getTime(),
+          // Flow: feature.properties['Flow'],
+          // Pm2_5_UART: feature.properties['Pm2_5_UART'],
+          // Pm2_5_I2C: feature.properties['Pm2_5_I2C'],
+          // Pm2_5_AVG: feature.properties['Pm2_5_AVG'],
+          // Voc: feature.properties['Voc'],
+          // Temperature: feature.properties['Temperature'],
+          // Humidity: feature.properties['Humidity'],
+          // Speed: feature.properties['Speed']
         }
       }
 

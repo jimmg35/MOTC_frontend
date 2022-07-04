@@ -13,6 +13,8 @@ import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Sketch from '@arcgis/core/widgets/Sketch'
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel"
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol"
+import Graphic from "@arcgis/core/Graphic"
+import { isExternalModuleNameRelative } from 'typescript'
 
 const mockSketch = {
   clickDrawingButton: (sketchId: string) => {
@@ -46,7 +48,9 @@ const SpatialQuery = (props: ISpatialQuery) => {
   const [btnStateArray, setbtnStateArray] = useState<Array<btnMode>>(['info', 'default'])
   const [sketchId] = useState<string>(props.sketchID)
   const [currentSketch, setcurrentSketch] = useState<Sketch | undefined>(undefined)
+
   // const [, setsketchLayer] = useState<GraphicsLayer | undefined>(undefined)
+  const layer = new GraphicsLayer({ listMode: 'hide' })
   const startWatchingExtent = () => {
     if (watchHandle === undefined) {
       if (currentSketch) {
@@ -77,15 +81,8 @@ const SpatialQuery = (props: ISpatialQuery) => {
   }
 
   const initSketchWidget = () => {
-    const layer = new GraphicsLayer({ listMode: 'hide' })
-    // const spatialExtentSymbol = new SimpleFillSymbol({
-    //   type: "simple-fill",
-    //   style: "none",
-    //   outline: {  
-    //     color: "#333",
-    //     width: 1
-    //   }
-    // })
+    
+    
     // const spatialExtentSketchViewModel = new SketchViewModel({
     //   view: arcgis.mapView,
     //   layer: layer,
@@ -113,13 +110,28 @@ const SpatialQuery = (props: ISpatialQuery) => {
     })
     sketch.on('create', (event) => {
       if (event.state === 'complete') {
-        layer.remove(event.graphic)
+        layer.removeAll()
         const _extent = geometry2Extent(event.graphic.geometry)
+        // const spatialExtentSymbol = new SimpleFillSymbol({
+        //   style: "none",
+        //   outline: {  
+        //     color: "#333",
+        //     width: 1
+        //   }
+        // })
+        // const spatialExtent = new Graphic({
+        //   geometry: event.graphic.geometry,
+        //   symbol: spatialExtentSymbol
+        // })
+        // console.log(spatialExtent.geometry)
+        // layer.add(spatialExtent)
+        // layer.add(event.graphic)
         // setxmin(_extent[0])
         // setymin(_extent[1])
         // setxmax(_extent[2])
         // setymax(_extent[3])
         props.onChange(_extent)
+        console.log(arcgis.mapView?.layerViews)
       }
     })
     setcurrentSketch(sketch)
@@ -152,6 +164,7 @@ const SpatialQuery = (props: ISpatialQuery) => {
   }
 
   const handleClearExtent = () => {
+    layer.removeAll()
     // setxmin(0)
     // setymin(0)
     // setxmax(0)

@@ -11,7 +11,7 @@ export const fixedStyle = 'triangle'
 export const standardStyle = 'square'
 
 export const mobileRendererContent = {
-  field: "Pm2_5_AVG",
+  field: "pm25uart",
   classBreakInfos: [
     {
       minValue: 0,

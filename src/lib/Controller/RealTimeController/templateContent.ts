@@ -6,48 +6,64 @@ export const mobileTemplateContent = {
     type: "fields",
     fieldInfos: [
       {
-        fieldName: "Device_Name",
+        fieldName: 'deviceId',
         label: "感測器編號"
       },
       {
-        fieldName: "Datetime",
-        label: "時間",
-        format: {
-          dateFormat: "short-date-short-time"
-        }
+        fieldName: 'pm25uart',
+        label: "PM 2.5 UART"
       },
       {
-        fieldName: "Flow",
-        label: "流量"
-      },
-      {
-        fieldName: "Pm2_5_UART",
-        label: "PM 2.5 (UART)"
-      },
-      {
-        fieldName: "Pm2_5_I2C",
-        label: "PM 2.5 (I2C)"
-      },
-      {
-        fieldName: "Pm2_5_AVG",
-        label: "PM 2.5 (平均)"
-      },
-      {
-        fieldName: "Voc",
+        fieldName: 'voc',
         label: "VOC"
       },
       {
-        fieldName: "Temperature",
-        label: "溫度"
-      },
-      {
-        fieldName: "Humidity",
-        label: "濕度"
-      },
-      {
-        fieldName: "Speed",
-        label: "車速"
+        fieldName: 'updateTime',
+        label: "最後更新時間"
       }
+      // {
+      //   fieldName: "Device_Name",
+      //   label: "感測器編號"
+      // },
+      // {
+      //   fieldName: "Datetime",
+      //   label: "時間",
+      //   format: {
+      //     dateFormat: "short-date-short-time"
+      //   }
+      // },
+      // {
+      //   fieldName: "Flow",
+      //   label: "流量"
+      // },
+      // {
+      //   fieldName: "Pm2_5_UART",
+      //   label: "PM 2.5 (UART)"
+      // },
+      // {
+      //   fieldName: "Pm2_5_I2C",
+      //   label: "PM 2.5 (I2C)"
+      // },
+      // {
+      //   fieldName: "Pm2_5_AVG",
+      //   label: "PM 2.5 (平均)"
+      // },
+      // {
+      //   fieldName: "Voc",
+      //   label: "VOC"
+      // },
+      // {
+      //   fieldName: "Temperature",
+      //   label: "溫度"
+      // },
+      // {
+      //   fieldName: "Humidity",
+      //   label: "濕度"
+      // },
+      // {
+      //   fieldName: "Speed",
+      //   label: "車速"
+      // }
     ]
   }]
 }

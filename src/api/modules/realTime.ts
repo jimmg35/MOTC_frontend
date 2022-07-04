@@ -1,7 +1,7 @@
 import { airServiceApiConfig } from './config'
 
 export const getRealTimeMobile = async () => {
-  const response = await fetch(`${airServiceApiConfig.serverString}/api/MobileSensor/getRealTimeMobile`, {
+  const response = await fetch('http://140.122.82.98:86/api/MobileSensor/getRealTimeMobile', {
     method: 'GET'
   })
   return response.json()
