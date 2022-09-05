@@ -11,9 +11,9 @@ import FeatureFilter from '@arcgis/core/views/layers/support/FeatureFilter'
 
 /* Controllers */
 import BaseController, { IBaseControllerParam } from './BaseController'
-import { mobileHistoryFields } from './HistoryController/featureField'
-import { mobileTemplateContent } from './RealTimeController/templateContent'
-import { mobileRendererContent } from './RealTimeController/rendererContent'
+import { mobileHistoryFields, mobileTemplateContent, mobileRendererContent } from './HistoryController/featureField'
+// import { mobileTemplateContent } from './RealTimeController/templateContent'
+// import { mobileRendererContent } from './RealTimeController/rendererContent'
 import { changeSymbolDefinition } from './RealTimeController/featureField'
 import api from '../../api'
 
