@@ -1,7 +1,7 @@
 
 /* eslint-disable */
 export const routeTemplateContent = {
-    title: "移動感測器路網",
+    title: "移動式感測器路網",
     content: [{
       type: "fields",
       fieldInfos: [

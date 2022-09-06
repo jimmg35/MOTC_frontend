@@ -68,7 +68,7 @@ export const mobileHistoryFields: __esri.FieldProperties[] = [
     }]
 
 export const mobileTemplateContent = {
-    title: "移動感測器觀測資訊",
+    title: "移動式感測器觀測資訊",
     content: [{
         type: "fields",
         fieldInfos: [

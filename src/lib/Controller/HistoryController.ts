@@ -19,7 +19,7 @@ import api from '../../api'
 
 const typeSet = {
   mot: {
-    title: "移動式污染源監測站",
+    title: "移動式感測器",
     template: new PopupTemplate(mobileTemplateContent),
     renderer: new ClassBreaksRenderer(mobileRendererContent),
     markStyle: 'circle'
