@@ -16,7 +16,7 @@ import { template } from 'lodash'
 
 const typeSet = {
   mot: {
-    title: '移動式汙染源路段統計',
+    title: '移動式感測器路段統計',
     template: new PopupTemplate(routeTemplateContent),
     renderer: new ClassBreaksRenderer(routeRendererContent)
 
@@ -85,7 +85,7 @@ export default class RouteController extends BaseController {
     const value = await this.fetchLayerData(params)
     if (value) {
       this.routeLayer = new GeoJSONLayer({
-        title: '移動感測器路段統計',
+        title: '移動式感測器路段統計',
         url: value,
         fields: routeAnalysisFields,
         popupTemplate: new PopupTemplate(routeTemplateContent),

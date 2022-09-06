@@ -26,6 +26,11 @@ export const routeAnalysisFields: __esri.FieldProperties[]=[
         type: 'single'
     },
     {
+        name:'CO',
+        alias:'CO',
+        type:'single'
+    },
+    {
         name: 'Temperature',
         alias: '溫度',
         type: 'single'

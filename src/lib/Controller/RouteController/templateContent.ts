@@ -22,6 +22,10 @@ export const routeTemplateContent = {
             label: 'VOC'
         },
         {
+            fieldName: 'CO',
+            label: 'CO'
+        },
+        {
             fieldName: 'Temperature',
             label: '溫度'
         },
