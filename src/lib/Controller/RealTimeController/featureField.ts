@@ -26,6 +26,11 @@ export const mobileFeatureFields = [
     name: "updateTime",
     alias: "updateTime",
     type: "string"
+  },
+  {
+    name: "CoValue",
+    alias:"CO",
+    type:"double"
   }
   // {
   //   name: "OBJECTID",

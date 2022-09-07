@@ -183,7 +183,8 @@ export default class RealTimeController extends BaseController {
           deviceId: feature.properties['deviceId'],
           pm25uart: Number(feature.properties['pm25UartValue']),
           voc: Number(feature.properties['vocValue']),
-          updateTime: feature.properties['updateTime']
+          updateTime: feature.properties['updateTime'],
+          coValue: Number(feature.properties['coValue'])
           // Device_Name: feature.properties['deviceId'],
           // Datetime: new Date(feature.properties['Datetime']).getTime(),
           // Flow: feature.properties['Flow'],

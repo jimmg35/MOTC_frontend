@@ -47,7 +47,7 @@ export const routeAnalysisFields: __esri.FieldProperties[]=[
     },
     {
         name: 'Flow',
-        alias: '車流',
+        alias: '流速',
         type: 'single'
     }
 

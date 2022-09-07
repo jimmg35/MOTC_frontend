@@ -20,6 +20,10 @@ export const mobileTemplateContent = {
       {
         fieldName: 'updateTime',
         label: "最後更新時間"
+      },  
+      {
+        fieldName: 'coValue',
+        label: 'CO'
       }
       // {
       //   fieldName: "Device_Name",

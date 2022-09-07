@@ -52,6 +52,11 @@ export const mobileHistoryFields: __esri.FieldProperties[] = [
         type: "single"
     },
     {
+        name: "co",
+        alias: "co",
+        type: "single"
+    },
+    {
         name: "temperature",
         alias: "temperature",
         type: "single"
@@ -102,6 +107,10 @@ export const mobileTemplateContent = {
             {
                 fieldName: "voc",
                 label: "VOC"
+            },
+            {
+                fieldName: "co",
+                label:"CO"
             },
             {
                 fieldName: "temperature",
