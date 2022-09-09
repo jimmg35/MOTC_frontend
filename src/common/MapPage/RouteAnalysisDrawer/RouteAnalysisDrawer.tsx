@@ -31,6 +31,13 @@ import { RouteController } from '../../../lib/Controller'
 import CircularProgress from '../../../jsdc-ui/components/CircularProgress'
 // import classNames from 'classnames'
 import { IRouteQueryParams } from '../../../lib/Controller/RouteController'
+import { routeRendererContent,routeCORendererContent } from '../../../lib/Controller/RouteController/rendererContent'
+import {routeAnalysisFields} from '../../../lib/Controller/RouteController/featureField'
+import {routeTemplateContent} from '../../../lib/Controller/RouteController/templateContent'
+/* ArcGIS API for javascript */
+import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer'
+import PopupTemplate from '@arcgis/core/PopupTemplate'
+import ClassBreaksRenderer from '@arcgis/core/renderers/ClassBreaksRenderer'
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
@@ -123,6 +130,41 @@ const RouteAnalysisDrawer = () => {
   const handleItemChange = (event: SelectChangeEvent) => {
     // console.log(event.target.value as string)
     setitem(event.target.value as string)
+    console.log(event.target.value)
+    const routeController = arcGis.controllerManager?.getController('route') as RouteController
+    if (routeController.routeLayer){
+      console.log(routeController.routeLayer.url)
+      switch (event.target.value){
+        case '0':
+          const changePmMeanLayer = new GeoJSONLayer({
+            title:'PM2.5平均路段統計',
+            url: routeController.routeLayer.url,
+            fields: routeAnalysisFields,
+            popupTemplate: new PopupTemplate(routeTemplateContent),
+            renderer: new ClassBreaksRenderer(routeRendererContent)
+          })
+          routeController.map.removeAll()
+          routeController.map.add(changePmMeanLayer)
+          break
+
+        
+        case '4':
+          const changeRouteLayer = new GeoJSONLayer({
+            title:'CO路段統計',
+            url: routeController.routeLayer.url,
+            fields: routeAnalysisFields,
+            popupTemplate: new PopupTemplate(routeTemplateContent),
+            renderer: new ClassBreaksRenderer(routeCORendererContent)
+          })
+          // routeController.routeLayer.visible = false
+          routeController.map.removeAll()
+          routeController.map.add(changeRouteLayer)
+          console.log(changeRouteLayer)
+          break
+      }
+    } else {
+      console.log('nonono')
+    }
   }
 
   const handleRouteQuery = async () => {
@@ -219,6 +261,7 @@ const RouteAnalysisDrawer = () => {
                 <MenuItem value={'1'}>PM 2.5 UART</MenuItem>
                 <MenuItem value={'2'}>PM 2.5 I2C</MenuItem>
                 <MenuItem value={'3'}>VOC</MenuItem>
+                <MenuItem value={'4'}>CO</MenuItem>
               </Select>
             </div>
 

@@ -257,3 +257,73 @@ export const routeRendererContent = {
         }
     ],
 }
+
+export const routeCORendererContent = {
+    field: 'CO',
+    classBreakInfos: [
+        {
+            minValue: 0,
+            maxValue: 4.4,
+            symbol: new SimpleLineSymbol({
+                color: [1, 155, 103],
+                width: size  // pixels
+            })
+        },
+        {
+            minValue: 4.5,
+            maxValue: 9.4,
+            symbol: new SimpleLineSymbol({
+                color: [255, 253, 44],
+                width: size  // pixels
+            })
+        },
+        {
+            minValue: 9.5,
+            maxValue: 12.4,
+            symbol: new SimpleLineSymbol({
+                color: [254, 153, 51],
+                width: size  // pixels
+            })
+        },
+        {
+            minValue: 12.5,
+            maxValue: 15.4,
+            symbol: new SimpleLineSymbol({
+                color: [196, 3, 55],
+                width: size  // pixels
+            })
+        },
+        {
+            minValue: 15.5,
+            maxValue: 30.4,
+            symbol: new SimpleLineSymbol({
+                color: [99, 1, 148],
+                width: size  // pixels
+            })
+        },
+        {
+            minValue: 30.5,
+            maxValue: 40.4,
+            symbol: new SimpleLineSymbol({
+                color: [124, 1, 35],
+                width: size  // pixels
+            })
+        },
+        {
+            minValue: 40.5,
+            maxValue: 50.4,
+            symbol: new SimpleLineSymbol({
+                color: [122, 1, 32],
+                width: size  // pixels
+            })
+        },
+        {
+            minValue: 50.4,
+            maxValue: 99999,
+            symbol: new SimpleLineSymbol({
+                color: [0, 0, 0],
+                width: size  // pixels
+            })
+        }
+    ],
+}

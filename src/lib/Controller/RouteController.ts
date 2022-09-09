@@ -10,7 +10,7 @@ import FeatureFilter from '@arcgis/core/views/layers/support/FeatureFilter'
 import BaseController, { IBaseControllerParam } from './BaseController'
 import {routeAnalysisFields} from './RouteController/featureField'
 import {routeTemplateContent} from './RouteController/templateContent'
-import { routeRendererContent } from './RouteController/rendererContent'
+import { routeRendererContent,routeCORendererContent } from './RouteController/rendererContent'
 import api from'../../api'
 import { template } from 'lodash'
 
@@ -110,4 +110,5 @@ export default class RouteController extends BaseController {
     }
     return undefined
   }
+
 }
