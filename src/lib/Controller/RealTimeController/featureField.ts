@@ -28,7 +28,7 @@ export const mobileFeatureFields = [
     type: "string"
   },
   {
-    name: "CoValue",
+    name: "coValue",
     alias:"CO",
     type:"double"
   }

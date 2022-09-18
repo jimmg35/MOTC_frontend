@@ -26,7 +26,10 @@ import { HistoryController } from '../../../lib/Controller'
 import SpatialQuery from '../../../widgets/react/SpatialQuery'
 import CircularProgress from '../../../jsdc-ui/components/CircularProgress'
 import classNames from 'classnames'
-
+import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer'
+import PopupTemplate from '@arcgis/core/PopupTemplate'
+import ClassBreaksRenderer from '@arcgis/core/renderers/ClassBreaksRenderer'
+import { mobileHistoryFields, mobileTemplateContent, mobileRendererContent, mobileCORendererContent } from '../../../lib/Controller/HistoryController/featureField'
 // const ITEM_HEIGHT = 48
 // const ITEM_PADDING_TOP = 8
 // const MenuProps = {
@@ -67,7 +70,7 @@ const HistoryQueryDrawer = () => {
   // const [days, setdays] = useState<string[]>(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'])
   // const [excludeDates, setexcludeDates] = useState<Array<string>>([])
   const [deviceId, setdeviceId] = useState<string | null>(null)
-  const [mobileSelect, setmobileSelect] = useState<string>('Pm2_5_AVG')
+  const [mobileSelect, setmobileSelect] = useState<string>('Pm2_5_UART')
   const [_extent, set_extent] = useState<number[] | undefined[]>([undefined, undefined, undefined, undefined])
   const [queryStatusOpen, setqueryStatusOpen] = useState<boolean>(false)
 
@@ -85,7 +88,39 @@ const HistoryQueryDrawer = () => {
   const handleMobileSelect = (event: SelectChangeEvent) => {
     setmobileSelect(event.target.value as string)
     const historyController = arcGis.controllerManager?.getController('history') as HistoryController
-    historyController.changeSymbol(event.target.value as string)
+    // historyController.changeSymbol(event.target.value as string)
+    if (historyController.mobileLayer){
+      console.log(historyController.mobileLayer.url)
+      switch (event.target.value){
+        case 'Pm2_5_UART':
+          const changePmMeanLayer = new GeoJSONLayer({
+            title:'PM2.5平均歷史查詢',
+            url: historyController.mobileLayer.url,
+            fields: mobileHistoryFields,
+            popupTemplate: new PopupTemplate(mobileTemplateContent),
+            renderer: new ClassBreaksRenderer(mobileRendererContent)
+          })
+          historyController.map.removeAll()
+          historyController.map.add(changePmMeanLayer)
+          break
+
+        
+        case 'CO':
+          const changeCOLayer = new GeoJSONLayer({
+            title:'CO歷史查詢',
+            url: historyController.mobileLayer.url,
+            fields: mobileHistoryFields,
+            popupTemplate: new PopupTemplate(mobileTemplateContent),
+            renderer: new ClassBreaksRenderer(mobileCORendererContent)
+          })
+          historyController.map.removeAll()
+          historyController.map.add(changeCOLayer)
+          console.log(changeCOLayer)
+          break
+      }
+    } else {
+      console.log('nonono')
+    }
   }
 
   const [open, setOpen] = React.useState(false)
@@ -236,6 +271,7 @@ const HistoryQueryDrawer = () => {
                 <MenuItem value={'Pm2_5_UART'}>PM 2.5 UART</MenuItem>
                 <MenuItem value={'Pm2_5_I2C'}>PM 2.5 I2C</MenuItem>
                 <MenuItem value={'Voc'}>VOC</MenuItem>
+                <MenuItem value={'CO'}>CO</MenuItem>
               </Select>
             </div>
 

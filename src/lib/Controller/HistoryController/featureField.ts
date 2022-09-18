@@ -381,3 +381,72 @@ export const mobileRendererContent = {
         }
     ]
 }
+export const mobileCORendererContent = {
+    field: 'CO',
+    classBreakInfos: [
+        {
+            minValue: 0,
+            maxValue: 4.4,
+            symbol: new SimpleMarkerSymbol({
+                color: [1, 155, 103],
+                size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
+            })
+        },
+        {
+            minValue: 4.5,
+            maxValue: 9.4,
+            symbol: new SimpleMarkerSymbol({
+                color: [255, 253, 44],
+                size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
+            })
+        },
+        {
+            minValue: 9.5,
+            maxValue: 12.4,
+            symbol: new SimpleMarkerSymbol({
+                color: [254, 153, 51],
+                size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
+            })
+        },
+        {
+            minValue: 12.5,
+            maxValue: 15.4,
+            symbol: new SimpleMarkerSymbol({
+                color: [196, 3, 55],
+                size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
+            })
+        },
+        {
+            minValue: 15.5,
+            maxValue: 30.4,
+            symbol: new SimpleMarkerSymbol({
+                color: [99, 1, 148],
+                size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
+            })
+        },
+        {
+            minValue: 30.5,
+            maxValue: 40.4,
+            symbol: new SimpleMarkerSymbol({
+                color: [124, 1, 35],
+                size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
+            })
+        },
+        {
+            minValue: 40.5,
+            maxValue: 50.4,
+            symbol: new SimpleMarkerSymbol({
+                color: [122, 1, 32],
+                size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
+            })
+        },
+        {
+            minValue: 50.4,
+            maxValue: 99999,
+            symbol: new SimpleMarkerSymbol({
+                color: [0, 0, 0],
+                size: size, style: mobileStyle, outline: { color: [outlineR, outlineG, outlineB], width: outlineWidth }
+            })
+        }
+    ],
+}

@@ -83,7 +83,8 @@ export default class HistoryController extends BaseController {
 
   public query = async (params: HistoryQueryParams) => {
     if (this.mobileLayer) {
-      this._clearMap([this.mobileLayer])
+      // this._clearMap([this.mobileLayer])
+      this.map.removeAll()
     }
     const value = await this.fetchLayerData(params)
     if (value) {

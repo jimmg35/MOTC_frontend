@@ -78,7 +78,7 @@ const RouteAnalysisDrawer = () => {
   const [intervalEndTime, setIntervalEndTime] = useState<Date>()
   const [weekdays, setWeekdays] = useState<string[]>([])
   const [excludeDates, setexcludeDates] = useState<Array<string>>([])
-  const [item, setitem] = useState<string>('0')
+  const [sensor, setsensor] = useState<string>('Pm2_5_UART')
 
   const {
     routeAnalysisTitle = '',
@@ -129,13 +129,13 @@ const RouteAnalysisDrawer = () => {
 
   const handleItemChange = (event: SelectChangeEvent) => {
     // console.log(event.target.value as string)
-    setitem(event.target.value as string)
+    setsensor(event.target.value as string)
     console.log(event.target.value)
     const routeController = arcGis.controllerManager?.getController('route') as RouteController
     if (routeController.routeLayer){
       console.log(routeController.routeLayer.url)
       switch (event.target.value){
-        case '0':
+        case 'Pm2_5_UART':
           const changePmMeanLayer = new GeoJSONLayer({
             title:'PM2.5平均路段統計',
             url: routeController.routeLayer.url,
@@ -148,7 +148,7 @@ const RouteAnalysisDrawer = () => {
           break
 
         
-        case '4':
+        case 'CO':
           const changeRouteLayer = new GeoJSONLayer({
             title:'CO路段統計',
             url: routeController.routeLayer.url,
@@ -254,14 +254,14 @@ const RouteAnalysisDrawer = () => {
                 labelId="mobile-label"
                 id="mobile-select"
                 className="mobile-select"
-                value={item}
+                value={sensor}
                 onChange={handleItemChange}
               >
-                <MenuItem value={'0'}>PM 2.5 儀器平均</MenuItem>
-                <MenuItem value={'1'}>PM 2.5 UART</MenuItem>
-                <MenuItem value={'2'}>PM 2.5 I2C</MenuItem>
-                <MenuItem value={'3'}>VOC</MenuItem>
-                <MenuItem value={'4'}>CO</MenuItem>
+                <MenuItem value={'Pm2_5_AVG'}>PM 2.5 儀器平均</MenuItem>
+                <MenuItem value={'Pm2_5_UART'}>PM 2.5 UART</MenuItem>
+                <MenuItem value={'Pm2_5_I2C'}>PM 2.5 I2C</MenuItem>
+                <MenuItem value={'Voc'}>VOC</MenuItem>
+                <MenuItem value={'CO'}>CO</MenuItem>
               </Select>
             </div>
 

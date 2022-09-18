@@ -80,7 +80,8 @@ export default class RouteController extends BaseController {
   public query = async (params: IRouteQueryParams) => {
     if (this.routeLayer) {
       console.log('clearmap')
-      this._clearMap([this.routeLayer])
+      // this._clearMap([this.routeLayer])
+      this.map.removeAll()
     }
     const value = await this.fetchLayerData(params)
     if (value) {
