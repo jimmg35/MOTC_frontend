@@ -137,7 +137,7 @@ const RouteAnalysisDrawer = () => {
       switch (event.target.value){
         case 'Pm2_5_UART':
           const changePmMeanLayer = new GeoJSONLayer({
-            title:'PM2.5平均路段統計',
+            title:'PM2.5 UART 路段統計',
             url: routeController.routeLayer.url,
             fields: routeAnalysisFields,
             popupTemplate: new PopupTemplate(routeTemplateContent),
@@ -150,7 +150,7 @@ const RouteAnalysisDrawer = () => {
         
         case 'CO':
           const changeRouteLayer = new GeoJSONLayer({
-            title:'CO路段統計',
+            title:'CO 路段統計',
             url: routeController.routeLayer.url,
             fields: routeAnalysisFields,
             popupTemplate: new PopupTemplate(routeTemplateContent),

@@ -61,8 +61,11 @@ export default class HistoryController extends BaseController {
 
   public stop = () => {
     if (this.workingStatus === true) {
-      if (this.mobileLayer) {
-        this._clearMap([this.mobileLayer])
+      // if (this.mobileLayer) {
+      //   this._clearMap([this.mobileLayer])
+      // }
+      if (this.map.layers){
+        this.map.removeAll()
       }
     }
     this.workingStatus = false

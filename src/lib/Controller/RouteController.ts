@@ -59,10 +59,12 @@ export default class RouteController extends BaseController {
 
   public stop = () => {
     if (this.workingStatus === true) {
-      if (this.routeLayer) {
-        this._clearMap([this.routeLayer])
+      // if (this.routeLayer) {
+      //   this._clearMap([this.routeLayer])
+      // }
+      if (this.map.layers){
+        this.map.removeAll()
       }
-      
     }
     this.workingStatus = false
   }
