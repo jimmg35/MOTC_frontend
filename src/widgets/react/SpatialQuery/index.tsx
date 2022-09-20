@@ -9,10 +9,12 @@ import { arcGisContext } from '../../../lib/MapProvider'
 import * as watchUtils from '@arcgis/core/core/watchUtils'
 import MapView from '@arcgis/core/views/MapView'
 import { projectExtent, geometry2Extent } from '../../../utils/modules/Extent'
+import Polygon from '@arcgis/core/geometry/Polygon'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Sketch from '@arcgis/core/widgets/Sketch'
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel"
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol"
+import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol'
 import Graphic from "@arcgis/core/Graphic"
 import { isExternalModuleNameRelative } from 'typescript'
 
@@ -111,7 +113,23 @@ const SpatialQuery = (props: ISpatialQuery) => {
     sketch.on('create', (event) => {
       if (event.state === 'complete') {
         layer.removeAll()
+        arcgis.mapView?.graphics.removeAll()
+        // Create a polygon geometry
+
         const _extent = geometry2Extent(event.graphic.geometry)
+        const extentPolygon = new Polygon(event.graphic.geometry)
+        const extentSymbol = new SimpleFillSymbol({
+          style:'none',
+          outline: new SimpleLineSymbol({
+            color:[255,255,255,0.6],
+            width:'1px'
+          })
+        })
+        const extentGraphic = new Graphic({
+          geometry: extentPolygon,
+          symbol: extentSymbol
+        })
+        arcgis.mapView?.graphics.add(extentGraphic)
         // const spatialExtentSymbol = new SimpleFillSymbol({
         //   style: "none",
         //   outline: {  
@@ -165,6 +183,8 @@ const SpatialQuery = (props: ISpatialQuery) => {
 
   const handleClearExtent = () => {
     layer.removeAll()
+    arcgis.mapView?.graphics.removeAll()
+    
     // setxmin(0)
     // setymin(0)
     // setxmax(0)

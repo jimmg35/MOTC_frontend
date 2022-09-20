@@ -13,6 +13,7 @@ import Expand from '@arcgis/core/widgets/Expand'
 import BasemapToggle from '@arcgis/core/widgets/BasemapToggle'
 import esriConfig from '@arcgis/core/config'
 import BasemapGallery from '@arcgis/core/widgets/BasemapGallery'
+import Legend from '@arcgis/core/widgets/Legend'
 
 /* Controllers */
 import { RealTimeController, HistoryController, RouteController } from '../Controller'
@@ -80,8 +81,8 @@ export class ArcGIS {
     layerList.view = this.mapView as MapView
     this.layerList = layerList
     const layerListExpand = new Expand({
-      expandIconClass: 'esri-icon-layer-list',
-      expandTooltip: 'Legend',
+      expandIconClass: 'esri-icon-layers',
+      expandTooltip: 'Layers',
       content: layerList,
       expanded: false
     })
@@ -102,10 +103,19 @@ export class ArcGIS {
       view: this.mapView,
       content: basemapGallery
     })
+    const legend = new Expand({
+      content: new Legend({
+        view: this.mapView,
+        style: 'card'
+      }),
+      expandTooltip: 'Legend',
+      view: this.mapView
+    })
     this.mapView?.ui.add(layerListExpand, 'bottom-left')
     this.mapView?.ui.add(timeExpand, 'top-left')
     this.mapView?.ui.add(bgExpand, 'bottom-left')
     this.mapView?.ui.add(basemapToggle, 'bottom-left')
+    this.mapView?.ui.add(legend, 'top-left')
   }
 
   private _registerControllers = () => {

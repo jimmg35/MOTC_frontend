@@ -67,6 +67,9 @@ export default class HistoryController extends BaseController {
       if (this.map.layers){
         this.map.removeAll()
       }
+      if(this.mapView.graphics){
+        this.mapView.graphics.removeAll()
+      }
     }
     this.workingStatus = false
   }

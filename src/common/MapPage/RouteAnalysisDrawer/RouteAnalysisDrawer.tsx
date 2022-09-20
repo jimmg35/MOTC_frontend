@@ -37,6 +37,9 @@ import {routeTemplateContent} from '../../../lib/Controller/RouteController/temp
 /* ArcGIS API for javascript */
 import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer'
 import PopupTemplate from '@arcgis/core/PopupTemplate'
+import Polygon from '@arcgis/core/geometry/Polygon'
+import Graphic from '@arcgis/core/Graphic'
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import ClassBreaksRenderer from '@arcgis/core/renderers/ClassBreaksRenderer'
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -170,7 +173,12 @@ const RouteAnalysisDrawer = () => {
   const handleRouteQuery = async () => {
     setqueryStatusOpen(true)
     const routeController = arcGis.controllerManager?.getController('route') as RouteController
-    console.log('GGG')
+    // console.log('GGG')
+    if (_extent[0]===0){
+      setqueryStatusOpen(false)
+      alert('請設定空間查詢範圍~')
+    }
+    else{
     const data:IRouteQueryParams = {
       startDate: dateFormat(startDateTime, 'yyyy-mm-dd'),
       endDate: dateFormat(endDateTime, 'yyyy-mm-dd'),
@@ -208,6 +216,7 @@ const RouteAnalysisDrawer = () => {
     console.log(intervalET)
     console.log(myweekdays)
     console.log(myexcludeDates)
+    }
   }
 
   return (

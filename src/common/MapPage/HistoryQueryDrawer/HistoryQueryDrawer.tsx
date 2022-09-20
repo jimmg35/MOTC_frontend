@@ -94,7 +94,7 @@ const HistoryQueryDrawer = () => {
       switch (event.target.value){
         case 'Pm2_5_UART':
           const changePmMeanLayer = new GeoJSONLayer({
-            title:'PM2.5平均歷史查詢',
+            title:'PM2.5 UART 歷史查詢',
             url: historyController.mobileLayer.url,
             fields: mobileHistoryFields,
             popupTemplate: new PopupTemplate(mobileTemplateContent),
@@ -107,7 +107,7 @@ const HistoryQueryDrawer = () => {
         
         case 'CO':
           const changeCOLayer = new GeoJSONLayer({
-            title:'CO歷史查詢',
+            title:'CO 歷史查詢',
             url: historyController.mobileLayer.url,
             fields: mobileHistoryFields,
             popupTemplate: new PopupTemplate(mobileTemplateContent),
@@ -136,6 +136,11 @@ const HistoryQueryDrawer = () => {
 
   const handleQueryMobile = async () => {
     setqueryStatusOpen(true)
+    if (_extent[0]===0){
+      setqueryStatusOpen(false)
+      alert('請設定空間查詢範圍~')
+    }
+    else{
     const historyController = arcGis.controllerManager?.getController('history') as HistoryController
     const queryStatus = await historyController.query({
       startDateTime: new Date(startDateTime).getTime(),
@@ -149,7 +154,7 @@ const HistoryQueryDrawer = () => {
     historyController.mobileLayer?.when(() => {
       setqueryStatusOpen(false)
     })
-
+  }
     // console.log(endDateTime)
     // console.log(startTime)
     // console.log(deviceId)
