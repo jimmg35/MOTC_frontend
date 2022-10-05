@@ -36,5 +36,10 @@ export const QueryRouteAnalysis2 = async (Network_Query: IRouteQueryParams) => {
       )
       return response
 }
+// export const QueryFixedData = async (Network_Query:IRouteQueryParams) => {
+//   const response = await fetch(
+    
+//   )
+// }
 
 export const routeJsonPath = `${airServiceApiConfig.serverString}/Contents/network.json`

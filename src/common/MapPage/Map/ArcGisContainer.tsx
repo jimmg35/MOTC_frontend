@@ -18,7 +18,7 @@ const ArcGisContainer = (props: CesiumContainerProps) => {
     arcGis.createMapAndMapView({
       basemap: 'osm-dark-gray'
     }, {
-      center: [121.52652617526462, 25.025953944255487],
+      center: [120.309061, 22.623820],
       zoom: 13,
       container: id
     })

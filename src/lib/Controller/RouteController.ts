@@ -116,5 +116,9 @@ export default class RouteController extends BaseController {
     }
     return undefined
   }
+  public fetchFixedLayerData = async (params: IRouteQueryParams) => {
+    let response: Response
+    // response = await api.route.
+  }
 
 }
