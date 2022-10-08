@@ -52,3 +52,36 @@ export const routeAnalysisFields: __esri.FieldProperties[]=[
     }
 
 ]
+
+export const fixedHistoryFields: __esri.FieldProperties[] = [
+    {
+        name: 'OBJECTID',
+        alias: 'OBJECTID',
+        type: 'oid'
+    },
+    {
+        name: 'deviceId',
+        alias: 'deviceId',
+        type: 'string'
+    },
+    {
+        name: 'pm25Value',
+        alias: 'PM2.5',
+        type: 'single',
+    },
+    {
+        name: 'vocValue',
+        alias: 'VOC',
+        type: 'single'
+    },
+    {
+        name: 'temperature',
+        alias: '溫度',
+        type: 'single'
+    },
+    {
+        name: 'humidity',
+        alias: '濕度',
+        type: 'single'
+    }
+]

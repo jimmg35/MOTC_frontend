@@ -46,3 +46,31 @@ export const routeTemplateContent = {
     }
     ]
 }
+
+export const fixedHistoryTemplateContent = {
+    title: "固定式感測器歷史觀測資訊",
+    content: [{
+      type: "fields",
+      fieldInfos: [
+        {
+            fieldName: 'deviceId',
+            label: "感測器編號"
+        },
+        {
+            fieldName: 'pm25Value',
+            label: "PM 2.5"
+        },
+        {
+            fieldName: 'vocValue',
+            label: "VOC"
+        },
+        {
+            fieldName: 'temperature',
+            label: "溫度"
+        },
+        {
+            fieldName: 'humidity',
+            label: '濕度',
+        }]
+    }]
+}

@@ -8,9 +8,9 @@ import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol'
 import FeatureFilter from '@arcgis/core/views/layers/support/FeatureFilter'
 /* Controllers */
 import BaseController, { IBaseControllerParam } from './BaseController'
-import {routeAnalysisFields} from './RouteController/featureField'
-import {routeTemplateContent} from './RouteController/templateContent'
-import { routeRendererContent,routeCORendererContent } from './RouteController/rendererContent'
+import {routeAnalysisFields,fixedHistoryFields} from './RouteController/featureField'
+import {routeTemplateContent,fixedHistoryTemplateContent} from './RouteController/templateContent'
+import { routeRendererContent,routeCORendererContent,fixedHistoryRendererContent } from './RouteController/rendererContent'
 import api from'../../api'
 import { template } from 'lodash'
 
@@ -40,6 +40,7 @@ export interface IRouteControllerParam {
 
 export default class RouteController extends BaseController {
   routeLayer: GeoJSONLayer | undefined
+  fixedHistoryLayer: GeoJSONLayer | undefined
   workingStatus: boolean
 
   constructor(options: IRouteControllerParam) {
@@ -83,12 +84,15 @@ export default class RouteController extends BaseController {
     
   }
   public query = async (params: IRouteQueryParams) => {
-    if (this.routeLayer) {
+    if (this.routeLayer || this.fixedHistoryLayer) {
       console.log('clearmap')
       // this._clearMap([this.routeLayer])
       this.map.removeAll()
     }
     const value = await this.fetchLayerData(params)
+    const fixedValue = await this.fetchFixedLayerData(params)
+    console.log(fixedValue)
+    
     if (value) {
       this.routeLayer = new GeoJSONLayer({
         title: '移動式感測器路段統計',
@@ -97,8 +101,28 @@ export default class RouteController extends BaseController {
         popupTemplate: new PopupTemplate(routeTemplateContent),
         renderer: new ClassBreaksRenderer(routeRendererContent)
       })
+      if (fixedValue.features !== null){
+        // console.log(JSON.stringify(fixedValue))
+        const blob = new Blob([JSON.stringify(fixedValue)], {
+          type: "application/json"
+        })
+
+        this.fixedHistoryLayer = new GeoJSONLayer({
+          title: '固定式感測器歷史資料',
+          url:  URL.createObjectURL(blob), 
+          fields: fixedHistoryFields,
+          popupTemplate: new PopupTemplate(fixedHistoryTemplateContent),
+          renderer: new ClassBreaksRenderer(fixedHistoryRendererContent)
+        })
+        console.log(this.fixedHistoryLayer)
+        this.map.add(this.fixedHistoryLayer)
+      }
+      else { 
+        alert('該時段或區域無固定點資料')
+      }
       console.log(value)
       this.map.add(this.routeLayer)
+
 
       this.routeLayer.when(() => {
         this.mapView.goTo(this.routeLayer?.fullExtent)
@@ -118,7 +142,11 @@ export default class RouteController extends BaseController {
   }
   public fetchFixedLayerData = async (params: IRouteQueryParams) => {
     let response: Response
-    // response = await api.route.
+    response = await api.route.QueryFixedHistory(params)
+    if (response.status === 200){
+      return response.json()
+    }
+    return undefined
   }
 
 }

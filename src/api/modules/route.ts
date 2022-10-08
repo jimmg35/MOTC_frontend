@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { airServiceApiConfig } from './config'
+import { airServiceApiConfig,userServiceApiConfig } from './config'
 import { IRouteQueryParams } from '../../lib/Controller/RouteController'
 
 export const QueryRouteAnalysis = async (Network_Query: IRouteQueryParams) => {
@@ -35,6 +35,15 @@ export const QueryRouteAnalysis2 = async (Network_Query: IRouteQueryParams) => {
         }
       )
       return response
+}
+export const QueryFixedHistory = async(Network_Query: IRouteQueryParams) =>{
+  const response = await fetch(
+    `${userServiceApiConfig.serverString}/api/Route/getFixedHistory?startDate=${Network_Query.startDate}&endDate=${Network_Query.endDate}&startTime=${Network_Query.startTime}&endTime=${Network_Query.endTime}&extent=${Network_Query.extent}&interval_st=${Network_Query.interval_st}&interval_et=${Network_Query.interval_et}&weekdays=${Network_Query.weekdays}&rmdates=${Network_Query.rmdays}`,
+    {
+      method: 'GET'
+    }
+  )
+  return response
 }
 // export const QueryFixedData = async (Network_Query:IRouteQueryParams) => {
 //   const response = await fetch(
